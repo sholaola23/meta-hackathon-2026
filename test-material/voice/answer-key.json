@@ -1,5 +1,5 @@
 {
-  "_note": "Answer key for the Pidgin voice-note test scripts. Item names match test-material/stalls.json exactly. Prices in naira. expected_prices covers only items the trader actually prices; unpriced_items should trigger a follow-up question from the system. TTS files are British-accented placeholders (macOS Daniel voice).",
+  "_note": "Answer key for the Pidgin voice-note test scripts. Item names match test-material/stalls.json exactly. Prices are whole naira, per the unit in expected_units (what one price buys; rules in docs/pricing.md). expected_prices covers only items the trader actually prices; unpriced_items must be flagged with a Pidgin question and never given a price. TTS files are British-accented placeholders (macOS Daniel voice).",
   "stalls": [
     {
       "id": "stall-1-provisions",
@@ -12,6 +12,14 @@
         "Golden Morn cereal pack": 2800,
         "Bournvita jar": 4200,
         "Gala sausage roll": 200
+      },
+      "expected_units": {
+        "Indomie noodles (single pack)": "pack",
+        "Peak milk tin (big)": "tin",
+        "Milo tin": "tin",
+        "Golden Morn cereal pack": "pack",
+        "Bournvita jar": "jar",
+        "Gala sausage roll": "piece"
       },
       "unpriced_items": [],
       "tricky_phrases": [
@@ -51,6 +59,13 @@
         "Lace fabric, gold (5 yards)": 35000,
         "Aso oke set, purple": 28000,
         "Plain cotton fabric, white (5 yards)": 6500
+      },
+      "expected_units": {
+        "Ankara wax print, blue and yellow (6 yards)": "piece",
+        "Ankara wax print, red pattern (6 yards)": "piece",
+        "Lace fabric, gold (5 yards)": "piece",
+        "Aso oke set, purple": "set",
+        "Plain cotton fabric, white (5 yards)": "piece"
       },
       "unpriced_items": [],
       "tricky_phrases": [
@@ -94,6 +109,15 @@
         "Wired earphones": 1500,
         "Phone case (assorted)": 3000,
         "Bluetooth speaker (small)": 15000
+      },
+      "expected_units": {
+        "USB-C charging cable": "piece",
+        "iPhone charger head": "piece",
+        "Power bank 20000mAh": "piece",
+        "Wired earphones": "piece",
+        "Phone case (assorted)": "piece",
+        "Bluetooth speaker (small)": "piece",
+        "Screen protector": "piece"
       },
       "unpriced_items": [
         "Screen protector"
@@ -144,6 +168,16 @@
         "Crayfish (small cup)": 1500,
         "Tomato paste sachet": 150,
         "Yam tuber (medium)": 3500
+      },
+      "expected_units": {
+        "Rice, paint bucket measure": "paint bucket",
+        "Beans (brown), paint bucket measure": "paint bucket",
+        "Garri (white), paint bucket measure": "paint bucket",
+        "Palm oil (1 litre bottle)": "bottle",
+        "Groundnut oil (1 litre bottle)": "bottle",
+        "Crayfish (small cup)": "cup",
+        "Tomato paste sachet": "sachet",
+        "Yam tuber (medium)": "tuber"
       },
       "unpriced_items": [],
       "tricky_phrases": [
@@ -204,12 +238,23 @@
       "expected_prices": {
         "Bottled water (75cl)": 300,
         "Coca-Cola bottle (50cl)": 500,
-        "Hanging sachets of Milo (strip)": 100,
-        "Hanging sachets of detergent (strip)": 150,
+        "Milo sachet": 100,
+        "Detergent sachet": 150,
         "Bread loaf (big)": 1600,
         "Eggs (crate)": 5800,
         "Biscuits pack (Cabin)": 400,
         "Bar soap": 700
+      },
+      "expected_units": {
+        "Bottled water (75cl)": "bottle",
+        "Coca-Cola bottle (50cl)": "bottle",
+        "Milo sachet": "sachet",
+        "Detergent sachet": "sachet",
+        "Bread loaf (big)": "loaf",
+        "Eggs (crate)": "crate",
+        "Biscuits pack (Cabin)": "pack",
+        "Bar soap": "bar",
+        "Sugar cubes pack": "pack"
       },
       "unpriced_items": [
         "Sugar cubes pack"
@@ -224,14 +269,14 @@
         {
           "phrase": "Dis Milo sachet wey hang for there, na hundred hundred naira, one one",
           "resolves_to": 100,
-          "item": "Hanging sachets of Milo (strip)",
-          "type": "pointing word + reduplication (hundred hundred = 100 each)"
+          "item": "Milo sachet",
+          "type": "pointing word + reduplication (hundred hundred = 100 each); 'one one' means per sachet, so the unit is sachet, not strip"
         },
         {
           "phrase": "Detergent sachet na one-fifty one-fifty",
           "resolves_to": 150,
-          "item": "Hanging sachets of detergent (strip)",
-          "type": "reduplication (one-fifty one-fifty = 150 each)"
+          "item": "Detergent sachet",
+          "type": "reduplication (one-fifty one-fifty = 150 each); the unit is one sachet, not the hanging strip"
         },
         {
           "phrase": "Bread, the big one, na one-six",

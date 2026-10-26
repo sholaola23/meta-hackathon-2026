@@ -1,0 +1,44 @@
+{
+ "case": "messy-1-corrections-and-ranges",
+ "stall": "stall-1-provisions",
+ "source": "bun src/pricing/eval.ts (messy-transcripts.json)",
+ "audio": null,
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": true,
+ "transcript": "Okay. Indomie na two-fifty. Indomie, I don talk am, two-fifty. Peak milk, the big tin, na 1.8, no wait, na 1.9 now. Milo na 3k, no no, 3,500, abeg make am 3,600 sef. Golden Morn na two or two-five, e depend. Bournvita, I no sure of the price, my sister go tell you. Gala na two hundred.",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":250,\"quote\":\"Indomie na two-fifty.\",\"unit\":\"pack\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i2\",\"price_naira\":1900,\"quote\":\"Peak milk, the big tin, na 1.8, no wait, na 1.9 now.\",\"unit\":\"tin\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":3600,\"quote\":\"abeg make am 3,600 sef.\",\"unit\":\"tin\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":200,\"quote\":\"Gala na two hundred.\",\"unit\":\"piece\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i4\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i5\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i4\"],\"question\":\"Abeg, wetin be the correct price for Golden Morn cereal pack? Na two or two-five?\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i5\"],\"question\":\"Abeg, wetin be the price for Bournvita jar?\"}"
+  }
+ ]
+}

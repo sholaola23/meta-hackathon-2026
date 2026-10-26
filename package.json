@@ -1,0 +1,15 @@
+{
+  "name": "stallsnap",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "bun test src",
+    "typecheck": "tsc --noEmit -p src/pricing",
+    "eval": "bun src/pricing/eval.ts",
+    "report": "bun src/pricing/report.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "1.3.1",
+    "typescript": "5.9.3"
+  }
+}

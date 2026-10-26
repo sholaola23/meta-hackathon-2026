@@ -1,0 +1,64 @@
+{
+ "case": "messy-4-other-units-and-range",
+ "stall": "stall-4-foodstuff",
+ "source": "bun src/pricing/eval.ts (messy-transcripts.json)",
+ "audio": null,
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": true,
+ "transcript": "Rice na 6k for one paint, half paint na 3,200. Crayfish na one-five per cup. Tomato paste na one-fifty for one sachet, the carton na seven tousand. Yam, from 3k to 4k, depending on the size.",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":6000,\"quote\":\"Rice na 6k for one paint\",\"unit\":\"paint bucket\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":1500,\"quote\":\"Crayfish na one-five per cup\",\"unit\":\"cup\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i7\",\"price_naira\":150,\"quote\":\"Tomato paste na one-fifty for one sachet\",\"unit\":\"sachet\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i2\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i3\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i4\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i5\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i8\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i2\"],\"question\":\"Beans brown for one paint na how much?\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i3\"],\"question\":\"Garri white for one paint na how much?\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i4\"],\"question\":\"Palm oil 1 litre bottle na how much?\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i5\"],\"question\":\"Groundnut oil 1 litre bottle na how much?\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i8\"],\"question\":\"Yam medium tuber na how much for one?\"}"
+  }
+ ]
+}
