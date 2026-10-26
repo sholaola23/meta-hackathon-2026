@@ -60,6 +60,7 @@ export function renderList(s: Session): string {
     "Reply YES if everything correct.",
     "To change a price, send the number and the price, like: 2 na 1800",
     "To remove an item, send: comot 3",
+    "To fix a name, send: name 3 Horlicks sachet",
     ...(shown.some(({ l }) => l.price === null) ? ['Anything still with NO PRICE will show as "Ask for price".'] : []),
   ].join("\n");
 }
@@ -77,6 +78,8 @@ const YES = /^(yes|yess+|yes please|yes publish|publish|yeah|yep|ok|okay|oya|cor
 const NO = /^(no|nope|not correct|e no correct|wrong|e wrong)$/i;
 const REMOVE_FIRST = /^(?:remove|comot|delete|cancel|no sell|i no sell|don finish|finish|out of stock)\s+(?:item\s+|number\s+|no\.?\s*)?(\d{1,3})$/i;
 const REMOVE_LAST = /^(?:item\s+|number\s+)?(\d{1,3})\s+(?:comot|remove|delete|don finish|finish|no dey|no more|out of stock)$/i;
+// Names come from a photo guess (SAM matches loosely), so the trader can fix them: "name 2 Horlicks sachet".
+const RENAME = /^(?:name|rename|call)\s+(?:item\s+|number\s+)?(\d{1,3})\s*(?:[:=-]|\s+(?:as|na|to))?\s+(.{2,60})$/i;
 const BY_NUMBER = /^(?:item\s+|number\s+|no\.?\s*)?(\d{1,3})\s*(?:[.):=-]\s*|\s+(?:na|is|be|for|price|now)\s+|\s+)(.+)$/i;
 const BY_NAME = /^(.+?)\s+(?:na|is|be|price|now|=|:)\s+(.+)$/i;
 const CORRECTION = /\b(?:no no|no wait|no|sorry|i mean|make am|change am to)\b/i;
@@ -86,7 +89,7 @@ function tokens(s: string): string[] {
   return s.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").split(/[\s-]+/).filter((w) => w.length > 2 && !STOP.has(w));
 }
 
-type Change = { index: number; price?: number; unit?: SaleUnit; remove?: true };
+type Change = { index: number; price?: number; unit?: SaleUnit; remove?: true; name?: string };
 
 /** Reads the price part of a clause: "1800", "100 per sachet", "6k for one paint", "1800 no 1900". */
 function readPrice(text: string): { price: number; unit?: SaleUnit } | null {
@@ -137,6 +140,11 @@ function parseClause(s: Session, clause: string): Change | "yes" | "no" | { erro
   if (rm) {
     const n = Number(rm[1]);
     return valid(n) ? { index: n - 1, remove: true } : { error: `no item ${n} for the list` };
+  }
+  const rn = c.match(RENAME);
+  if (rn) {
+    const n = Number(rn[1]);
+    return valid(n) ? { index: n - 1, name: rn[2]!.trim() } : { error: `no item ${n} for the list` };
   }
   const bn = c.match(BY_NUMBER);
   if (bn) {
@@ -196,6 +204,7 @@ export function handleReply(session: Session, reply: string): ReplyResult {
     for (const ch of changes) {
       const l = lines[ch.index]!;
       if (ch.remove) l.removed = true;
+      else if (ch.name) l.item = { ...l.item, name: ch.name };
       else {
         l.price = ch.price!;
         if (ch.unit) l.unit = ch.unit;

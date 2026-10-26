@@ -30,6 +30,7 @@ No price is published until the trader has seen it and said yes.
    - a change by name: `Milo na 3600` (only if the name matches one item)
    - a correction inside the reply: `2 na 1800 no 1900` (the last value wins)
    - removing a line: `comot 3`, `remove 3`, `3 don finish`
+   - fixing a name (crop names are guesses from the photo): `name 3 Horlicks sachet`
 4. Any change makes a new version of the list, which is sent again. Only a reply that is just a yes, to the latest list, confirms it.
 5. If any part of a reply can't be understood, nothing in it is applied and the trader is asked again.
 6. If anything is still unpriced, the first yes gets one more message naming those items and repeating the questions. A second yes publishes them as "Ask for price", never with a number.

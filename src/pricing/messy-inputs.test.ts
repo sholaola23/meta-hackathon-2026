@@ -78,9 +78,11 @@ describe("confirm replies", () => {
       for (const [id, p] of Object.entries(c.prices ?? {})) expect(line(id).price).toBe(p as any);
       for (const [id, u] of Object.entries(c.units ?? {})) expect(line(id).unit).toBe(u as any);
       for (const id of c.removed ?? []) expect(line(id).removed).toBe(true);
+      for (const [id, n] of Object.entries(c.names ?? {})) expect(line(id).item.name).toBe(n as any);
       if (c.status === "confirmed") {
         const cat = publish(session);
         for (const id of c.removed ?? []) expect(cat.lines.some((l) => l.itemId === id)).toBe(false);
+        for (const [id, n] of Object.entries(c.names ?? {})) expect(cat.lines.find((l) => l.itemId === id)!.name).toBe(n as any);
       } else expect(() => publish(session)).toThrow(/Not confirmed/);
     });
   }

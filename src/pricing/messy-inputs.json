@@ -921,6 +921,40 @@
       "removed": [
         "i2"
       ]
+    },
+    {
+      "name": "rename a wrongly guessed crop name, then yes",
+      "replies": [
+        "name 2 Horlicks sachet",
+        "yes"
+      ],
+      "status": "confirmed",
+      "names": {
+        "i2": "Horlicks sachet"
+      },
+      "version": 2
+    },
+    {
+      "name": "rename and price in one reply",
+      "replies": [
+        "name 2 Horlicks sachet\n2 na 150",
+        "yes"
+      ],
+      "status": "confirmed",
+      "names": {
+        "i2": "Horlicks sachet"
+      },
+      "prices": {
+        "i2": 150
+      }
+    },
+    {
+      "name": "rename an item not on the list changes nothing",
+      "replies": [
+        "name 9 Horlicks"
+      ],
+      "status": "awaiting",
+      "notUnderstood": true
     }
   ]
 }
