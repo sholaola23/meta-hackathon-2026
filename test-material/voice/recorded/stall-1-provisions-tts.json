@@ -1,0 +1,36 @@
+{
+ "case": "stall-1-provisions",
+ "stall": "stall-1-provisions",
+ "source": "bun src/pricing/eval.ts",
+ "audio": "stall-1-provisions-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": true,
+ "transcript": "Good morning okay, make I give you my prices. Indomie na two fifty for one pack. Peak milk the big tin now one point eight Milo now three K no no three thousand five hundred Milo don't cost these days golden morn now two thousand eight hundred born Vita this one for corner now four two Gala the sausage roll now two hundred Naira if you buy plenty we fit talk now now so",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":250,\"quote\":\"Indomie na two fifty for one pack\",\"unit\":\"pack\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i2\",\"price_naira\":1800,\"quote\":\"Peak milk the big tin now one point eight\",\"unit\":\"tin\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":3500,\"quote\":\"Milo now three K no no three thousand five hundred\",\"unit\":\"tin\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i4\",\"price_naira\":2800,\"quote\":\"golden morn now two thousand eight hundred\",\"unit\":\"pack\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i5\",\"price_naira\":4200,\"quote\":\"born Vita this one for corner now four two\",\"unit\":\"jar\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":200,\"quote\":\"Gala the sausage roll now two hundred Naira\",\"unit\":\"piece\"}"
+  }
+ ]
+}

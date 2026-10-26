@@ -1,0 +1,44 @@
+{
+ "case": "stall-4-foodstuff",
+ "stall": "stall-4-foodstuff",
+ "source": "bun src/pricing/eval.ts",
+ "audio": "stall-4-foodstuff-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": true,
+ "transcript": "Mama, seafood stuff, rice na 6k for one paint, beans, the brown one, na five five for paint, gari, that white one for basin, na three k paint, palm oil, one liter, na two five, groundnut oil na three thousand, no weight, three thousand two hundred, one liter, liter, crayfish, small cup, na one five tomato paste sachet na one fifty yam this medium one three thousand five market no easy but i go give you fair price",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":6000,\"quote\":\"rice na 6k for one paint\",\"unit\":\"paint bucket\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i2\",\"price_naira\":5500,\"quote\":\"beans, the brown one, na five five for paint\",\"unit\":\"paint bucket\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":3000,\"quote\":\"gari, that white one for basin, na three k paint\",\"unit\":\"paint bucket\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i4\",\"price_naira\":2500,\"quote\":\"palm oil, one liter, na two five\",\"unit\":\"bottle\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i5\",\"price_naira\":3200,\"quote\":\"groundnut oil na three thousand, no weight, three thousand two hundred, one liter\",\"unit\":\"bottle\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":1500,\"quote\":\"crayfish, small cup, na one five\",\"unit\":\"cup\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i7\",\"price_naira\":150,\"quote\":\"tomato paste sachet na one fifty\",\"unit\":\"sachet\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i8\",\"price_naira\":3500,\"quote\":\"yam this medium one three thousand five\",\"unit\":\"tuber\"}"
+  }
+ ]
+}

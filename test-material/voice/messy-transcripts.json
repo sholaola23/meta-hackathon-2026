@@ -1,0 +1,93 @@
+{
+  "_note": "Hand-written transcripts that attack the pricing promises, run against a stall's item list from stalls.json. Same fields as answer-key.json. Every item not in expected_prices is in unpriced_items and must get no price. Synthetic: never used in the demo. Run live with `bun run eval`; the recorded tool calls land in recorded/ and CI replays them.",
+  "cases": [
+    {
+      "id": "messy-1-corrections-and-ranges",
+      "stall": "stall-1-provisions",
+      "attacks": ["duplicate item said twice", "two corrections in a row", "correction after a correction", "range", "trader doesn't know"],
+      "transcript": "Okay. Indomie na two-fifty. Indomie, I don talk am, two-fifty. Peak milk, the big tin, na 1.8, no wait, na 1.9 now. Milo na 3k, no no, 3,500, abeg make am 3,600 sef. Golden Morn na two or two-five, e depend. Bournvita, I no sure of the price, my sister go tell you. Gala na two hundred.",
+      "expected_prices": {
+        "Indomie noodles (single pack)": 250,
+        "Peak milk tin (big)": 1900,
+        "Milo tin": 3600,
+        "Gala sausage roll": 200
+      },
+      "expected_units": {
+        "Indomie noodles (single pack)": "pack",
+        "Peak milk tin (big)": "tin",
+        "Milo tin": "tin",
+        "Gala sausage roll": "piece",
+        "Golden Morn cereal pack": "pack",
+        "Bournvita jar": "jar"
+      },
+      "unpriced_items": ["Golden Morn cereal pack", "Bournvita jar"]
+    },
+    {
+      "id": "messy-2-strip-sachet-crate",
+      "stall": "stall-5-mixed-cluttered",
+      "attacks": ["sachet vs strip price", "per egg vs per crate", "distractor size", "figure of speech", "items never mentioned"],
+      "transcript": "Evening o. Milo sachet na hundred hundred, one one, but the whole strip na one thousand two hundred. Detergent na one-fifty one-fifty. Egg na two hundred one one, but the crate na five-eight. Water, the 75cl, na tree hundred. Dis no be ten ten naira market o.",
+      "expected_prices": {
+        "Milo sachet": 100,
+        "Detergent sachet": 150,
+        "Eggs (crate)": 5800,
+        "Bottled water (75cl)": 300
+      },
+      "expected_units": {
+        "Milo sachet": "sachet",
+        "Detergent sachet": "sachet",
+        "Eggs (crate)": "crate",
+        "Bottled water (75cl)": "bottle",
+        "Coca-Cola bottle (50cl)": "bottle",
+        "Bread loaf (big)": "loaf",
+        "Sugar cubes pack": "pack",
+        "Biscuits pack (Cabin)": "pack",
+        "Bar soap": "bar"
+      },
+      "unpriced_items": ["Coca-Cola bottle (50cl)", "Bread loaf (big)", "Sugar cubes pack", "Biscuits pack (Cabin)", "Bar soap"]
+    },
+    {
+      "id": "messy-3-placeholders-and-capacity",
+      "stall": "stall-3-phone-accessories",
+      "attacks": ["N/A placeholder", "capacity number next to price", "digits with commas", "items never mentioned"],
+      "transcript": "Screen protector, the price na N/A for now, I never get new stock. Power bank, twenty tousand mAh, na eighteen tousand. Earphone na 1,500. iPhone charger head, original, seven tousand naira flat.",
+      "expected_prices": {
+        "Power bank 20000mAh": 18000,
+        "Wired earphones": 1500,
+        "iPhone charger head": 7000
+      },
+      "expected_units": {
+        "Power bank 20000mAh": "piece",
+        "Wired earphones": "piece",
+        "iPhone charger head": "piece",
+        "Screen protector": "piece",
+        "USB-C charging cable": "piece",
+        "Phone case (assorted)": "piece",
+        "Bluetooth speaker (small)": "piece"
+      },
+      "unpriced_items": ["Screen protector", "USB-C charging cable", "Phone case (assorted)", "Bluetooth speaker (small)"]
+    },
+    {
+      "id": "messy-4-other-units-and-range",
+      "stall": "stall-4-foodstuff",
+      "attacks": ["second unit for the same product (half paint, carton)", "range", "unit word after price", "items never mentioned"],
+      "transcript": "Rice na 6k for one paint, half paint na 3,200. Crayfish na one-five per cup. Tomato paste na one-fifty for one sachet, the carton na seven tousand. Yam, from 3k to 4k, depending on the size.",
+      "expected_prices": {
+        "Rice, paint bucket measure": 6000,
+        "Crayfish (small cup)": 1500,
+        "Tomato paste sachet": 150
+      },
+      "expected_units": {
+        "Rice, paint bucket measure": "paint bucket",
+        "Crayfish (small cup)": "cup",
+        "Tomato paste sachet": "sachet",
+        "Yam tuber (medium)": "tuber",
+        "Beans (brown), paint bucket measure": "paint bucket",
+        "Garri (white), paint bucket measure": "paint bucket",
+        "Palm oil (1 litre bottle)": "bottle",
+        "Groundnut oil (1 litre bottle)": "bottle"
+      },
+      "unpriced_items": ["Yam tuber (medium)", "Beans (brown), paint bucket measure", "Garri (white), paint bucket measure", "Palm oil (1 litre bottle)", "Groundnut oil (1 litre bottle)"]
+    }
+  ]
+}

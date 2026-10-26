@@ -1,0 +1,36 @@
+{
+ "case": "stall-1-provisions",
+ "stall": "stall-1-provisions",
+ "source": "Day-one spike run (26 Oct, test-results/day1/voice-results.json on PR #1), rebuilt from its final outcome: one set_price per priced item, so mid-note corrections show only their final value. Predates the unit field.",
+ "audio": "stall-1-provisions-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": false,
+ "transcript": "Good morning okay make I give you my prices prices Indomie not two fifty for for one pack Peak milk the the big tin now one point eight Milo now three K no no no three thousand five hundred Milo don't cost these days Golden Morn now two thousand eight hundred Bournvita this one for corner now four two Gala the sausage roll now two hundred Naira if you buy plenty we fit talk now so",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i1\", \"price_naira\": 250, \"quote\": \"Indomie not two fifty for for one pack\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i2\", \"price_naira\": 1800, \"quote\": \"Peak milk the the big tin now one point eight\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i3\", \"price_naira\": 3500, \"quote\": \"Milo now three K no no no three thousand five hundred\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i4\", \"price_naira\": 2800, \"quote\": \"Golden Morn now two thousand eight hundred\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i5\", \"price_naira\": 4200, \"quote\": \"Bournvita this one for corner now four two\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i6\", \"price_naira\": 200, \"quote\": \"Gala the sausage roll now two hundred Naira\"}"
+  }
+ ]
+}
