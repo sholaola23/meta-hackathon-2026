@@ -23,7 +23,7 @@ Why: all three agents ended up here. It has lower Stage-1 risk, every model does
 ## Day-one go/no-go test (27 Oct, about 4 hours)
 1. SAM 3.1 on 5 real stall photos: at least 70% of the sellable items come out as separate crops.
 2. 3 real Pidgin voice notes: at least 80% of the prices land on the right item (tap-to-confirm allowed).
-3. Kapso WhatsApp round trip (receive an image, reply with an image) works.
+3. Kapso WhatsApp round trip (receive an image, reply with an image) works. (Changed 26 Oct: the route is now the Meta WhatsApp Cloud API, see `docs/plan.md`.)
 
 If 1 or 2 fails, or there are no real stall photos by 28 Oct, switch to the fallback.
 
