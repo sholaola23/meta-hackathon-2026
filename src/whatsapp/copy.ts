@@ -10,7 +10,7 @@ export const LIMITS = { photos: 3, voiceNotes: 3, repliesPerList: 8, buttonBody:
 export const copy = {
   // StallSnap is a catalogue builder, not a general chat service (WhatsApp Business policy): this is also the reply to off-topic chat.
   welcome: text(
-    "Welcome to StallSnap! I make a price catalogue for your stall, and that is all I can help with. Send me a photo of your stall, then a voice note saying the price of each thing. I will send back a price list for you to check.",
+    "Welcome to StallSnap! I make price catalogues for market stalls; that is the one thing I can help with. Send me a photo of your stall, then a voice note saying the price of each thing. I will send back a price list for you to check.",
   ),
   gotPhotoNeedVoice: text("Photo received. Now send a voice note with your prices, for example: \"Indomie na 250, Peak milk na 600\"."),
   gotVoiceNeedPhoto: text("Voice note received. Now send a photo of your stall so I can see the things you are selling."),
@@ -54,12 +54,10 @@ export const copy = {
 
   /** The link is in the body too, so the trader can copy or forward it to customers. */
   catalogueReady(url: string): Outgoing {
-    return {
-      type: "link",
-      body: `Your catalogue is ready! Share this link with your customers on WhatsApp:\n${url}`,
-      label: "Open catalogue",
-      url,
-    };
+    const body = `Your catalogue is ready! Share this link with your customers on WhatsApp:\n${url}`;
+    // A CTA body is capped at 1024 characters; a plain text message can carry a longer link.
+    if (body.length > LIMITS.buttonBody) return text(body);
+    return { type: "link", body, label: "Open catalogue", url };
   },
 };
 

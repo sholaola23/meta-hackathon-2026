@@ -7,6 +7,19 @@ export const PAIR_GAP_MS = 6000;
 const RATE_LIMITED = new Set([131056, 130429, 80007]);
 const MAX_TRIES = 4;
 
+/**
+ * A plainer version of a message to try when Meta refuses the richer one (for example a header image it
+ * can't fetch, or a CTA button it rejects), so the list or the link still reaches the trader.
+ */
+export function plainer(message: Outgoing): Outgoing | undefined {
+  if (message.type === "link") return { type: "text", body: message.body };
+  if (message.type === "buttons" && message.headerImageUrl) {
+    const { headerImageUrl: _drop, ...rest } = message;
+    return rest;
+  }
+  return undefined;
+}
+
 function retryable(err: unknown): boolean {
   if (!(err instanceof GraphError)) return true; // fetch threw: network or tunnel blip
   return err.status >= 500 || (err.code !== undefined && RATE_LIMITED.has(err.code));
@@ -59,6 +72,11 @@ export class Outbox {
         if (retryable(err) && attempt < MAX_TRIES - 1) {
           await this.clock.sleep(4 ** attempt * 1000);
           continue;
+        }
+        const fallback = retryable(err) ? undefined : plainer(message);
+        if (fallback) {
+          this.log(`outbox: ${message.type} refused for ${mask(to)}, sending a plainer version: ${(err as Error).message}`);
+          return this.deliver(to, fallback);
         }
         this.log(`outbox: could not send to ${mask(to)}: ${(err as Error).message}`);
         return "";

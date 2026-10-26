@@ -22,7 +22,7 @@ StallSnap is presented as a catalogue builder, never as an AI assistant or chatb
 
 Every message StallSnap writes is in `src/whatsapp/copy.ts`. The priced list text, and the "reply YES again" check for unpriced items, come from the pricing module.
 
-WhatsApp allows one message every 6 seconds to the same person (error 131056). The outbox spaces messages 6 seconds apart. It retries after 1, 4 and 16 seconds on rate limits (131056, 130429, 80007), Meta server errors (HTTP 5xx) and network failures; other errors are logged without the token. So the catalogue goes back as one link, never as a burst of images.
+WhatsApp allows one message every 6 seconds to the same person (error 131056). The outbox spaces messages 6 seconds apart. It retries after 1, 4 and 16 seconds on rate limits (131056, 130429, 80007), Meta server errors (HTTP 5xx) and network failures; other errors are logged without the token. If Meta refuses a richer message outright, a plainer one goes in its place: the catalogue link as plain text instead of a button, and the price list without its header image. So the catalogue goes back as one link, never as a burst of images.
 
 ## How it works
 
