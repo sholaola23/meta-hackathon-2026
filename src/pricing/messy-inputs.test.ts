@@ -96,11 +96,31 @@ describe("publish gate", () => {
     const s: Session = { ...startConfirmation(baseDraft()).session, status: "confirmed" };
     expect(() => publish(s)).toThrow(/Not confirmed/);
   });
-  test("replies after confirmation change nothing", () => {
+  test("a plain yes after confirmation changes nothing", () => {
     let { session } = startConfirmation(baseDraft());
     session = handleReply(session, "yes").session;
-    const after = handleReply(session, "1 na 9000").session;
-    expect(publish(after).lines.find((l) => l.itemId === "i1")!.price).toBe(3500);
+    const r = handleReply(session, "yes");
+    expect(r.session).toBe(session);
+    expect(r.reopened).toBeUndefined();
+  });
+  test("a change after confirmation reopens the list with a new version, and a new YES confirms it", () => {
+    let { session } = startConfirmation(baseDraft());
+    session = handleReply(session, "yes").session;
+    const r = handleReply(session, "1 na 3600");
+    expect(r.reopened).toBe(true);
+    expect(r.session.status).toBe("awaiting");
+    expect(r.session.version).toBe(2);
+    expect(() => publish(r.session)).toThrow(/Not confirmed/);
+    const done = handleReply(r.session, "yes").session;
+    expect(publish(done)).toMatchObject({ confirmedVersion: 2 });
+    expect(publish(done).lines.find((l) => l.itemId === "i1")!.price).toBe(3600);
+  });
+  test("an unclear reply after confirmation keeps the confirmed list", () => {
+    let { session } = startConfirmation(baseDraft());
+    session = handleReply(session, "yes").session;
+    const r = handleReply(session, "1 na 3000-3600");
+    expect(r.session.status).toBe("confirmed");
+    expect(r.notUnderstood.length).toBe(1);
   });
   test("the list shows every price with its unit and every question", () => {
     const { message } = startConfirmation(baseDraft(["i3"]));

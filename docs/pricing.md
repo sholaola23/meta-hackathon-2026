@@ -35,6 +35,7 @@ No price is published until the trader has seen it and said yes.
 5. If any part of a reply can't be understood, nothing in it is applied and the trader is asked again.
 6. If anything is still unpriced, the first yes gets one more message naming those items and repeating the questions. A second yes publishes them as "Ask for price", never with a number.
 7. `publish` throws unless the session is confirmed. It is the only way to get a catalogue.
+8. A change sent after a yes (the trader taps Yes, then corrects) reopens the list as a new version, and `handleReply` returns `reopened: true` so the caller can take down or mark anything published from the old version. A new yes confirms the new version. A plain yes after confirmation changes nothing.
 
 The confirm step is channel-agnostic: it takes reply text and returns message text. WhatsApp wiring lives in its own thread.
 

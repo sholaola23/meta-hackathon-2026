@@ -28,6 +28,11 @@ export interface ReplyResult {
   message: string;
   /** Parts of the reply we could not act on. */
   notUnderstood: string[];
+  /**
+   * True when a confirmed list was changed and is waiting for a new YES. Anything already published
+   * from the old version is out of date: the caller should take it down or mark it until the new YES.
+   */
+  reopened?: boolean;
 }
 
 const UNIT_WORDS: Record<string, SaleUnit> = {
@@ -175,9 +180,6 @@ function splitClauses(reply: string): string[] {
 }
 
 export function handleReply(session: Session, reply: string): ReplyResult {
-  if (session.status === "confirmed") {
-    return { session, message: "Your catalogue don already confirm.", notUnderstood: [] };
-  }
   let yes = false;
   let no = false;
   const changes: Change[] = [];
@@ -188,6 +190,11 @@ export function handleReply(session: Session, reply: string): ReplyResult {
     else if (r === "no") no = true;
     else if ("error" in r) notUnderstood.push(r.error);
     else changes.push(r);
+  }
+
+  const wasConfirmed = session.status === "confirmed";
+  if (wasConfirmed && !changes.length && !notUnderstood.length) {
+    return { session, message: "Your catalogue don already confirm.", notUnderstood };
   }
 
   if (notUnderstood.length) {
@@ -211,8 +218,14 @@ export function handleReply(session: Session, reply: string): ReplyResult {
       }
     }
     // Any change makes a new list, and only a yes to that new list confirms it.
+    // A change after a YES (the trader taps Yes, then corrects) reopens the list the same way.
     const next: Session = { version: session.version + 1, status: "awaiting", lines };
-    return { session: next, notUnderstood, message: ["I don change am. Check again:", "", renderList(next)].join("\n") };
+    return {
+      session: next,
+      notUnderstood,
+      ...(wasConfirmed ? { reopened: true } : {}),
+      message: ["I don change am. Check again:", "", renderList(next)].join("\n"),
+    };
   }
 
   if (yes && !no) {
