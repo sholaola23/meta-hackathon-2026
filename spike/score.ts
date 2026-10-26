@@ -1,11 +1,14 @@
-// Prints the day-one scores from the committed result files. Makes no API calls.
-import { readFileSync } from "node:fs";
+// Prints the day-one scores from the result files. Makes no API calls. The hand scores (sam-scores.json) are kept
+// private; put a copy in test-results/day1/ (gitignored) to reprint them.
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ROOT } from "./lib";
 
 const DIR = join(ROOT, "test-results/day1");
 
-const sam = JSON.parse(readFileSync(join(DIR, "sam-scores.json"), "utf8"));
+const SAM_SCORES = join(DIR, "sam-scores.json");
+const sam = existsSync(SAM_SCORES) ? JSON.parse(readFileSync(SAM_SCORES, "utf8")) : { photos: [] };
+if (!sam.photos.length) console.log("SAM hand scores are private and not in this checkout; skipping them.");
 const hit = (v: unknown) => v !== null && v !== "not checked";
 const totals: Record<string, { v1: number; union: number; n: number }> = {};
 console.log("SAM 3.1: sellable items with a separate usable crop");

@@ -1,6 +1,6 @@
 # Day-one go/no-go test: summary
 
-Run on Mon 26 Oct 2026 (UK). Thresholds come from `docs/idea-decision.md`. The scripts are in `spike/`. `bun spike/score.ts` reprints the scores from the result files with no API calls.
+Run on Mon 26 Oct 2026 (UK). Thresholds come from `docs/idea-decision.md`. The scripts are in `spike/`. `bun spike/score.ts` reprints the voice scores with no API calls; the per-photo cut-out scores are kept private.
 
 ## Verdict: GO
 
