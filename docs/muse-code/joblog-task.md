@@ -58,3 +58,4 @@ export class JobLog {
 - What it did: read this brief, `store.ts` and the acceptance tests; ran the tests to see them fail; wrote `joblog.ts`; made 4 edits to pass two acceptance cases (overlapping calls, and appending after a cut-short line); wrote 9 tests of its own in `joblog.test.ts`; ran `bun test src` until it passed.
 - Only the two allowed files changed. The acceptance tests and this brief were untouched.
 - After the run, Claude fixed two type errors in `joblog.test.ts` that `bun test` doesn't check (`tsc --strict` does). No change to `joblog.ts`.
+- Later runs add `--contributor-mode off --no-foreign-personal-context`, so nothing sent can be used for training and only this repo's context goes with the brief.
