@@ -1,0 +1,32 @@
+{
+ "case": "stall-2-fabrics",
+ "stall": "stall-2-fabrics",
+ "source": "bun src/pricing/eval.ts",
+ "audio": "stall-2-fabrics-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": true,
+ "transcript": "Fabric deo, fine fabric, all the anchor and R12k each, the blue and yellow one and the red one, one, six yards, the gold gold one, the lace, five yards, na 35k na original lace oh, that purple one way day hang, the the set, na 28,000, plain white cotton, na six five, five yards, if you want so for our come I go do I'm well for you",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":12000,\"quote\":\"all the anchor and R12k each, the blue and yellow one and the red one\",\"unit\":\"piece\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i2\",\"price_naira\":12000,\"quote\":\"all the anchor and R12k each, the blue and yellow one and the red one\",\"unit\":\"piece\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":35000,\"quote\":\"the gold gold one, the lace, five yards, na 35k\",\"unit\":\"piece\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i4\",\"price_naira\":28000,\"quote\":\"that purple one way day hang, the the set, na 28,000\",\"unit\":\"set\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i5\",\"price_naira\":6500,\"quote\":\"plain white cotton, na six five, five yards\",\"unit\":\"piece\"}"
+  }
+ ]
+}
