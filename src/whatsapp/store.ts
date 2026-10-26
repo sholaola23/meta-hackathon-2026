@@ -21,6 +21,8 @@ export interface Session {
   /** Each nudge or warning goes out at most once per catalogue. */
   told: string[];
   url?: string;
+  /** The reply the pricing step is working on, kept so a restart can apply it instead of dropping it. */
+  inFlight?: TraderReply;
 }
 
 const SEEN_LIMIT = 5000;

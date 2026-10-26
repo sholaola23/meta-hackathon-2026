@@ -416,16 +416,32 @@ describe("loop: a restart in the middle of a correction after publishing", () =>
     expect(html).not.toContain("updating");
   });
 
-  test("the correction never reached the pricing step: the page keeps its prices and the trader is not sent the link again", async () => {
+  test("the correction never reached the pricing step: it is applied after the restart, not dropped", async () => {
     const { store, publicDir, restart, m } = await published();
-    store.set(TRADER, { ...store.get(TRADER)!, phase: "working" });
+    // The loop had taken "1 na 700" (and told Meta it got it) but pricing had not run when the process died.
+    store.set(TRADER, { ...store.get(TRADER)!, phase: "working", inFlight: { text: "1 na 700" } });
     const h2 = restart();
     h2.loop.resume();
     await h2.loop.idle();
-    expect(h2.outbox.bodies().join("\n")).not.toContain("/c/abc000000001");
-    expect(h2.outbox.bodies().length).toBe(1);
-    expect(await serveCatalogue("/c/abc000000001", publicDir)!.text()).toContain("₦650 per tin");
+    const list = h2.outbox.sent.find((x) => x.message.type === "buttons")!;
+    expect(list.message.body).toContain("₦700");
+    expect(h2.outbox.bodies().join("\n")).not.toContain("catalogue is ready");
+    expect(await serveCatalogue("/c/abc000000001", publicDir)!.text()).toContain("updating");
     expect(m.calls).toMatchObject({ cutout: 1, price: 1 });
+  });
+
+  test("a lost yes is not replayed: the trader sees the list and presses yes again", async () => {
+    const m = new FakeModels([["Peak milk"]], { "*": "Peak milk na 650 tin" });
+    const store = new Store();
+    const { pipeline, publicDir } = setup(m);
+    const h = loopSetup({ pipeline, store });
+    await h.deliver(payload([h.graph.image(T), h.graph.voice(T + 1)]));
+    store.set(TRADER, { ...store.get(TRADER)!, phase: "working", inFlight: { text: "YES" } });
+    const h2 = loopSetup({ pipeline, store });
+    h2.loop.resume();
+    await h2.loop.idle();
+    expect(h2.outbox.sent.filter((x) => x.message.type === "buttons")).toHaveLength(1);
+    expect(existsSync(publicDir)).toBe(false);
   });
 
   test("a restart before any list exists still asks the trader to send again", async () => {

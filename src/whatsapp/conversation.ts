@@ -92,7 +92,7 @@ export class Conversation {
       // A list already exists (the crash came during a reply): pick it up again rather than lose the trader's work.
       // This also takes a published page out of "updating" once the trader confirms the corrected list.
       else if (s.phase === "working" && s.version !== undefined) {
-        void this.run(trader, async () => this.background(trader, s, () => this.deps.pipeline.current({ traderId: trader, jobId: s.jobId })));
+        void this.run(trader, async () => this.background(trader, s, () => this.recover(trader, s)));
       } else if (s.phase === "working") {
         void this.run(trader, async () => {
           this.save(trader, freshSession());
@@ -309,9 +309,24 @@ export class Conversation {
     }
     s.replies++;
     s.phase = "working";
+    s.inFlight = reply;
     this.save(trader, s);
     this.typing(trader);
     this.background(trader, s, () => this.deps.pipeline.reply({ traderId: trader, jobId: s.jobId, reply }));
+  }
+
+  /**
+   * After a restart mid-reply: the saved list, with the reply the pricing step was given applied if it never got
+   * that far (same version). Webhooks are answered before pricing runs, so Meta will not send that reply again.
+   * A lost YES is not replayed: the trader sees the list again and presses yes themselves.
+   */
+  private async recover(trader: string, s: Session): Promise<PricingTurn> {
+    const ids = { traderId: trader, jobId: s.jobId };
+    const cur = await this.deps.pipeline.current(ids);
+    const reply = s.inFlight;
+    const isYes = reply && "text" in reply && reply.text === "YES";
+    if (!reply || isYes || cur.version !== s.version) return cur;
+    return this.deps.pipeline.reply({ ...ids, reply });
   }
 
   /** Show "typing..." while the models work. Queued behind any message so the message does not dismiss it. */
@@ -333,6 +348,7 @@ export class Conversation {
   private async afterTurn(trader: string, jobId: string, turn: PricingTurn) {
     const s = this.deps.store.get(trader);
     if (!s || s.jobId !== jobId) return; // the trader started again meanwhile
+    delete s.inFlight;
     const next = s.pending.shift();
     // A message after the link went out that changed nothing: the page is already right, so no republish or second link.
     if (s.url && turn.confirmed && turn.version === s.version && !next) {
