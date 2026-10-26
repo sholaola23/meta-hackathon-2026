@@ -1,6 +1,6 @@
 // Live validation of the image step: runs cut-out and catalogue pictures on a set of photos and writes, per photo,
 // a summary JSON, a mask overlay and a sheet of the actual catalogue pictures for scoring by eye. Outputs stay out of
-// git (test-results/image/ is ignored). Muse Image restyles only the cover picture of each item, at most RESTYLES per run.
+// git (test-results/image/ is ignored). Muse Image restyles only the cover picture of each item, one per photo (its biggest item), at most RESTYLES per run.
 // Usage (needs MODEL_API_KEY unless every response is cached):
 //   bun image/validate.ts held-out        the held-out photos (scored against test-material/held-out/lots.json)
 //   bun image/validate.ts real            the 8 real photos from the day-one test
@@ -12,6 +12,7 @@ import { SpendGuard } from "../src/spend-guard";
 import { composeCatalogueImage, defaultBackdrop, restyleCatalogueImage } from "./catalogue-image";
 import { cutOut, type Crop } from "./cutout";
 import { liveCalls, museImageRestyle } from "./live";
+import { area } from "./mask";
 import { preparePhoto } from "./photo";
 
 const ROOT = join(import.meta.dir, "..");
@@ -67,7 +68,7 @@ async function sheet(tiles: { png: Buffer; label: string }[], out: string) {
   await sharp(img).resize({ width: 1500, height: 1500, fit: "inside", withoutEnlargement: true }).jpeg({ quality: 80 }).toFile(out);
 }
 
-const RESTYLES = 6;
+const RESTYLES = 13;
 
 if (import.meta.main) {
   const photos = photosFor(process.argv.slice(2));
@@ -86,9 +87,11 @@ if (import.meta.main) {
     const bytes = readFileSync(photo.path);
     const tiles: { png: Buffer; label: string }[] = [];
     const pictures: { number: number; name: string; source: string; rejected?: string; edgeShare?: number; maxChannelDiff: number }[] = [];
+    // One restyle per photo, on its biggest item, so the cap spreads across photos.
+    const biggest = [...r.items].sort((a, b) => area(b.cover) - area(a.cover))[0];
     for (const it of r.items) {
       const composed = await composeCatalogueImage(bytes, it.cover, backdrop);
-      const raw = restyles < RESTYLES ? (restyles++, await museImageRestyle(guard, job, composed.png)) : null;
+      const raw = it === biggest && restyles < RESTYLES ? (restyles++, await museImageRestyle(guard, job, composed.png)) : null;
       if (raw) writeFileSync(join(OUT, "restyle", `${stem}-${it.number}-raw.png`), raw);
       const final = await restyleCatalogueImage(composed, raw);
       tiles.push({ png: final.png, label: `${it.number} ${it.name}${final.source === "muse-image" ? " *" : ""}`.slice(0, 24) });
