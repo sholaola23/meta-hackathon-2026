@@ -1,0 +1,124 @@
+// Live pricing eval: Muse Voice Transcribe and Muse Spark on every voice note and messy transcript,
+// then writes the tool calls to test-material/voice/recorded/ so CI can replay them for free.
+// Needs MODEL_API_KEY and ffmpeg. Every live call goes through SpendGuard and is cached, so a rerun costs nothing.
+// Usage: bun src/pricing/eval.ts [--only <case id substring>] [--no-photo]
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { SpendGuard, sparkUsd, voiceUsd } from "../spend-guard";
+import { extractPrices, TOOLS, type Respond } from "./extract";
+import { loadAnswerKey, loadMessyTranscripts, loadStalls, RECORDED_DIR, ROOT, VOICE_DIR, type Recording } from "./fixtures";
+import { formatReport, scoreRecordings } from "./report";
+
+const BASE_URL = "https://api.meta.ai/v1";
+const MODEL = "muse-spark-1.3";
+const CACHE = join(ROOT, "test-results/cache/pricing");
+mkdirSync(CACHE, { recursive: true });
+mkdirSync(RECORDED_DIR, { recursive: true });
+process.env.STALLSNAP_SPEND_DIR ??= join(ROOT, "test-results/cache/spend");
+
+const args = process.argv.slice(2);
+const only = args.includes("--only") ? args[args.indexOf("--only") + 1] : undefined;
+const withPhoto = !args.includes("--no-photo");
+const guard = new SpendGuard();
+const key = process.env.MODEL_API_KEY;
+const TOOLS_JSON = JSON.parse(JSON.stringify(TOOLS));
+
+// The photo the trader would send with the note (stall 4 uses v2; see test-material/README.md).
+const PHOTO: Record<string, string> = {
+  "stall-1-provisions": "images/stall-1-provisions-v1.jpg",
+  "stall-2-fabrics": "images/stall-2-fabrics-v1.jpg",
+  "stall-3-phone-accessories": "images/stall-3-phone-accessories-v1.jpg",
+  "stall-4-foodstuff": "images/stall-4-foodstuff-v2.jpg",
+  "stall-5-mixed-cluttered": "images/stall-5-mixed-cluttered-v1.jpg",
+};
+
+const hash = (x: unknown) => createHash("sha256").update(typeof x === "string" ? x : JSON.stringify(x)).digest("hex").slice(0, 24);
+
+async function cached<T>(kind: string, k: unknown, fn: () => Promise<T>): Promise<T> {
+  const file = join(CACHE, `${kind}-${hash(k)}.json`);
+  if (existsSync(file)) return JSON.parse(readFileSync(file, "utf8"));
+  if (!key) throw new Error("MODEL_API_KEY is not set and there is no cached response; nothing was called");
+  const v = await fn();
+  writeFileSync(file, JSON.stringify(v));
+  return v;
+}
+
+async function transcribe(jobId: string, audio: string): Promise<string> {
+  const wav = join(CACHE, `${audio.split("/").pop()}.wav`);
+  if (!existsSync(wav)) execFileSync("ffmpeg", ["-loglevel", "error", "-y", "-i", audio, "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", "-map_metadata", "-1", wav]);
+  const request = { model: "muse-voice-transcribe-1.0", audioEncoding: "WAV", mode: "PUSH_TO_TALK" };
+  const r = await cached("asr", { audio: hash(readFileSync(wav).toString("base64")), request }, async () => {
+    const seconds = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", wav]).toString());
+    return guard.paid(jobId, request.model, voiceUsd(seconds), async () => {
+      const form = new FormData();
+      form.append("request", new Blob([JSON.stringify(request)], { type: "application/json" }));
+      form.append("audio", new Blob([readFileSync(wav)], { type: "audio/wav" }), "note.wav");
+      const res = await fetch(`${BASE_URL}/asr/transcribe`, { method: "POST", headers: { Authorization: `Bearer ${key}`, Accept: "application/json" }, body: form });
+      if (!res.ok) throw new Error(`transcribe ${res.status}: ${await res.text()}`);
+      return { transcript: ((await res.json()) as any).transcript as string };
+    });
+  });
+  return r.transcript;
+}
+
+function responder(jobId: string): Respond {
+  return async ({ input, previousResponseId }) => {
+    const body = { model: MODEL, input, tools: TOOLS_JSON, ...(previousResponseId ? { previous_response_id: previousResponseId } : {}) };
+    const r: any = await cached("spark", body, () =>
+      guard.paid(jobId, MODEL, sparkUsd({ input: 6000, output: 1500 }), async () => {
+        const res = await fetch(`${BASE_URL}/responses`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error(`responses ${res.status}: ${await res.text()}`);
+        const j: any = await res.json();
+        return { id: j.id, output: j.output, usage: j.usage };
+      }, (j) => sparkUsd({ input: j.usage?.input_tokens ?? 0, output: j.usage?.output_tokens ?? 0, cachedInput: j.usage?.input_tokens_details?.cached_tokens ?? 0 })),
+    );
+    const out: any[] = r.output ?? [];
+    return {
+      id: r.id,
+      calls: out.filter((o) => o.type === "function_call").map((o) => ({ name: o.name, arguments: o.arguments, call_id: o.call_id })),
+      text: out.filter((o) => o.type === "message").flatMap((o) => o.content ?? []).map((c: any) => c.text ?? "").join(""),
+    };
+  };
+}
+
+const photoUrl = (stallId: string) =>
+  withPhoto && PHOTO[stallId] ? `data:image/jpeg;base64,${readFileSync(join(ROOT, "test-material", PHOTO[stallId]!)).toString("base64")}` : undefined;
+
+function save(name: string, rec: Recording) {
+  writeFileSync(join(RECORDED_DIR, `${name}.json`), JSON.stringify(rec, null, 1) + "\n");
+  console.log(`recorded ${name}`);
+}
+
+const stalls = loadStalls();
+const today = new Date().toISOString().slice(0, 10);
+
+// 1. Every voice note: the TTS placeholder and any real recording (<stall>-real*.ogg|opus|m4a|wav).
+for (const k of loadAnswerKey()) {
+  const stall = stalls.find((s) => s.id === k.id)!;
+  const audios = readdirSync(VOICE_DIR).filter((f) => f === k.tts_audio || (f.startsWith(`${k.id}-real`) && /\.(ogg|opus|m4a|wav)$/.test(f)));
+  for (const audio of audios) {
+    const name = audio.replace(/\.[^.]+$/, "");
+    if (only && !name.includes(only)) continue;
+    const transcript = await transcribe(name, join(VOICE_DIR, audio));
+    const { calls } = await extractPrices(stall.items, transcript, responder(name), photoUrl(k.id));
+    save(name, { case: k.id, stall: k.id, source: "bun src/pricing/eval.ts", audio, model: MODEL, recorded_at: today, units_recorded: true, transcript, tool_calls: calls });
+  }
+}
+
+// 2. Messy transcripts: no audio, straight to Muse Spark.
+for (const c of loadMessyTranscripts()) {
+  if (only && !c.id.includes(only)) continue;
+  const stall = stalls.find((s) => s.id === c.stall)!;
+  const { calls } = await extractPrices(stall.items, c.transcript, responder(c.id), photoUrl(c.stall));
+  save(c.id, { case: c.id, stall: c.stall, source: "bun src/pricing/eval.ts (messy-transcripts.json)", audio: null, model: MODEL, recorded_at: today, units_recorded: true, transcript: c.transcript, tool_calls: calls });
+}
+
+console.log("\n" + formatReport(scoreRecordings()));
+const t = guard.today();
+console.log(`\nSpend today (${t.date} UTC, this machine): $${t.spentUsd.toFixed(4)} in ${t.calls} paid calls.`);

@@ -1,0 +1,926 @@
+{
+  "_note": "Messy-input suite for pricing. CI runs every case on every PR (messy-inputs.test.ts). Add each QA attack or review probe here so a fixed fault can't come back. expect is whole naira, or the reason the price is refused.",
+  "prices": [
+    {
+      "input": "3500",
+      "expect": 3500,
+      "attack": "plain digits"
+    },
+    {
+      "input": "3,500",
+      "expect": 3500,
+      "attack": "thousands comma"
+    },
+    {
+      "input": "₦3,500",
+      "expect": 3500,
+      "attack": "naira sign"
+    },
+    {
+      "input": "N3500",
+      "expect": 3500,
+      "attack": "N for naira"
+    },
+    {
+      "input": "#3,500",
+      "expect": 3500,
+      "attack": "# used for naira on Nigerian keyboards"
+    },
+    {
+      "input": "3500 naira",
+      "expect": 3500,
+      "attack": "naira after"
+    },
+    {
+      "input": "NGN 3500",
+      "expect": 3500,
+      "attack": "currency code"
+    },
+    {
+      "input": "35OO",
+      "expect": 3500,
+      "attack": "capital O for 0"
+    },
+    {
+      "input": "3,5o0",
+      "expect": 3500,
+      "attack": "small o for 0 with comma"
+    },
+    {
+      "input": "1O",
+      "expect": 10,
+      "attack": "O for 0 at the minimum"
+    },
+    {
+      "input": "3k",
+      "expect": 3000,
+      "attack": "k shorthand"
+    },
+    {
+      "input": "3.5k",
+      "expect": 3500,
+      "attack": "decimal k"
+    },
+    {
+      "input": "12K",
+      "expect": 12000,
+      "attack": "capital K"
+    },
+    {
+      "input": "1.8",
+      "expect": 1800,
+      "attack": "market shorthand 1.8 = 1,800"
+    },
+    {
+      "input": "2.5",
+      "expect": 2500,
+      "attack": "market shorthand 2.5 = 2,500"
+    },
+    {
+      "input": "250.00",
+      "expect": 250,
+      "attack": "exact naira with .00"
+    },
+    {
+      "input": "250.50",
+      "expect": "kobo",
+      "attack": "naira and kobo"
+    },
+    {
+      "input": "50 kobo",
+      "expect": "kobo",
+      "attack": "kobo only"
+    },
+    {
+      "input": "3500.5",
+      "expect": "kobo",
+      "attack": "fraction of a naira"
+    },
+    {
+      "input": 3500.5,
+      "expect": "kobo",
+      "attack": "non-integer number from the model"
+    },
+    {
+      "input": "N/A",
+      "expect": "no_price",
+      "attack": "placeholder"
+    },
+    {
+      "input": "n/a",
+      "expect": "no_price",
+      "attack": "placeholder lower case"
+    },
+    {
+      "input": "Not given",
+      "expect": "no_price",
+      "attack": "placeholder words"
+    },
+    {
+      "input": "?",
+      "expect": "no_price",
+      "attack": "question mark"
+    },
+    {
+      "input": "-",
+      "expect": "no_price",
+      "attack": "dash"
+    },
+    {
+      "input": "",
+      "expect": "empty",
+      "attack": "empty"
+    },
+    {
+      "input": null,
+      "expect": "empty",
+      "attack": "null"
+    },
+    {
+      "input": "-500",
+      "expect": "negative",
+      "attack": "negative"
+    },
+    {
+      "input": -500,
+      "expect": "negative",
+      "attack": "negative number from the model"
+    },
+    {
+      "input": "0",
+      "expect": "too_low",
+      "attack": "zero"
+    },
+    {
+      "input": "5",
+      "expect": "too_low",
+      "attack": "below the minimum"
+    },
+    {
+      "input": "50000000",
+      "expect": "too_high",
+      "attack": "huge"
+    },
+    {
+      "input": "2000-2500",
+      "expect": "range",
+      "attack": "range with dash"
+    },
+    {
+      "input": "2,000 – 2,500",
+      "expect": "range",
+      "attack": "range with en dash"
+    },
+    {
+      "input": "2k to 2.5k",
+      "expect": "range",
+      "attack": "range with to"
+    },
+    {
+      "input": "2000/2500",
+      "expect": "range",
+      "attack": "range with slash"
+    },
+    {
+      "input": "two or two-five",
+      "expect": "range",
+      "attack": "spoken range"
+    },
+    {
+      "input": "between 2000 and 2500",
+      "expect": "range",
+      "attack": "between"
+    },
+    {
+      "input": "free",
+      "expect": "unreadable",
+      "attack": "not a price"
+    },
+    {
+      "input": "cheap",
+      "expect": "unreadable",
+      "attack": "not a price"
+    },
+    {
+      "input": "two-fifty",
+      "expect": 250,
+      "attack": "number words"
+    },
+    {
+      "input": "one-fifty one-fifty",
+      "expect": 150,
+      "attack": "reduplication"
+    },
+    {
+      "input": "hundred hundred",
+      "expect": 100,
+      "attack": "reduplication of hundred"
+    },
+    {
+      "input": "four-two",
+      "expect": 4200,
+      "attack": "shorthand four-two = 4,200"
+    },
+    {
+      "input": "one five",
+      "expect": 1500,
+      "attack": "shorthand one five = 1,500"
+    },
+    {
+      "input": "tree tousand",
+      "expect": 3000,
+      "attack": "Pidgin pronunciation"
+    },
+    {
+      "input": "tree tousand five",
+      "expect": 3500,
+      "attack": "thousand then a lone digit"
+    },
+    {
+      "input": "tree tousand two hundred",
+      "expect": 3200,
+      "attack": "full words"
+    },
+    {
+      "input": "twenty-eight tousand",
+      "expect": 28000,
+      "attack": "tens before thousand"
+    },
+    {
+      "input": "na 3k",
+      "expect": 3000,
+      "attack": "Pidgin na before the price"
+    },
+    {
+      "input": "3k o",
+      "expect": 3000,
+      "attack": "Pidgin o after the price"
+    },
+    {
+      "input": "3000 each",
+      "expect": 3000,
+      "attack": "each after the price"
+    }
+  ],
+  "toolCalls": [
+    {
+      "name": "correction: last set_price wins",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 3000,
+            "unit": "tin",
+            "quote": "3k"
+          }
+        ],
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 3500,
+            "unit": "tin",
+            "quote": "no no 3,500"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          3500,
+          "tin"
+        ]
+      },
+      "rejected": 0
+    },
+    {
+      "name": "duplicate set_price with the same value",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 250,
+            "unit": "pack",
+            "quote": "a"
+          }
+        ],
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 250,
+            "unit": "pack",
+            "quote": "b"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          250,
+          "pack"
+        ]
+      },
+      "rejected": 0
+    },
+    {
+      "name": "unknown item id is refused, not added",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i99",
+            "price_naira": 500,
+            "unit": "piece",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": null,
+        "i2": null
+      },
+      "rejected": 1
+    },
+    {
+      "name": "item name instead of id is refused",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "Milo tin",
+            "price_naira": 3500,
+            "unit": "tin",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": null
+      },
+      "rejected": 1
+    },
+    {
+      "name": "price as a string is parsed",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": "3,5OO",
+            "unit": "tin",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          3500,
+          "tin"
+        ]
+      },
+      "rejected": 0
+    },
+    {
+      "name": "range from the model is refused and the line asks",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": "2000-2500",
+            "unit": "pack",
+            "quote": "two or two-five"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": null
+      },
+      "rejected": 1,
+      "question": {
+        "i1": "you give two prices"
+      }
+    },
+    {
+      "name": "bad correction cancels the earlier price",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 3000,
+            "unit": "tin",
+            "quote": "3k"
+          }
+        ],
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": "N/A",
+            "unit": "tin",
+            "quote": "I no sure again"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": null
+      },
+      "rejected": 1
+    },
+    {
+      "name": "kobo from the model is refused",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 250.5,
+            "unit": "pack",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": null
+      },
+      "rejected": 1
+    },
+    {
+      "name": "zero is refused",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 0,
+            "unit": "pack",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": null
+      },
+      "rejected": 1
+    },
+    {
+      "name": "unit outside the list is dropped, price kept",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 100,
+            "unit": "sachets-ish",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          100,
+          null
+        ]
+      },
+      "rejected": 0
+    },
+    {
+      "name": "flag after a price keeps the price",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 200,
+            "unit": "piece",
+            "quote": "x"
+          }
+        ],
+        [
+          "flag_missing_price",
+          {
+            "item_id": "i1"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          200,
+          "piece"
+        ]
+      },
+      "rejected": 0
+    },
+    {
+      "name": "price after a flag wins",
+      "calls": [
+        [
+          "flag_missing_price",
+          {
+            "item_id": "i1"
+          }
+        ],
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 200,
+            "unit": "piece",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          200,
+          "piece"
+        ]
+      },
+      "rejected": 0
+    },
+    {
+      "name": "item never mentioned still gets a question",
+      "calls": [
+        [
+          "set_price",
+          {
+            "item_id": "i1",
+            "price_naira": 200,
+            "unit": "piece",
+            "quote": "x"
+          }
+        ]
+      ],
+      "expect": {
+        "i1": [
+          200,
+          "piece"
+        ],
+        "i2": null
+      },
+      "rejected": 0,
+      "question": {
+        "i2": "na how much"
+      }
+    },
+    {
+      "name": "model's own Pidgin question is used",
+      "calls": [
+        [
+          "flag_missing_price",
+          {
+            "item_id": "i2"
+          }
+        ],
+        [
+          "ask_trader",
+          {
+            "question": "Abeg, sugar cube na how much?",
+            "item_ids": [
+              "i2"
+            ]
+          }
+        ]
+      ],
+      "expect": {
+        "i2": null
+      },
+      "rejected": 0,
+      "question": {
+        "i2": "Abeg, sugar cube na how much?"
+      }
+    },
+    {
+      "name": "broken JSON arguments are refused",
+      "calls": [
+        [
+          "set_price",
+          "{\"item_id\": \"i1\", \"price_naira\": 3"
+        ]
+      ],
+      "expect": {
+        "i1": null
+      },
+      "rejected": 1
+    }
+  ],
+  "replies": [
+    {
+      "name": "yes confirms",
+      "replies": [
+        "YES"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3500,
+        "i2": 100,
+        "i3": 1800
+      }
+    },
+    {
+      "name": "Pidgin yes",
+      "replies": [
+        "na so"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "yes with an emoji and punctuation",
+      "replies": [
+        "Yes!"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "correction by number, then yes",
+      "replies": [
+        "3 na 1900",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i3": 1900
+      },
+      "version": 2
+    },
+    {
+      "name": "correction alone never confirms",
+      "replies": [
+        "3 na 1900"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i3": 1900
+      },
+      "version": 2
+    },
+    {
+      "name": "yes and a correction in one reply does not confirm",
+      "replies": [
+        "yes, 3 na 1900"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i3": 1900
+      }
+    },
+    {
+      "name": "correction inside the reply: last value wins",
+      "replies": [
+        "3 na 1800 no 1900",
+        "ok"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i3": 1900
+      }
+    },
+    {
+      "name": "O for 0 in a reply",
+      "replies": [
+        "1 = 36OO",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3600
+      }
+    },
+    {
+      "name": "unit change in a reply: per strip",
+      "replies": [
+        "2 na 1200 per strip",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i2": 1200
+      },
+      "units": {
+        "i2": "strip"
+      }
+    },
+    {
+      "name": "change by name",
+      "replies": [
+        "Milo tin na 3600",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3600
+      }
+    },
+    {
+      "name": "ambiguous name changes nothing",
+      "replies": [
+        "Milo na 3600"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i1": 3500,
+        "i2": 100
+      },
+      "version": 1,
+      "notUnderstood": true
+    },
+    {
+      "name": "range in a reply changes nothing",
+      "replies": [
+        "1 na 3000-3500"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i1": 3500
+      },
+      "version": 1,
+      "notUnderstood": true
+    },
+    {
+      "name": "N/A in a reply changes nothing",
+      "replies": [
+        "1 na N/A"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i1": 3500
+      },
+      "notUnderstood": true
+    },
+    {
+      "name": "item number not on the list",
+      "replies": [
+        "9 na 500"
+      ],
+      "status": "awaiting",
+      "notUnderstood": true
+    },
+    {
+      "name": "part-understood reply applies nothing",
+      "replies": [
+        "3 na 1900, blah blah"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i3": 1800
+      },
+      "version": 1,
+      "notUnderstood": true
+    },
+    {
+      "name": "plain no asks which one",
+      "replies": [
+        "no"
+      ],
+      "status": "awaiting",
+      "version": 1
+    },
+    {
+      "name": "remove a line, then yes",
+      "replies": [
+        "comot 2",
+        "yes"
+      ],
+      "status": "confirmed",
+      "removed": [
+        "i2"
+      ]
+    },
+    {
+      "name": "several corrections on separate lines",
+      "replies": [
+        "1 na 3600\n2 na 120\n3: 1.9k",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3600,
+        "i2": 120,
+        "i3": 1900
+      }
+    },
+    {
+      "name": "unpriced line: first yes asks again, second yes publishes Ask for price",
+      "unpriced": [
+        "i3"
+      ],
+      "replies": [
+        "yes",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i3": null
+      }
+    },
+    {
+      "name": "unpriced line: one yes is not enough",
+      "unpriced": [
+        "i3"
+      ],
+      "replies": [
+        "yes"
+      ],
+      "status": "awaiting"
+    },
+    {
+      "name": "unpriced line answered with its price",
+      "unpriced": [
+        "i3"
+      ],
+      "replies": [
+        "3 na 1800",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i3": 1800
+      }
+    },
+    {
+      "name": "the warning resets after a change",
+      "unpriced": [
+        "i2",
+        "i3"
+      ],
+      "replies": [
+        "yes",
+        "2 na 100",
+        "yes"
+      ],
+      "status": "awaiting"
+    },
+    {
+      "name": "empty reply changes nothing",
+      "replies": [
+        ""
+      ],
+      "status": "awaiting",
+      "version": 1
+    },
+    {
+      "name": "Pidgin denial: 'no be 3000' keeps 3500",
+      "replies": [
+        "1 na 3500 no be 3000",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3500
+      }
+    },
+    {
+      "name": "English denial: 'not 3000' keeps 3600",
+      "replies": [
+        "1 na 3600, not 3000",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3600
+      }
+    },
+    {
+      "name": "numbered with a full stop: '1. 3600'",
+      "replies": [
+        "1. 3600",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i1": 3600
+      }
+    },
+    {
+      "name": "Pidgin emphasis: 'correct o'",
+      "replies": [
+        "correct o"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "yes stuck to a change with no comma changes nothing",
+      "replies": [
+        "Yes 3 na 1900"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i3": 1800
+      },
+      "notUnderstood": true
+    },
+    {
+      "name": "out of stock: '2 no dey'",
+      "replies": [
+        "2 no dey",
+        "yes"
+      ],
+      "status": "confirmed",
+      "removed": [
+        "i2"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+ "case": "stall-3-phone-accessories",
+ "stall": "stall-3-phone-accessories",
+ "source": "Day-one spike run (26 Oct, test-results/day1/voice-results.json on PR #1), rebuilt from its final outcome: one set_price per priced item, so mid-note corrections show only their final value. Predates the unit field.",
+ "audio": "stall-3-phone-accessories-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": false,
+ "transcript": "Hello. Welcome. Welcome. This USB-C cable NA 2.5 iPhone charger head the original one one NA 7K no be China copy power bank 20,000 mAh NA 18,000 earphones NA 15 phone case any color way you like all of them NA 3,000 each the small speaker the red one for top NA 15,000 everything here NA original I know they sell fake",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i1\", \"price_naira\": 2500, \"quote\": \"This USB-C cable NA 2.5\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i2\", \"price_naira\": 7000, \"quote\": \"iPhone charger head the original one one NA 7K\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i3\", \"price_naira\": 18000, \"quote\": \"power bank 20,000 mAh NA 18,000\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i4\", \"price_naira\": 1500, \"quote\": \"earphones NA 15\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i5\", \"price_naira\": 3000, \"quote\": \"phone case any color way you like all of them NA 3,000 each\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i7\", \"price_naira\": 15000, \"quote\": \"the small speaker the red one for top NA 15,000\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\": \"i6\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\": [\"i6\"], \"question\": \"Abeg, screen protector na how much?\"}"
+  }
+ ]
+}
