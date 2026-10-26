@@ -131,3 +131,23 @@ describe("QA PR10: restarts during a reply", () => {
     expect(h2.outbox.bodies().join("\n")).toContain("₦700");
   });
 });
+
+// Round 2 (head e005a14), from QA unchanged.
+describe("QA PR10 round 2", () => {
+  test("a replayed correction is applied once even if the server restarts again mid-replay", async () => {
+    const w = world();
+    await w.h.deliver(payload([w.h.graph.image(T), w.h.graph.voice(T + 1)]));
+    await w.h.deliver(payload([text("YES", T + 10)]));
+    await crashBeforePricing(w, "2 na 3000", T + 60);
+    const v = w.store.get(TRADER)!.version!;
+    // Second crash: the replay reached pricing (applied) but the loop never saw the answer.
+    const s = w.store.get(TRADER)!;
+    await w.h.pipeline.reply({ traderId: TRADER, jobId: s.jobId, reply: s.inFlight! });
+    const h2 = await w.restart();
+    const lists = h2.outbox.sent.filter((x) => x.message.type === "buttons");
+    expect(lists.length).toBe(1);
+    expect((lists[0]!.message as any).body).toContain("₦3,000");
+    expect(w.store.get(TRADER)!.version).toBe(v + 1);
+    expect(w.store.get(TRADER)!.inFlight).toBeUndefined();
+  });
+});
