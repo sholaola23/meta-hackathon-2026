@@ -26,6 +26,9 @@ const notWiredYet: Pipeline = {
   reply: async () => {
     throw new Error("pipeline not wired yet");
   },
+  current: async () => {
+    throw new Error("pipeline not wired yet");
+  },
   publish: async () => {
     throw new Error("pipeline not wired yet");
   },

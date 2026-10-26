@@ -5,7 +5,7 @@
 import { randomBytes } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { auditLog, handleReply, publish, startConfirmation, type Session as PricingSession } from "../pricing/confirm";
+import { auditLog, handleReply, publish, renderList, startConfirmation, type Session as PricingSession } from "../pricing/confirm";
 import type { Draft, Item } from "../pricing/types";
 import type { JobLog } from "./joblog";
 import type { LocalMedia, Pipeline, PricingTurn, StartInput, TraderReply } from "./pipeline";
@@ -119,6 +119,11 @@ export class StallPipeline implements Pipeline {
     if (r.reopened && job.slug) this.markUpdating(job.slug);
     this.save(input.jobId, { ...job, session: r.session });
     return turn(r.session, r.message);
+  }
+
+  async current(input: { traderId: string; jobId: string }): Promise<PricingTurn> {
+    const job = this.load(input.jobId);
+    return turn(job.session, renderList(job.session));
   }
 
   async publish(input: { traderId: string; jobId: string }): Promise<{ url: string }> {

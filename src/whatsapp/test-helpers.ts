@@ -119,6 +119,7 @@ export class FakePipeline implements Pipeline {
   version = 0;
   unpriced = false;
   warned = false;
+  confirmed = false;
   fail?: Error;
   /** When set, start() waits for this before answering, so tests can send messages mid-job. */
   gate?: Promise<void>;
@@ -143,10 +144,17 @@ export class FakePipeline implements Pipeline {
         this.warned = true;
         return this.turn(false, "Milo has no price yet. Reply YES again to show it as Ask for price.");
       }
+      this.confirmed = true;
       return this.turn(true);
     }
     this.version++;
+    this.confirmed = false;
     return this.turn();
+  }
+
+  async current() {
+    if (this.fail) throw this.fail;
+    return this.turn(this.confirmed);
   }
 
   async publish() {
