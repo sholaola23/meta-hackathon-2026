@@ -59,3 +59,4 @@ export class JobLog {
 - Only the two allowed files changed. The acceptance tests and this brief were untouched.
 - After the run, Claude fixed two type errors in `joblog.test.ts` that `bun test` doesn't check (`tsc --strict` does). No change to `joblog.ts`.
 - Later runs add `--contributor-mode off --no-foreign-personal-context`, so nothing sent can be used for training and only this repo's context goes with the brief.
+- Independent QA then found three faults in `joblog.ts`, which Claude fixed by hand: a step finishing after `clear()` came back into the new job, a step whose write failed was paid again on retry, and a damaged line was logged with its text. The QA attack suite is in `joblog.qa.test.ts`.
