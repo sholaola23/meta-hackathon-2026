@@ -173,10 +173,11 @@ export class ManualScheduler implements Scheduler {
   }
 }
 
-export function setup(opts: { allowed?: string[]; store?: Store } = {}) {
+/** pipeline: a real adapter to drive instead of FakePipeline (the returned pipeline is then that adapter). */
+export function setup(opts: { allowed?: string[]; store?: Store; pipeline?: Pipeline } = {}) {
   const graph = new FakeGraph();
   const outbox = new RecordingOutbox();
-  const pipeline = new FakePipeline();
+  const pipeline = (opts.pipeline ?? new FakePipeline()) as FakePipeline;
   const scheduler = new ManualScheduler();
   const store = opts.store ?? new Store();
   const logs: string[] = [];

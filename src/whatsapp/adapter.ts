@@ -1,0 +1,186 @@
+// The Pipeline the WhatsApp loop calls, joining the image step, the pricing confirm step and the catalogue page.
+// photos -> catalogue items (cut-outs), voice notes -> transcript, transcript -> priced draft -> the trader's list,
+// replies -> handleReply, YES -> publish() -> a public page. The model calls are injected (live-models.ts in the
+// server, fakes in tests), and each paid step runs once per job through JobLog, so a retry never pays twice.
+import { randomBytes } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { auditLog, handleReply, publish, startConfirmation, type Session as PricingSession } from "../pricing/confirm";
+import type { Draft, Item } from "../pricing/types";
+import type { JobLog } from "./joblog";
+import type { LocalMedia, Pipeline, PricingTurn, StartInput, TraderReply } from "./pipeline";
+
+/** One product found in one photo, with its catalogue picture already made (a file in the job's image folder). */
+export interface FoundItem {
+  name: string;
+  /** File name inside the job's image folder, such as "p1-3.png". */
+  image: string;
+}
+
+export interface Models {
+  /** Photo -> products on it. Writes each product's picture into imageDir. Throws a PhotoError the trader can read. */
+  cutout(jobId: string, photo: LocalMedia, photoIndex: number, imageDir: string): Promise<FoundItem[]>;
+  /** Voice note -> text. itemNames bias the transcriber toward the stall's words. */
+  transcribe(jobId: string, voice: LocalMedia, itemNames: string[]): Promise<string>;
+  /** Transcript (plus any typed prices) -> a priced draft. */
+  price(jobId: string, items: Item[], transcript: string, photo?: LocalMedia): Promise<Draft>;
+  /** Optional studio clean-up of one picture at publish. Returns the file name to show; never invents products. */
+  polish?(jobId: string, imageDir: string, image: string): Promise<string>;
+}
+
+export interface AdapterConfig {
+  models: Models;
+  jobLog: JobLog;
+  /** Private: one folder per job with its pricing session, pictures and audit log. */
+  dataDir: string;
+  /** Public: one folder per published catalogue, served at /c/<slug>. */
+  publicDir: string;
+  /** Public HTTPS address of the server, such as https://stallsnap.example. */
+  publicBaseUrl: string;
+  now?: () => Date;
+  slug?: () => string;
+}
+
+/** What the catalogue page reads. Nothing about the trader's phone or the confirm conversation goes in here. */
+export interface PublishedCatalogue {
+  slug: string;
+  publishedAt: string;
+  lines: { name: string; price: number | null; unit: string | null; image: string | null }[];
+}
+
+interface Job {
+  traderId: string;
+  items: (Item & { image: string })[];
+  session: PricingSession;
+  slug?: string;
+}
+
+/** Same name and shape as image/photo.ts, so the loop sends its message to the trader. */
+export class PhotoProblem extends Error {
+  override name = "PhotoError";
+}
+
+export const NO_PRODUCTS = "I could not find products in that photo. Please send a clear photo of the stall in daylight, with the goods in view.";
+const SLUG = /^[a-z0-9]{12}$/;
+const JOB_ID = /^[A-Za-z0-9_-]{1,80}$/;
+const FILE = /^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,80}$/;
+
+export class StallPipeline implements Pipeline {
+  private readonly now: () => Date;
+  private readonly slug: () => string;
+
+  constructor(private readonly cfg: AdapterConfig) {
+    this.now = cfg.now ?? (() => new Date());
+    this.slug = cfg.slug ?? (() => randomBytes(9).toString("base64url").toLowerCase().replace(/[^a-z0-9]/g, "x").slice(0, 12));
+  }
+
+  async start(input: StartInput): Promise<PricingTurn> {
+    const { jobId } = input;
+    const { models, jobLog } = this.cfg;
+    const imageDir = this.imageDir(jobId);
+    mkdirSync(imageDir, { recursive: true });
+
+    const found: FoundItem[] = [];
+    for (const [i, photo] of input.photos.entries()) {
+      const items = await jobLog.step(jobId, `cutout:${photo.messageId}`, () => models.cutout(jobId, photo, i + 1, imageDir));
+      found.push(...items);
+    }
+    if (!found.length) throw new PhotoProblem(NO_PRODUCTS);
+    // A picture name comes back from the models; it must stay a plain file name inside the job's folder.
+    const items = found.map((f, i) => ({ id: `i${i + 1}`, name: f.name, image: FILE.test(f.image) && !f.image.includes("..") ? f.image : "" }));
+    const names = items.map((i) => i.name);
+
+    const notes: string[] = [];
+    for (const v of input.voiceNotes) {
+      notes.push(await jobLog.step(jobId, `transcript:${v.messageId}`, () => models.transcribe(jobId, v, names)));
+    }
+    // Typed prices and captions count as part of the note; the trader sometimes types instead of talking.
+    const transcript = [...notes, ...input.texts].map((t) => t.trim()).filter(Boolean).join("\n");
+    const pricingKey = `pricing:${[...input.photos, ...input.voiceNotes].map((m) => m.messageId).join("+")}:${input.texts.length}`;
+    const draft = await jobLog.step(jobId, pricingKey.slice(0, 200), () =>
+      models.price(jobId, items.map(({ id, name }) => ({ id, name })), transcript, input.photos[0]),
+    );
+
+    const { session, message } = startConfirmation(draft, this.now);
+    this.save(jobId, { traderId: input.traderId, items, session });
+    return turn(session, message);
+  }
+
+  async reply(input: { traderId: string; jobId: string; reply: TraderReply }): Promise<PricingTurn> {
+    const job = this.load(input.jobId);
+    const text = await this.replyText(input.jobId, job, input.reply);
+    const r = handleReply(job.session, text, this.now);
+    this.save(input.jobId, { ...job, session: r.session });
+    return turn(r.session, r.message);
+  }
+
+  async publish(input: { traderId: string; jobId: string }): Promise<{ url: string }> {
+    const { jobId } = input;
+    const job = this.load(jobId);
+    const catalogue = publish(job.session); // throws unless the trader confirmed the latest list
+    const slug = job.slug ?? this.slug();
+    if (!SLUG.test(slug)) throw new Error("bad catalogue slug");
+    const dir = join(this.cfg.publicDir, slug);
+    mkdirSync(dir, { recursive: true });
+
+    const byId = new Map(job.items.map((i) => [i.id, i]));
+    const lines: PublishedCatalogue["lines"] = [];
+    for (const [n, line] of catalogue.lines.entries()) {
+      const item = byId.get(line.itemId);
+      let image: string | null = null;
+      if (item?.image) {
+        const polished = this.cfg.models.polish
+          ? await this.cfg.jobLog.step(jobId, `polish:${item.image}`, () => this.cfg.models.polish!(jobId, this.imageDir(jobId), item.image))
+          : item.image;
+        const src = join(this.imageDir(jobId), FILE.test(polished) && !polished.includes("..") ? polished : item.image);
+        if (existsSync(src)) {
+          image = `${n + 1}.png`;
+          writeFileSync(join(dir, image), readFileSync(src));
+        }
+      }
+      lines.push({ name: line.name, price: line.price, unit: line.unit, image });
+    }
+    const page: PublishedCatalogue = { slug, publishedAt: this.now().toISOString(), lines };
+    atomicWrite(join(dir, "catalogue.json"), JSON.stringify(page, null, 1));
+    // The confirm conversation stays private, next to the job, so every price can be traced to the trader's yes.
+    atomicWrite(join(this.jobDir(jobId), "audit.json"), JSON.stringify(auditLog(job.session), null, 1));
+    this.save(jobId, { ...job, slug });
+    return { url: `${this.cfg.publicBaseUrl.replace(/\/+$/, "")}/c/${slug}` };
+  }
+
+  private async replyText(jobId: string, job: Job, reply: TraderReply): Promise<string> {
+    if ("text" in reply) return reply.text;
+    const names = job.items.map((i) => i.name);
+    return this.cfg.jobLog.step(jobId, `transcript:${reply.voiceNote.messageId}`, () => this.cfg.models.transcribe(jobId, reply.voiceNote, names));
+  }
+
+  private jobDir(jobId: string) {
+    if (!JOB_ID.test(jobId)) throw new Error("bad job id");
+    return join(this.cfg.dataDir, "jobs", jobId);
+  }
+
+  private imageDir(jobId: string) {
+    return join(this.jobDir(jobId), "images");
+  }
+
+  private load(jobId: string): Job {
+    const file = join(this.jobDir(jobId), "job.json");
+    if (!existsSync(file)) throw new Error(`no job ${jobId}`);
+    return JSON.parse(readFileSync(file, "utf8")) as Job;
+  }
+
+  private save(jobId: string, job: Job) {
+    mkdirSync(this.jobDir(jobId), { recursive: true });
+    atomicWrite(join(this.jobDir(jobId), "job.json"), JSON.stringify(job));
+  }
+}
+
+function turn(session: PricingSession, message: string): PricingTurn {
+  return { version: session.version, message, confirmed: session.status === "confirmed" };
+}
+
+function atomicWrite(file: string, data: string) {
+  const tmp = `${file}.tmp`;
+  writeFileSync(tmp, data);
+  renameSync(tmp, file);
+}
