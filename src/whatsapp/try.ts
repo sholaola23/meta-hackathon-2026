@@ -1,7 +1,7 @@
 // Dry run of the live pipeline without WhatsApp: one stall photo and one voice note through the real image step,
 // Voice Transcribe and Muse Spark, then YES (twice if something is unpriced), publish, and the page written to disk.
 // Responses are cached, so a rerun is free. Needs MODEL_API_KEY, ffmpeg, and bun install in image/ and spike/.
-// Usage: bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle]
+// Usage: bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle] [--out <dir>]
 // Test material only: never use its output in the demo video.
 import { mkdtempSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -13,9 +13,12 @@ import { JobLog } from "./joblog";
 import { liveModels } from "./live-models";
 import type { LocalMedia } from "./pipeline";
 
-const [photoArg, noteArg] = process.argv.slice(2).filter((a) => !a.startsWith("--"));
-if (!photoArg || !noteArg) throw new Error("usage: bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle]");
-const root = process.env.STALLSNAP_TRY_DIR ?? mkdtempSync(join(tmpdir(), "stallsnap-try-"));
+const args = process.argv.slice(2);
+const out = args.includes("--out") ? args[args.indexOf("--out") + 1] : undefined;
+const [photoArg, noteArg] = args.filter((a, i) => !a.startsWith("--") && args[i - 1] !== "--out");
+if (!photoArg || !noteArg) throw new Error("usage: bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle] [--out <dir>]");
+// Not a STALLSNAP_* variable: the spend guard refuses settings it doesn't know.
+const root = out ? resolve(out) : mkdtempSync(join(tmpdir(), "stallsnap-try-"));
 const guard = new SpendGuard();
 const file = (path: string, messageId: string, mimeType: string): LocalMedia => ({
   messageId,

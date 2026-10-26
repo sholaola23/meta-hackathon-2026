@@ -77,7 +77,7 @@ Each paid step runs once per job through the job log: the cut-out of a photo, th
 
 The server uses the adapter only when `MODEL_API_KEY` and `PUBLIC_BASE_URL` are set. Without them it falls back to a stand-in that fails every job, so the trader is told "something went wrong". It never invents a list.
 
-To try the live pipeline without WhatsApp, on test material only: `bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle]`.
+To try the live pipeline without WhatsApp, on test material only: `bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle] [--out <dir>]`. On 26 Oct it found all 6 stall-1 products and priced each one as the answer key does, in 107 seconds for $0.12.
 
 ## Setup (Shola only, about 20 minutes)
 
