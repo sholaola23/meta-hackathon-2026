@@ -6,3 +6,5 @@ __pycache__/
 .DS_Store
 *.aiff
 test-results/cache/
+.spend/
+!.env.example
