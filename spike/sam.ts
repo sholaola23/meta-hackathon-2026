@@ -48,9 +48,13 @@ async function* asEvents(text: string) {
 }
 
 export async function samInstances(imagePath: string, phrase: string): Promise<Instance[]> {
-  const raw = await samRaw(imagePath, phrase);
-  if (!raw.text.trim()) return [];
-  const result: any = await parseImageStream(asEvents(raw.text) as any).finalResult;
+  return parseSamText((await samRaw(imagePath, phrase)).text, phrase);
+}
+
+/** Decode SAM's special-token text into instances. Shared with image/live.ts. */
+export async function parseSamText(text: string, phrase: string): Promise<Instance[]> {
+  if (!text.trim()) return [];
+  const result: any = await parseImageStream(asEvents(text) as any).finalResult;
   if (result.diagnostics?.length) console.warn(phrase, result.diagnostics.slice(0, 2));
   const boxes = new Map(recordsOfKind(result.records, "box").map((b: any) => [b.objectId, b]));
   return recordsOfKind(result.records, "mask").map((m: any) => {

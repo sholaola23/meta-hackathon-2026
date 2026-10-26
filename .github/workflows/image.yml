@@ -1,0 +1,21 @@
+name: image
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  messy-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+        working-directory: spike
+      - run: bun install --frozen-lockfile
+        working-directory: image
+      - run: bunx tsc --noEmit -p .
+        working-directory: image
+      - run: bun test
+        working-directory: image
