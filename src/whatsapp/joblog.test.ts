@@ -57,7 +57,7 @@ describe("job log: files and validation", () => {
     const lines: string[] = [];
     const log = new JobLog(dir, (l) => lines.push(l));
     expect(log.keys("job1")).toEqual(["a", "c"]);
-    expect(await log.step("job1", "a", async () => "ran")).toBe(1);
+    expect(await log.step("job1", "a", async (): Promise<unknown> => "ran")).toBe(1);
     expect(lines.length).toBe(1);
     expect(readFileSync(file, "utf8")).toBe(before);
   });
@@ -131,6 +131,6 @@ describe("job log: overlap and round-trips", () => {
     }
     const again = new JobLog(dir);
     expect(await again.step("job1", "u", async () => "ran")).toBeNull();
-    expect(await again.step("job1", "arr", async () => [])).toEqual([1, "x"]);
+    expect(await again.step("job1", "arr", async (): Promise<unknown> => [])).toEqual([1, "x"]);
   });
 });

@@ -50,3 +50,11 @@ export class JobLog {
 - `bun test src` passes (all existing tests).
 - Add your own tests in `src/whatsapp/joblog.test.ts` for anything the acceptance tests miss.
 - Do not touch any other file.
+
+## Run record (26 Oct 2026)
+
+- Muse Code 1.4.13, `muse exec --approval-mode never --sandbox-network restricted --disable-web-tools --disable-request-user-input --json --max-model-steps 40`, run on Shola's Mac in a fresh git worktree. Muse Code's own macOS sandbox stayed on.
+- 17 model calls on Muse Spark 1.3, 194 seconds, exit 0. About 810k input tokens (722k cached) and 23k output. Cost about $0.015.
+- What it did: read this brief, `store.ts` and the acceptance tests; ran the tests to see them fail; wrote `joblog.ts`; made 4 edits to pass two acceptance cases (overlapping calls, and appending after a cut-short line); wrote 9 tests of its own in `joblog.test.ts`; ran `bun test src` until it passed.
+- Only the two allowed files changed. The acceptance tests and this brief were untouched.
+- After the run, Claude fixed two type errors in `joblog.test.ts` that `bun test` doesn't check (`tsc --strict` does). No change to `joblog.ts`.
