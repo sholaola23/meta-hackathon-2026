@@ -8,3 +8,4 @@ __pycache__/
 test-results/cache/
 test-results/day1/*.jpg
 test-results/day1/*-sam.json
+test-results/image/prepared/
