@@ -1,0 +1,1240 @@
+[
+ {
+  "stall": "stall-1-provisions",
+  "audio": "stall-1-provisions-tts.ogg",
+  "variant": "plain",
+  "transcript": "Good morning okay make I give you my prices Indomie na two fifty for one pack peak milk the big tin now one point eight Milo na three K no no three thousand five hundred Milo don't cost these days Golden Morn now two thousand eight hundred Bonvita this one for corner now four two Gala the sausage roll now two hundred naira if you buy plenty we fit talk now now so.",
+  "seconds": 29.104792,
+  "outcome": {
+   "prices": {
+    "Indomie noodles (single pack)": 250,
+    "Peak milk tin (big)": 1800,
+    "Milo tin": 3500,
+    "Golden Morn cereal pack": 2800,
+    "Bournvita jar": 4200,
+    "Gala sausage roll": 200
+   },
+   "quotes": {
+    "Indomie noodles (single pack)": "Indomie na two fifty for one pack",
+    "Peak milk tin (big)": "peak milk the big tin now one point eight",
+    "Milo tin": "no no three thousand five hundred",
+    "Golden Morn cereal pack": "Golden Morn now two thousand eight hundred",
+    "Bournvita jar": "Bonvita this one for corner now four two",
+    "Gala sausage roll": "Gala the sausage roll now two hundred naira"
+   },
+   "flagged": [],
+   "questions": [],
+   "rounds": 2,
+   "summary": "All 6 items priced: Indomie 250, Peak milk 1800, Milo 3500 final, Golden Morn 2800, Bournvita 4200, Gala 200."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Indomie noodles (single pack)",
+     "want": 250,
+     "got": 250,
+     "ok": true,
+     "quote": "Indomie na two fifty for one pack"
+    },
+    {
+     "item": "Peak milk tin (big)",
+     "want": 1800,
+     "got": 1800,
+     "ok": true,
+     "quote": "peak milk the big tin now one point eight"
+    },
+    {
+     "item": "Milo tin",
+     "want": 3500,
+     "got": 3500,
+     "ok": true,
+     "quote": "no no three thousand five hundred"
+    },
+    {
+     "item": "Golden Morn cereal pack",
+     "want": 2800,
+     "got": 2800,
+     "ok": true,
+     "quote": "Golden Morn now two thousand eight hundred"
+    },
+    {
+     "item": "Bournvita jar",
+     "want": 4200,
+     "got": 4200,
+     "ok": true,
+     "quote": "Bonvita this one for corner now four two"
+    },
+    {
+     "item": "Gala sausage roll",
+     "want": 200,
+     "got": 200,
+     "ok": true,
+     "quote": "Gala the sausage roll now two hundred naira"
+    }
+   ],
+   "unpriced": [],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Indomie na two-fifty",
+     "resolves_to": 250,
+     "item": "Indomie noodles (single pack)",
+     "type": "number words"
+    },
+    {
+     "phrase": "Peak milk, the big tin, na 1.8",
+     "resolves_to": 1800,
+     "item": "Peak milk tin (big)",
+     "type": "shorthand (1.8 = 1,800) + size pointer"
+    },
+    {
+     "phrase": "Milo na 3k... no no, 3,500",
+     "resolves_to": 3500,
+     "item": "Milo tin",
+     "type": "mid-sentence correction (final value wins, not 3,000)"
+    },
+    {
+     "phrase": "Bournvita, dis one for corner, na four-two",
+     "resolves_to": 4200,
+     "item": "Bournvita jar",
+     "type": "pointing word + shorthand (four-two = 4,200)"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-1-provisions",
+  "audio": "stall-1-provisions-tts.ogg",
+  "variant": "keywords",
+  "transcript": "Good morning okay make I give you my prices prices Indomie not two fifty for for one pack Peak milk the the big tin now one point eight Milo now three K no no no three thousand five hundred Milo don't cost these days Golden Morn now two thousand eight hundred Bournvita this one for corner now four two Gala the sausage roll now two hundred Naira if you buy plenty we fit talk now so",
+  "seconds": 29.104792,
+  "outcome": {
+   "prices": {
+    "Indomie noodles (single pack)": 250,
+    "Peak milk tin (big)": 1800,
+    "Milo tin": 3500,
+    "Golden Morn cereal pack": 2800,
+    "Bournvita jar": 4200,
+    "Gala sausage roll": 200
+   },
+   "quotes": {
+    "Indomie noodles (single pack)": "Indomie not two fifty for for one pack",
+    "Peak milk tin (big)": "Peak milk the the big tin now one point eight",
+    "Milo tin": "Milo now three K no no no three thousand five hundred",
+    "Golden Morn cereal pack": "Golden Morn now two thousand eight hundred",
+    "Bournvita jar": "Bournvita this one for corner now four two",
+    "Gala sausage roll": "Gala the sausage roll now two hundred Naira"
+   },
+   "flagged": [],
+   "questions": [],
+   "rounds": 2,
+   "summary": "All 6 items priced: Indomie 250, Peak 1800, Milo 3500, Golden Morn 2800, Bournvita 4200, Gala 200."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Indomie noodles (single pack)",
+     "want": 250,
+     "got": 250,
+     "ok": true,
+     "quote": "Indomie not two fifty for for one pack"
+    },
+    {
+     "item": "Peak milk tin (big)",
+     "want": 1800,
+     "got": 1800,
+     "ok": true,
+     "quote": "Peak milk the the big tin now one point eight"
+    },
+    {
+     "item": "Milo tin",
+     "want": 3500,
+     "got": 3500,
+     "ok": true,
+     "quote": "Milo now three K no no no three thousand five hundred"
+    },
+    {
+     "item": "Golden Morn cereal pack",
+     "want": 2800,
+     "got": 2800,
+     "ok": true,
+     "quote": "Golden Morn now two thousand eight hundred"
+    },
+    {
+     "item": "Bournvita jar",
+     "want": 4200,
+     "got": 4200,
+     "ok": true,
+     "quote": "Bournvita this one for corner now four two"
+    },
+    {
+     "item": "Gala sausage roll",
+     "want": 200,
+     "got": 200,
+     "ok": true,
+     "quote": "Gala the sausage roll now two hundred Naira"
+    }
+   ],
+   "unpriced": [],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Indomie na two-fifty",
+     "resolves_to": 250,
+     "item": "Indomie noodles (single pack)",
+     "type": "number words"
+    },
+    {
+     "phrase": "Peak milk, the big tin, na 1.8",
+     "resolves_to": 1800,
+     "item": "Peak milk tin (big)",
+     "type": "shorthand (1.8 = 1,800) + size pointer"
+    },
+    {
+     "phrase": "Milo na 3k... no no, 3,500",
+     "resolves_to": 3500,
+     "item": "Milo tin",
+     "type": "mid-sentence correction (final value wins, not 3,000)"
+    },
+    {
+     "phrase": "Bournvita, dis one for corner, na four-two",
+     "resolves_to": 4200,
+     "item": "Bournvita jar",
+     "type": "pointing word + shorthand (four-two = 4,200)"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-2-fabrics",
+  "audio": "stall-2-fabrics-tts.ogg",
+  "variant": "plain",
+  "transcript": "Fabric deo, fine fabric, all the Anker and R12K each, the blue and yellow one and the red one, six yards, the gold one, the lace, five yards, now 35k now original laco that purple one way the set now 28,000 28,000 plain white cotton now six five five yards if you want so for our come I go to I'm well for you.",
+  "seconds": 27.544833,
+  "outcome": {
+   "prices": {
+    "Ankara wax print, blue and yellow (6 yards)": 12000,
+    "Ankara wax print, red pattern (6 yards)": 12000,
+    "Lace fabric, gold (5 yards)": 35000,
+    "Aso oke set, purple": 28000,
+    "Plain cotton fabric, white (5 yards)": 6500
+   },
+   "quotes": {
+    "Ankara wax print, blue and yellow (6 yards)": "all the Anker and R12K each, the blue and yellow one and the red one",
+    "Ankara wax print, red pattern (6 yards)": "all the Anker and R12K each, the blue and yellow one and the red one",
+    "Lace fabric, gold (5 yards)": "the gold one, the lace, five yards, now 35k",
+    "Aso oke set, purple": "that purple one way the set now 28,000 28,000",
+    "Plain cotton fabric, white (5 yards)": "plain white cotton now six five"
+   },
+   "flagged": [],
+   "questions": [],
+   "rounds": 2,
+   "summary": "All 5 fabrics priced: both Ankara at ₦12,000 each, gold lace at ₦35,000, purple Aso oke at ₦28,000, and white cotton at ₦6,500."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Ankara wax print, blue and yellow (6 yards)",
+     "want": 12000,
+     "got": 12000,
+     "ok": true,
+     "quote": "all the Anker and R12K each, the blue and yellow one and the red one"
+    },
+    {
+     "item": "Ankara wax print, red pattern (6 yards)",
+     "want": 12000,
+     "got": 12000,
+     "ok": true,
+     "quote": "all the Anker and R12K each, the blue and yellow one and the red one"
+    },
+    {
+     "item": "Lace fabric, gold (5 yards)",
+     "want": 35000,
+     "got": 35000,
+     "ok": true,
+     "quote": "the gold one, the lace, five yards, now 35k"
+    },
+    {
+     "item": "Aso oke set, purple",
+     "want": 28000,
+     "got": 28000,
+     "ok": true,
+     "quote": "that purple one way the set now 28,000 28,000"
+    },
+    {
+     "item": "Plain cotton fabric, white (5 yards)",
+     "want": 6500,
+     "got": 6500,
+     "ok": true,
+     "quote": "plain white cotton now six five"
+    }
+   ],
+   "unpriced": [],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "All the Ankara na 12k each",
+     "resolves_to": 12000,
+     "item": [
+      "Ankara wax print, blue and yellow (6 yards)",
+      "Ankara wax print, red pattern (6 yards)"
+     ],
+     "type": "group price (applies to every Ankara item)"
+    },
+    {
+     "phrase": "The gold one, the lace, five yards, na 35k",
+     "resolves_to": 35000,
+     "item": "Lace fabric, gold (5 yards)",
+     "type": "colour pointer + k shorthand"
+    },
+    {
+     "phrase": "Dat purple one wey dey hang, the aso oke set, na twenty-eight tousand",
+     "resolves_to": 28000,
+     "item": "Aso oke set, purple",
+     "type": "pointing word + Pidgin pronunciation (tousand)"
+    },
+    {
+     "phrase": "Plain white cotton na six-five",
+     "resolves_to": 6500,
+     "item": "Plain cotton fabric, white (5 yards)",
+     "type": "shorthand (six-five = 6,500)"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-2-fabrics",
+  "audio": "stall-2-fabrics-tts.ogg",
+  "variant": "keywords",
+  "transcript": " fabric dayo, fine fabric, all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards, the gold one, the lace, five yards, now 35 K now original Lace Aso, that that purple one way the Aso oke set, now 28,000, Plain white cotton now six five, five yards, if you want so for come, I go do well for for you.",
+  "seconds": 27.544833,
+  "outcome": {
+   "prices": {
+    "Ankara wax print, blue and yellow (6 yards)": 12000,
+    "Ankara wax print, red pattern (6 yards)": 12000,
+    "Lace fabric, gold (5 yards)": 35000,
+    "Aso oke set, purple": 28000,
+    "Plain cotton fabric, white (5 yards)": 6500
+   },
+   "quotes": {
+    "Ankara wax print, blue and yellow (6 yards)": "all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards",
+    "Ankara wax print, red pattern (6 yards)": "all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards",
+    "Lace fabric, gold (5 yards)": "the gold one, the lace, five yards, now 35 K now original Lace",
+    "Aso oke set, purple": "that that purple one way the Aso oke set, now 28,000",
+    "Plain cotton fabric, white (5 yards)": "Plain white cotton now six five, five yards"
+   },
+   "flagged": [],
+   "questions": [],
+   "rounds": 2,
+   "summary": "All 5 fabrics priced: Ankara blue-yellow ₦12,000, Ankara red ₦12,000, gold lace ₦35,000, purple Aso oke ₦28,000, white cotton ₦6,500."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Ankara wax print, blue and yellow (6 yards)",
+     "want": 12000,
+     "got": 12000,
+     "ok": true,
+     "quote": "all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards"
+    },
+    {
+     "item": "Ankara wax print, red pattern (6 yards)",
+     "want": 12000,
+     "got": 12000,
+     "ok": true,
+     "quote": "all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards"
+    },
+    {
+     "item": "Lace fabric, gold (5 yards)",
+     "want": 35000,
+     "got": 35000,
+     "ok": true,
+     "quote": "the gold one, the lace, five yards, now 35 K now original Lace"
+    },
+    {
+     "item": "Aso oke set, purple",
+     "want": 28000,
+     "got": 28000,
+     "ok": true,
+     "quote": "that that purple one way the Aso oke set, now 28,000"
+    },
+    {
+     "item": "Plain cotton fabric, white (5 yards)",
+     "want": 6500,
+     "got": 6500,
+     "ok": true,
+     "quote": "Plain white cotton now six five, five yards"
+    }
+   ],
+   "unpriced": [],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "All the Ankara na 12k each",
+     "resolves_to": 12000,
+     "item": [
+      "Ankara wax print, blue and yellow (6 yards)",
+      "Ankara wax print, red pattern (6 yards)"
+     ],
+     "type": "group price (applies to every Ankara item)"
+    },
+    {
+     "phrase": "The gold one, the lace, five yards, na 35k",
+     "resolves_to": 35000,
+     "item": "Lace fabric, gold (5 yards)",
+     "type": "colour pointer + k shorthand"
+    },
+    {
+     "phrase": "Dat purple one wey dey hang, the aso oke set, na twenty-eight tousand",
+     "resolves_to": 28000,
+     "item": "Aso oke set, purple",
+     "type": "pointing word + Pidgin pronunciation (tousand)"
+    },
+    {
+     "phrase": "Plain white cotton na six-five",
+     "resolves_to": 6500,
+     "item": "Plain cotton fabric, white (5 yards)",
+     "type": "shorthand (six-five = 6,500)"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-3-phone-accessories",
+  "audio": "stall-3-phone-accessories-tts.ogg",
+  "variant": "plain",
+  "transcript": "Hello. Welcome. Welcome. This USB-C cable NA 2.5 iPhone charger head the original one one NA 7K no be China copy power bank 20,000 mAh NA 18,000 earphones NA 15 phone case any color way you like all of them NA 3,000 each the small speaker the red one for top NA 15,000 everything here NA original I know they sell fake",
+  "seconds": 30.13475,
+  "outcome": {
+   "prices": {
+    "USB-C charging cable": 2500,
+    "iPhone charger head": 7000,
+    "Power bank 20000mAh": 18000,
+    "Wired earphones": 1500,
+    "Phone case (assorted)": 3000,
+    "Bluetooth speaker (small)": 15000
+   },
+   "quotes": {
+    "USB-C charging cable": "This USB-C cable NA 2.5",
+    "iPhone charger head": "iPhone charger head the original one one NA 7K",
+    "Power bank 20000mAh": "power bank 20,000 mAh NA 18,000",
+    "Wired earphones": "earphones NA 15",
+    "Phone case (assorted)": "phone case any color way you like all of them NA 3,000 each",
+    "Bluetooth speaker (small)": "the small speaker the red one for top NA 15,000"
+   },
+   "flagged": [
+    "Screen protector"
+   ],
+   "questions": [
+    {
+     "item_ids": [
+      "i6"
+     ],
+     "question": "Abeg, screen protector na how much?"
+    }
+   ],
+   "rounds": 2,
+   "summary": "Priced 6 items and flagged screen protector as missing, asking trader for its price."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "USB-C charging cable",
+     "want": 2500,
+     "got": 2500,
+     "ok": true,
+     "quote": "This USB-C cable NA 2.5"
+    },
+    {
+     "item": "iPhone charger head",
+     "want": 7000,
+     "got": 7000,
+     "ok": true,
+     "quote": "iPhone charger head the original one one NA 7K"
+    },
+    {
+     "item": "Power bank 20000mAh",
+     "want": 18000,
+     "got": 18000,
+     "ok": true,
+     "quote": "power bank 20,000 mAh NA 18,000"
+    },
+    {
+     "item": "Wired earphones",
+     "want": 1500,
+     "got": 1500,
+     "ok": true,
+     "quote": "earphones NA 15"
+    },
+    {
+     "item": "Phone case (assorted)",
+     "want": 3000,
+     "got": 3000,
+     "ok": true,
+     "quote": "phone case any color way you like all of them NA 3,000 each"
+    },
+    {
+     "item": "Bluetooth speaker (small)",
+     "want": 15000,
+     "got": 15000,
+     "ok": true,
+     "quote": "the small speaker the red one for top NA 15,000"
+    }
+   ],
+   "unpriced": [
+    {
+     "item": "Screen protector",
+     "flagged": true,
+     "asked": true,
+     "wronglyPriced": false
+    }
+   ],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Dis USB-C cable na 2.5",
+     "resolves_to": 2500,
+     "item": "USB-C charging cable",
+     "type": "pointing word + shorthand (2.5 = 2,500)"
+    },
+    {
+     "phrase": "Power bank, twenty tousand mAh, na eighteen tousand",
+     "resolves_to": 18000,
+     "item": "Power bank 20000mAh",
+     "type": "distractor number (20,000 is capacity, not price)"
+    },
+    {
+     "phrase": "Earphones na one five",
+     "resolves_to": 1500,
+     "item": "Wired earphones",
+     "type": "shorthand (one five = 1,500)"
+    },
+    {
+     "phrase": "Phone case ... all of them na tree tousand each",
+     "resolves_to": 3000,
+     "item": "Phone case (assorted)",
+     "type": "group price + Pidgin pronunciation (tree = three)"
+    },
+    {
+     "phrase": "The small speaker, the red one for top, na fifteen tousand",
+     "resolves_to": 15000,
+     "item": "Bluetooth speaker (small)",
+     "type": "pointing word needing the photo (red, on top)"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-3-phone-accessories",
+  "audio": "stall-3-phone-accessories-tts.ogg",
+  "variant": "keywords",
+  "transcript": "Hello, welcome. This USBC cable now 2.5 iPhone charger head the original one now 7k no be China copy Power bank 20000mAh now 18000 earphones now one five Phone case any color way you like like all of them now 3000 each the small speaker the red one for top now 15000 everything here now original I know they sell fake.",
+  "seconds": 30.13475,
+  "outcome": {
+   "prices": {
+    "USB-C charging cable": 2500,
+    "iPhone charger head": 7000,
+    "Power bank 20000mAh": 18000,
+    "Wired earphones": 1500,
+    "Phone case (assorted)": 3000,
+    "Bluetooth speaker (small)": 15000
+   },
+   "quotes": {
+    "USB-C charging cable": "This USBC cable now 2.5",
+    "iPhone charger head": "iPhone charger head the original one now 7k",
+    "Power bank 20000mAh": "Power bank 20000mAh now 18000",
+    "Wired earphones": "earphones now one five",
+    "Phone case (assorted)": "Phone case any color way you like like all of them now 3000 each",
+    "Bluetooth speaker (small)": "the small speaker the red one for top now 15000"
+   },
+   "flagged": [
+    "Screen protector"
+   ],
+   "questions": [
+    {
+     "item_ids": [
+      "i6"
+     ],
+     "question": "Abeg, how much be screen protector?"
+    }
+   ],
+   "rounds": 2,
+   "summary": "Priced 6 items, 1 missing (screen protector asked)."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "USB-C charging cable",
+     "want": 2500,
+     "got": 2500,
+     "ok": true,
+     "quote": "This USBC cable now 2.5"
+    },
+    {
+     "item": "iPhone charger head",
+     "want": 7000,
+     "got": 7000,
+     "ok": true,
+     "quote": "iPhone charger head the original one now 7k"
+    },
+    {
+     "item": "Power bank 20000mAh",
+     "want": 18000,
+     "got": 18000,
+     "ok": true,
+     "quote": "Power bank 20000mAh now 18000"
+    },
+    {
+     "item": "Wired earphones",
+     "want": 1500,
+     "got": 1500,
+     "ok": true,
+     "quote": "earphones now one five"
+    },
+    {
+     "item": "Phone case (assorted)",
+     "want": 3000,
+     "got": 3000,
+     "ok": true,
+     "quote": "Phone case any color way you like like all of them now 3000 each"
+    },
+    {
+     "item": "Bluetooth speaker (small)",
+     "want": 15000,
+     "got": 15000,
+     "ok": true,
+     "quote": "the small speaker the red one for top now 15000"
+    }
+   ],
+   "unpriced": [
+    {
+     "item": "Screen protector",
+     "flagged": true,
+     "asked": true,
+     "wronglyPriced": false
+    }
+   ],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Dis USB-C cable na 2.5",
+     "resolves_to": 2500,
+     "item": "USB-C charging cable",
+     "type": "pointing word + shorthand (2.5 = 2,500)"
+    },
+    {
+     "phrase": "Power bank, twenty tousand mAh, na eighteen tousand",
+     "resolves_to": 18000,
+     "item": "Power bank 20000mAh",
+     "type": "distractor number (20,000 is capacity, not price)"
+    },
+    {
+     "phrase": "Earphones na one five",
+     "resolves_to": 1500,
+     "item": "Wired earphones",
+     "type": "shorthand (one five = 1,500)"
+    },
+    {
+     "phrase": "Phone case ... all of them na tree tousand each",
+     "resolves_to": 3000,
+     "item": "Phone case (assorted)",
+     "type": "group price + Pidgin pronunciation (tree = three)"
+    },
+    {
+     "phrase": "The small speaker, the red one for top, na fifteen tousand",
+     "resolves_to": 15000,
+     "item": "Bluetooth speaker (small)",
+     "type": "pointing word needing the photo (red, on top)"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-4-foodstuff",
+  "audio": "stall-4-foodstuff-tts.ogg",
+  "variant": "plain",
+  "transcript": "Mama, seafood stuff. Rice now 6k for one paint. Beans, the brown one. Now five five for paint. Gary that white one for basin. Now three three k paint. Palm oil one liter now two five ground nut oil now three thousand no weight three thousand two hundred one liter crayfish small cup now one five tomato paste sachet now one fifty yam this medium one three thousand five market no easy but I go give you fair price.",
+  "seconds": 34.6865,
+  "outcome": {
+   "prices": {
+    "Rice, paint bucket measure": 6000,
+    "Beans (brown), paint bucket measure": 5500,
+    "Garri (white), paint bucket measure": 3300,
+    "Palm oil (1 litre bottle)": 2500,
+    "Groundnut oil (1 litre bottle)": 3200,
+    "Crayfish (small cup)": 1500,
+    "Tomato paste sachet": 150,
+    "Yam tuber (medium)": 3500
+   },
+   "quotes": {
+    "Rice, paint bucket measure": "Rice now 6k for one paint.",
+    "Beans (brown), paint bucket measure": "Beans, the brown one. Now five five for paint.",
+    "Garri (white), paint bucket measure": "Gary that white one for basin. Now three three k paint.",
+    "Palm oil (1 litre bottle)": "Palm oil one liter now two five",
+    "Groundnut oil (1 litre bottle)": "ground nut oil now three thousand two hundred one liter",
+    "Crayfish (small cup)": "crayfish small cup now one five",
+    "Tomato paste sachet": "tomato paste sachet now one fifty",
+    "Yam tuber (medium)": "yam this medium one three thousand five"
+   },
+   "flagged": [],
+   "questions": [],
+   "rounds": 2,
+   "summary": "All 8 items priced: Rice 6000, Beans 5500, Garri 3300, Palm oil 2500, Groundnut oil 3200, Crayfish 1500, Tomato paste 150, Yam 3500."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Rice, paint bucket measure",
+     "want": 6000,
+     "got": 6000,
+     "ok": true,
+     "quote": "Rice now 6k for one paint."
+    },
+    {
+     "item": "Beans (brown), paint bucket measure",
+     "want": 5500,
+     "got": 5500,
+     "ok": true,
+     "quote": "Beans, the brown one. Now five five for paint."
+    },
+    {
+     "item": "Garri (white), paint bucket measure",
+     "want": 3000,
+     "got": 3300,
+     "ok": false,
+     "quote": "Gary that white one for basin. Now three three k paint."
+    },
+    {
+     "item": "Palm oil (1 litre bottle)",
+     "want": 2500,
+     "got": 2500,
+     "ok": true,
+     "quote": "Palm oil one liter now two five"
+    },
+    {
+     "item": "Groundnut oil (1 litre bottle)",
+     "want": 3200,
+     "got": 3200,
+     "ok": true,
+     "quote": "ground nut oil now three thousand two hundred one liter"
+    },
+    {
+     "item": "Crayfish (small cup)",
+     "want": 1500,
+     "got": 1500,
+     "ok": true,
+     "quote": "crayfish small cup now one five"
+    },
+    {
+     "item": "Tomato paste sachet",
+     "want": 150,
+     "got": 150,
+     "ok": true,
+     "quote": "tomato paste sachet now one fifty"
+    },
+    {
+     "item": "Yam tuber (medium)",
+     "want": 3500,
+     "got": 3500,
+     "ok": true,
+     "quote": "yam this medium one three thousand five"
+    }
+   ],
+   "unpriced": [],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Rice na 6k for one paint",
+     "resolves_to": 6000,
+     "item": "Rice, paint bucket measure",
+     "type": "k shorthand + unit word (paint = paint bucket measure)"
+    },
+    {
+     "phrase": "Beans, the brown one, na five-five for paint",
+     "resolves_to": 5500,
+     "item": "Beans (brown), paint bucket measure",
+     "type": "shorthand (five-five = 5,500)"
+    },
+    {
+     "phrase": "Garri, dat white one for basin, na 3k paint",
+     "resolves_to": 3000,
+     "item": "Garri (white), paint bucket measure",
+     "type": "pointing word + k shorthand"
+    },
+    {
+     "phrase": "Palm oil, one litre, na two-five",
+     "resolves_to": 2500,
+     "item": "Palm oil (1 litre bottle)",
+     "type": "shorthand (two-five = 2,500); 'one litre' is a distractor number"
+    },
+    {
+     "phrase": "Groundnut oil na tree tousand... no wait, tree tousand two hundred",
+     "resolves_to": 3200,
+     "item": "Groundnut oil (1 litre bottle)",
+     "type": "mid-sentence correction (final value wins, not 3,000)"
+    },
+    {
+     "phrase": "Crayfish, small cup, na one five",
+     "resolves_to": 1500,
+     "item": "Crayfish (small cup)",
+     "type": "shorthand (one five = 1,500)"
+    },
+    {
+     "phrase": "Tomato paste sachet na one-fifty",
+     "resolves_to": 150,
+     "item": "Tomato paste sachet",
+     "type": "number words"
+    },
+    {
+     "phrase": "Yam, dis medium one, tree tousand five",
+     "resolves_to": 3500,
+     "item": "Yam tuber (medium)",
+     "type": "pointing word + 'tree tousand five' = 3,500"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-4-foodstuff",
+  "audio": "stall-4-foodstuff-tts.ogg",
+  "variant": "keywords",
+  "transcript": "Mama, seafood stuff, rice now six K for one paint, beans, the brown one, now five five for paint, Garri, that white one for basin, now three K paint, Palm oil, one liter, now two five, Groundnut oil, now three thousand, no weight, three thousand two hundred, one liter, Crayfish, small cup, now now one five, Tomato paste, sachet, now one fifty, Yam, this medium one, three thousand five, market no easy, but I go give you fair price,",
+  "seconds": 34.6865,
+  "outcome": {
+   "prices": {
+    "Rice, paint bucket measure": 6000,
+    "Beans (brown), paint bucket measure": 5500,
+    "Garri (white), paint bucket measure": 3000,
+    "Palm oil (1 litre bottle)": 2500,
+    "Groundnut oil (1 litre bottle)": 3200,
+    "Crayfish (small cup)": 1500,
+    "Tomato paste sachet": 150,
+    "Yam tuber (medium)": 3500
+   },
+   "quotes": {
+    "Rice, paint bucket measure": "rice now six K for one paint",
+    "Beans (brown), paint bucket measure": "beans, the brown one, now five five for paint",
+    "Garri (white), paint bucket measure": "Garri, that white one for basin, now three K paint",
+    "Palm oil (1 litre bottle)": "Palm oil, one liter, now two five",
+    "Groundnut oil (1 litre bottle)": "three thousand two hundred, one liter",
+    "Crayfish (small cup)": "Crayfish, small cup, now now one five",
+    "Tomato paste sachet": "Tomato paste, sachet, now one fifty",
+    "Yam tuber (medium)": "Yam, this medium one, three thousand five"
+   },
+   "flagged": [],
+   "questions": [],
+   "rounds": 2,
+   "summary": "All 8 items priced — rice 6000, beans 5500, garri 3000, palm oil 2500, groundnut oil 3200 final, crayfish 1500, tomato paste 150, yam 3500."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Rice, paint bucket measure",
+     "want": 6000,
+     "got": 6000,
+     "ok": true,
+     "quote": "rice now six K for one paint"
+    },
+    {
+     "item": "Beans (brown), paint bucket measure",
+     "want": 5500,
+     "got": 5500,
+     "ok": true,
+     "quote": "beans, the brown one, now five five for paint"
+    },
+    {
+     "item": "Garri (white), paint bucket measure",
+     "want": 3000,
+     "got": 3000,
+     "ok": true,
+     "quote": "Garri, that white one for basin, now three K paint"
+    },
+    {
+     "item": "Palm oil (1 litre bottle)",
+     "want": 2500,
+     "got": 2500,
+     "ok": true,
+     "quote": "Palm oil, one liter, now two five"
+    },
+    {
+     "item": "Groundnut oil (1 litre bottle)",
+     "want": 3200,
+     "got": 3200,
+     "ok": true,
+     "quote": "three thousand two hundred, one liter"
+    },
+    {
+     "item": "Crayfish (small cup)",
+     "want": 1500,
+     "got": 1500,
+     "ok": true,
+     "quote": "Crayfish, small cup, now now one five"
+    },
+    {
+     "item": "Tomato paste sachet",
+     "want": 150,
+     "got": 150,
+     "ok": true,
+     "quote": "Tomato paste, sachet, now one fifty"
+    },
+    {
+     "item": "Yam tuber (medium)",
+     "want": 3500,
+     "got": 3500,
+     "ok": true,
+     "quote": "Yam, this medium one, three thousand five"
+    }
+   ],
+   "unpriced": [],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Rice na 6k for one paint",
+     "resolves_to": 6000,
+     "item": "Rice, paint bucket measure",
+     "type": "k shorthand + unit word (paint = paint bucket measure)"
+    },
+    {
+     "phrase": "Beans, the brown one, na five-five for paint",
+     "resolves_to": 5500,
+     "item": "Beans (brown), paint bucket measure",
+     "type": "shorthand (five-five = 5,500)"
+    },
+    {
+     "phrase": "Garri, dat white one for basin, na 3k paint",
+     "resolves_to": 3000,
+     "item": "Garri (white), paint bucket measure",
+     "type": "pointing word + k shorthand"
+    },
+    {
+     "phrase": "Palm oil, one litre, na two-five",
+     "resolves_to": 2500,
+     "item": "Palm oil (1 litre bottle)",
+     "type": "shorthand (two-five = 2,500); 'one litre' is a distractor number"
+    },
+    {
+     "phrase": "Groundnut oil na tree tousand... no wait, tree tousand two hundred",
+     "resolves_to": 3200,
+     "item": "Groundnut oil (1 litre bottle)",
+     "type": "mid-sentence correction (final value wins, not 3,000)"
+    },
+    {
+     "phrase": "Crayfish, small cup, na one five",
+     "resolves_to": 1500,
+     "item": "Crayfish (small cup)",
+     "type": "shorthand (one five = 1,500)"
+    },
+    {
+     "phrase": "Tomato paste sachet na one-fifty",
+     "resolves_to": 150,
+     "item": "Tomato paste sachet",
+     "type": "number words"
+    },
+    {
+     "phrase": "Yam, dis medium one, tree tousand five",
+     "resolves_to": 3500,
+     "item": "Yam tuber (medium)",
+     "type": "pointing word + 'tree tousand five' = 3,500"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-5-mixed-cluttered",
+  "audio": "stall-5-mixed-cluttered-tts.ogg",
+  "variant": "plain",
+  "transcript": "Evening oh water the 75 cl Na 300 Coke bottle na 500 Dis Milo hang for there na 100 Nara one one detergent sachet na 150 150 bread the big one one na one six egg egg one crate na five eight cabin biscuit na 400 bar soap na 700 this market no be 10 10 1010 market again oh everything don't cost",
+  "seconds": 29.516833,
+  "outcome": {
+   "prices": {
+    "Bottled water (75cl)": 300,
+    "Coca-Cola bottle (50cl)": 500,
+    "Hanging sachets of Milo (strip)": 100,
+    "Hanging sachets of detergent (strip)": 150,
+    "Bread loaf (big)": 1600,
+    "Eggs (crate)": 5800,
+    "Biscuits pack (Cabin)": 400,
+    "Bar soap": 700
+   },
+   "quotes": {
+    "Bottled water (75cl)": "water the 75 cl Na 300",
+    "Coca-Cola bottle (50cl)": "Coke bottle na 500",
+    "Hanging sachets of Milo (strip)": "Dis Milo hang for there na 100 Nara one one",
+    "Hanging sachets of detergent (strip)": "detergent sachet na 150 150",
+    "Bread loaf (big)": "bread the big one one na one six",
+    "Eggs (crate)": "egg one crate na five eight",
+    "Biscuits pack (Cabin)": "cabin biscuit na 400",
+    "Bar soap": "bar soap na 700"
+   },
+   "flagged": [
+    "Sugar cubes pack"
+   ],
+   "questions": [
+    {
+     "item_ids": [
+      "i7"
+     ],
+     "question": "Sugar cubes pack na how much?"
+    }
+   ],
+   "rounds": 2,
+   "summary": "Priced 8 items, flagged sugar cubes pack as missing and asked trader for its price."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Bottled water (75cl)",
+     "want": 300,
+     "got": 300,
+     "ok": true,
+     "quote": "water the 75 cl Na 300"
+    },
+    {
+     "item": "Coca-Cola bottle (50cl)",
+     "want": 500,
+     "got": 500,
+     "ok": true,
+     "quote": "Coke bottle na 500"
+    },
+    {
+     "item": "Hanging sachets of Milo (strip)",
+     "want": 100,
+     "got": 100,
+     "ok": true,
+     "quote": "Dis Milo hang for there na 100 Nara one one"
+    },
+    {
+     "item": "Hanging sachets of detergent (strip)",
+     "want": 150,
+     "got": 150,
+     "ok": true,
+     "quote": "detergent sachet na 150 150"
+    },
+    {
+     "item": "Bread loaf (big)",
+     "want": 1600,
+     "got": 1600,
+     "ok": true,
+     "quote": "bread the big one one na one six"
+    },
+    {
+     "item": "Eggs (crate)",
+     "want": 5800,
+     "got": 5800,
+     "ok": true,
+     "quote": "egg one crate na five eight"
+    },
+    {
+     "item": "Biscuits pack (Cabin)",
+     "want": 400,
+     "got": 400,
+     "ok": true,
+     "quote": "cabin biscuit na 400"
+    },
+    {
+     "item": "Bar soap",
+     "want": 700,
+     "got": 700,
+     "ok": true,
+     "quote": "bar soap na 700"
+    }
+   ],
+   "unpriced": [
+    {
+     "item": "Sugar cubes pack",
+     "flagged": true,
+     "asked": true,
+     "wronglyPriced": false
+    }
+   ],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Water, the 75cl, na tree hundred",
+     "resolves_to": 300,
+     "item": "Bottled water (75cl)",
+     "type": "distractor number (75cl is size, not price)"
+    },
+    {
+     "phrase": "Dis Milo sachet wey hang for there, na hundred hundred naira, one one",
+     "resolves_to": 100,
+     "item": "Hanging sachets of Milo (strip)",
+     "type": "pointing word + reduplication (hundred hundred = 100 each)"
+    },
+    {
+     "phrase": "Detergent sachet na one-fifty one-fifty",
+     "resolves_to": 150,
+     "item": "Hanging sachets of detergent (strip)",
+     "type": "reduplication (one-fifty one-fifty = 150 each)"
+    },
+    {
+     "phrase": "Bread, the big one, na one-six",
+     "resolves_to": 1600,
+     "item": "Bread loaf (big)",
+     "type": "pointing word + shorthand (one-six = 1,600)"
+    },
+    {
+     "phrase": "Egg, one crate, na five-eight",
+     "resolves_to": 5800,
+     "item": "Eggs (crate)",
+     "type": "shorthand (five-eight = 5,800)"
+    },
+    {
+     "phrase": "Dis market no be ten ten naira market again o",
+     "resolves_to": null,
+     "item": null,
+     "type": "figure of speech: 'ten ten naira' is not a price for any item and must be ignored"
+    }
+   ]
+  }
+ },
+ {
+  "stall": "stall-5-mixed-cluttered",
+  "audio": "stall-5-mixed-cluttered-tts.ogg",
+  "variant": "keywords",
+  "transcript": "Evening oh water the seventy five cl not three hundred Coke bottle now five hundred Milo sachet hang for there nine hundred hundred Naira one one detergent sachet now one fifty one fifty bread the big big one now one six egg one crate now five eight cabin biscuit now four hundred bar soap now seven hundred this market no be ten ten Naira market again oh everything don't cost",
+  "seconds": 29.516833,
+  "outcome": {
+   "prices": {
+    "Bottled water (75cl)": 300,
+    "Coca-Cola bottle (50cl)": 500,
+    "Hanging sachets of Milo (strip)": 900,
+    "Hanging sachets of detergent (strip)": 150,
+    "Bread loaf (big)": 1600,
+    "Eggs (crate)": 5800,
+    "Biscuits pack (Cabin)": 400,
+    "Bar soap": 700
+   },
+   "quotes": {
+    "Bottled water (75cl)": "water the seventy five cl not three hundred",
+    "Coca-Cola bottle (50cl)": "Coke bottle now five hundred",
+    "Hanging sachets of Milo (strip)": "Milo sachet hang for there nine hundred",
+    "Hanging sachets of detergent (strip)": "detergent sachet now one fifty one fifty",
+    "Bread loaf (big)": "bread the big big one now one six",
+    "Eggs (crate)": "egg one crate now five eight",
+    "Biscuits pack (Cabin)": "cabin biscuit now four hundred",
+    "Bar soap": "bar soap now seven hundred"
+   },
+   "flagged": [
+    "Sugar cubes pack"
+   ],
+   "questions": [
+    {
+     "item_ids": [
+      "i7"
+     ],
+     "question": "Sugar cubes pack na how much?"
+    }
+   ],
+   "rounds": 2,
+   "summary": "Priced 8 items (water 300, Coke 500, Milo 900, detergent 150, bread 1600, eggs 5800, biscuit 400, soap 700) and flagged sugar cubes as missing."
+  },
+  "score": {
+   "rows": [
+    {
+     "item": "Bottled water (75cl)",
+     "want": 300,
+     "got": 300,
+     "ok": true,
+     "quote": "water the seventy five cl not three hundred"
+    },
+    {
+     "item": "Coca-Cola bottle (50cl)",
+     "want": 500,
+     "got": 500,
+     "ok": true,
+     "quote": "Coke bottle now five hundred"
+    },
+    {
+     "item": "Hanging sachets of Milo (strip)",
+     "want": 100,
+     "got": 900,
+     "ok": false,
+     "quote": "Milo sachet hang for there nine hundred"
+    },
+    {
+     "item": "Hanging sachets of detergent (strip)",
+     "want": 150,
+     "got": 150,
+     "ok": true,
+     "quote": "detergent sachet now one fifty one fifty"
+    },
+    {
+     "item": "Bread loaf (big)",
+     "want": 1600,
+     "got": 1600,
+     "ok": true,
+     "quote": "bread the big big one now one six"
+    },
+    {
+     "item": "Eggs (crate)",
+     "want": 5800,
+     "got": 5800,
+     "ok": true,
+     "quote": "egg one crate now five eight"
+    },
+    {
+     "item": "Biscuits pack (Cabin)",
+     "want": 400,
+     "got": 400,
+     "ok": true,
+     "quote": "cabin biscuit now four hundred"
+    },
+    {
+     "item": "Bar soap",
+     "want": 700,
+     "got": 700,
+     "ok": true,
+     "quote": "bar soap now seven hundred"
+    }
+   ],
+   "unpriced": [
+    {
+     "item": "Sugar cubes pack",
+     "flagged": true,
+     "asked": true,
+     "wronglyPriced": false
+    }
+   ],
+   "extra": [],
+   "tricky": [
+    {
+     "phrase": "Water, the 75cl, na tree hundred",
+     "resolves_to": 300,
+     "item": "Bottled water (75cl)",
+     "type": "distractor number (75cl is size, not price)"
+    },
+    {
+     "phrase": "Dis Milo sachet wey hang for there, na hundred hundred naira, one one",
+     "resolves_to": 100,
+     "item": "Hanging sachets of Milo (strip)",
+     "type": "pointing word + reduplication (hundred hundred = 100 each)"
+    },
+    {
+     "phrase": "Detergent sachet na one-fifty one-fifty",
+     "resolves_to": 150,
+     "item": "Hanging sachets of detergent (strip)",
+     "type": "reduplication (one-fifty one-fifty = 150 each)"
+    },
+    {
+     "phrase": "Bread, the big one, na one-six",
+     "resolves_to": 1600,
+     "item": "Bread loaf (big)",
+     "type": "pointing word + shorthand (one-six = 1,600)"
+    },
+    {
+     "phrase": "Egg, one crate, na five-eight",
+     "resolves_to": 5800,
+     "item": "Eggs (crate)",
+     "type": "shorthand (five-eight = 5,800)"
+    },
+    {
+     "phrase": "Dis market no be ten ten naira market again o",
+     "resolves_to": null,
+     "item": null,
+     "type": "figure of speech: 'ten ten naira' is not a price for any item and must be ignored"
+    }
+   ]
+  }
+ }
+]
