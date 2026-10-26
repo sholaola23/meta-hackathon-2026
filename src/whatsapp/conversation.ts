@@ -329,9 +329,17 @@ export class Conversation {
   private async afterTurn(trader: string, jobId: string, turn: PricingTurn) {
     const s = this.deps.store.get(trader);
     if (!s || s.jobId !== jobId) return; // the trader started again meanwhile
+    const next = s.pending.shift();
+    // A message after the link went out that changed nothing: the page is already right, so no republish or second link.
+    if (s.url && turn.confirmed && turn.version === s.version && !next) {
+      s.phase = "done";
+      this.save(trader, s);
+      return this.send(trader, copy.doneHelp);
+    }
     s.version = turn.version;
     s.phase = "checking";
-    const next = s.pending.shift();
+    // The list is open again, so the next yes must republish.
+    if (!turn.confirmed) delete s.url;
     // A reply sent after Yes but before the answer wins over the Yes: never publish a list the trader has corrected.
     if (turn.confirmed && !next) return this.publish(trader, s);
     this.save(trader, s);

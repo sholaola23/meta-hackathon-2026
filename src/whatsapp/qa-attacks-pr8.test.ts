@@ -180,3 +180,72 @@ describe("QA PR8: catalogue page", () => {
   });
 
 });
+
+// Round 2 (head dc9f007), from QA unchanged except where marked.
+describe("QA PR8 round 2: corrections after the link went out", () => {
+  const ready = async () => {
+    const m = new Fake(["Peak milk", "Milo tin", "Indomie"], "Peak milk na 650 tin, Milo tin na 3500 tin, Indomie na 250 pack");
+    const w = world(m);
+    await w.h.deliver(payload([w.h.graph.image(T), w.h.graph.voice(T + 1)]));
+    await w.h.deliver(payload([text("YES", T + 10)]));
+    return { m, ...w };
+  };
+
+  test("while the trader corrects, the page shows no price and no old picture is served", async () => {
+    const { h, publicDir } = await ready();
+    const before = cat(publicDir);
+    await h.deliver(payload([text("2 na 3000", T + 60)]));
+    const p = (await page(publicDir))!;
+    expect(p.html).not.toContain("₦");
+    expect(p.html).toContain("updating");
+    for (const l of before.lines) expect(serveCatalogue(`/c/qa0000000001/${l.image}`, publicDir)!.status).toBe(404);
+  });
+
+  test("remove a line after publishing, then YES: same link, removed product and its picture gone", async () => {
+    const { h, publicDir } = await ready();
+    const before = cat(publicDir);
+    await h.deliver(payload([text("comot 3", T + 60)]));
+    await h.deliver(payload([text("YES", T + 70)]));
+    const after = cat(publicDir);
+    expect(after.lines.map((l) => l.name)).toEqual(["Peak milk", "Milo tin"]);
+    expect(h.outbox.bodies().at(-1)).toContain("/c/qa0000000001");
+    expect(serveCatalogue(`/c/qa0000000001/${before.lines[2]!.image}`, publicDir)!.status).toBe(404);
+    for (const l of after.lines) expect(before.lines.map((b) => b.image)).not.toContain(l.image);
+    expect(readdirSync(publicDir)).toEqual(["qa0000000001"]);
+  });
+
+  test("chat with a number after publishing keeps the page and its prices (today it resends the link)", async () => {
+    const { h, publicDir } = await ready();
+    const sent = h.outbox.bodies().length;
+    await h.deliver(payload([text("thank you, I go share am by 2pm", T + 60)]));
+    const replies = h.outbox.bodies().slice(sent);
+    expect((await page(publicDir))!.html).toContain("₦3,500 per tin");
+    expect(replies.length).toBeGreaterThan(0);
+    // Build thread: optional finding fixed, so the link is not sent again.
+    expect(replies.join("\n")).not.toContain("/c/qa0000000001");
+  });
+
+  test("'my name is Bola' after publishing keeps the page", async () => {
+    const { h, publicDir } = await ready();
+    const sent = h.outbox.bodies().length;
+    await h.deliver(payload([text("my name is Bola", T + 60)]));
+    expect(h.outbox.bodies().length).toBeGreaterThan(sent);
+    expect((await page(publicDir))!.html).toContain("₦3,500 per tin");
+  });
+
+  test("crash during a post-publish correction leaves page and trader consistent", async () => {
+    const store = new Store();
+    const m = new Fake(["Peak milk"], "Peak milk na 650 tin");
+    const w = world(m, store);
+    await w.h.deliver(payload([w.h.graph.image(T), w.h.graph.voice(T + 1)]));
+    await w.h.deliver(payload([text("YES", T + 10)]));
+    const s = store.get("2348000000001")!;
+    await w.pipeline.reply({ traderId: "2348000000001", jobId: s.jobId, reply: { text: "1 na 700" } });
+    store.set("2348000000001", { ...s, phase: "working" });
+    const h2 = loopSetup({ pipeline: w.mk(), store });
+    h2.loop.resume();
+    await h2.loop.idle();
+    // Never a disowned price on the page; today it stays "updating" and the trader is told to resend (optional finding).
+    expect((await page(w.publicDir))!.html).not.toContain("₦650");
+  });
+});
