@@ -5,7 +5,7 @@ Personal project for Olushola, not WorkCrew. Solo, Indie Developer track. Submis
 Read `docs/judging-and-goals.md` before planning any feature: every feature must move one of the four judging criteria.
 
 ## Hard rules
-- Only code written after kickoff (Mon 26 Oct) counts. Do not copy code from ResumeRadar or other repos.
+- Only work done from Mon 26 Oct to Wed 4 Nov counts (the hackathon rules). Do not copy code from ResumeRadar or other repos.
 - The repo is PUBLIC. Never commit `.env` or any key. The key lives in `.env` as `MODEL_API_KEY`.
 - Every model call costs real money (usage alert at £25/month). Cache responses during development and avoid loops of calls.
 - Muse Image may only restyle real product cutouts. Never generate products a trader does not stock.
