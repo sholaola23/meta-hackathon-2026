@@ -74,29 +74,65 @@ export function subtract<T extends Mask>(m: T, others: Mask[]): T {
   return { ...m, raster };
 }
 
+/** A hole is filled only when other masks cover less than this share of it. */
+const HOLE_BLOCKED = 0.1;
+
 /**
- * A copy of m with every enclosed gap filled. SAM can leave a hole where a label's picture looks like a separate
- * object (the footballer on a Milo tin), and the backdrop would show through the product. A gap that reaches the
- * edge of the mask's box is open space round the product and stays empty.
+ * A copy of m with its enclosed gaps filled. SAM can leave a hole where a label's picture looks like a separate
+ * object (the footballer on a Milo tin), and the backdrop would show through the product. A gap is left open when
+ * it reaches the edge of the mask's box, or when another mask covers it: a different product inside a basin rim, or
+ * the trader standing inside a ring of hanging fabric. Gaps are 4-connected, so one joined to the edge only
+ * diagonally counts as enclosed (harmless for SAM's solid masks).
  */
-export function fillHoles<T extends Mask>(m: T): T {
+export function fillHoles<T extends Mask>(m: T, blockers: Mask[] = []): T {
   const { rasterW: w, rasterH: h } = m;
-  const outside = new Uint8Array(w * h);
-  const stack: number[] = [];
-  const seed = (i: number) => {
-    if (!m.raster[i] && !outside[i]) (outside[i] = 1), stack.push(i);
+  // 0 = not yet labelled, 1 = outside (open space), then 2.. = one label per enclosed hole.
+  const label = new Int32Array(w * h);
+  const stack = new Int32Array(w * h);
+  let hole = new Int32Array(0); // allocated only when holes must be checked against blockers
+  /** Labels the 0-pixels connected to start; returns how many, listed at the front of `hole` when collecting. */
+  const flood = (start: number, id: number, collect: boolean) => {
+    let top = 0, n = 0;
+    label[start] = id;
+    stack[top++] = start;
+    while (top) {
+      const i = stack[--top]!, x = i % w;
+      if (collect) hole[n] = i;
+      n++;
+      const left = x > 0, right = x < w - 1, up = i >= w, down = i < w * (h - 1);
+      let j: number;
+      if (left && !m.raster[(j = i - 1)] && !label[j]) (label[j] = id), (stack[top++] = j);
+      if (right && !m.raster[(j = i + 1)] && !label[j]) (label[j] = id), (stack[top++] = j);
+      if (up && !m.raster[(j = i - w)] && !label[j]) (label[j] = id), (stack[top++] = j);
+      if (down && !m.raster[(j = i + w)] && !label[j]) (label[j] = id), (stack[top++] = j);
+    }
+    return n;
   };
-  for (let x = 0; x < w; x++) seed(x), seed((h - 1) * w + x);
-  for (let y = 0; y < h; y++) seed(y * w), seed(y * w + w - 1);
-  while (stack.length) {
-    const i = stack.pop()!, x = i % w;
-    if (x > 0) seed(i - 1);
-    if (x < w - 1) seed(i + 1);
-    if (i >= w) seed(i - w);
-    if (i < w * (h - 1)) seed(i + w);
-  }
+  const edge = (i: number) => {
+    if (!m.raster[i] && !label[i]) flood(i, 1, false);
+  };
+  for (let x = 0; x < w; x++) edge(x), edge((h - 1) * w + x);
+  for (let y = 0; y < h; y++) edge(y * w), edge(y * w + w - 1);
+
+  const others = blockers.filter((o) => o !== m);
   const raster = Uint8Array.from(m.raster);
-  for (let i = 0; i < w * h; i++) if (!outside[i]) raster[i] = 1;
+  let id = 2;
+  if (!others.length) {
+    // Nothing can block a hole: every 0-pixel not reached from the edge is filled.
+    for (let i = 0; i < w * h; i++) if (!label[i]) raster[i] = 1;
+    return { ...m, raster };
+  }
+  hole = new Int32Array(w * h);
+  for (let i = 0; i < w * h; i++) {
+    if (m.raster[i] || label[i]) continue;
+    const n = flood(i, id++, true);
+    let blocked = 0;
+    for (let k = 0; k < n; k++) {
+      const j = hole[k]!, x = m.box.left + (j % w), y = m.box.top + Math.floor(j / w);
+      if (others.some((o) => at(o, x, y))) blocked++;
+    }
+    if (blocked < n * HOLE_BLOCKED) for (let k = 0; k < n; k++) raster[hole[k]!] = 1;
+  }
   return { ...m, raster };
 }
 
@@ -128,7 +164,7 @@ export interface Filtered {
 
 /**
  * Turns raw SAM candidates into catalogue crops:
- * 0. fill enclosed holes, and drop loose matches below SAM's confidence floor;
+ * 0. drop loose matches below SAM's confidence floor, and fill enclosed holes no other mask or person covers;
  * 1. drop masks that are mostly a person, and clear person pixels from the rest, so no body part reaches a catalogue;
  * 2. drop scene-sized and speck-sized masks;
  * 3. merge overlapping masks found by any phrasing, keeping the most confident.
@@ -137,12 +173,13 @@ export function filterCandidates(candidates: Candidate[], people: Mask[], imageA
   const dropped: Filtered["dropped"] = [];
   const survivors: Candidate[] = [];
   for (const raw of candidates) {
-    // Holes are filled before people are cut out, so a hand over a product stays cut out.
-    const c = fillHoles(raw);
-    if (!confident(c)) {
-      dropped.push({ candidate: c, reason: "low-confidence" });
+    if (!confident(raw)) {
+      dropped.push({ candidate: raw, reason: "low-confidence" });
       continue;
     }
+    // Fill label-picture holes, but never over another candidate or a person (they would be swallowed or the
+    // product dropped as "person"). People are cut out afterwards, so a hand over a product stays out.
+    const c = fillHoles(raw, [...candidates, ...people]);
     if (coveredFraction(c, people) >= LIMITS.personDropFraction) {
       dropped.push({ candidate: c, reason: "person" });
       continue;

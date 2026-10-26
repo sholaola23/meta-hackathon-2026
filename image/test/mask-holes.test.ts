@@ -26,6 +26,12 @@ describe("holes in product masks", () => {
     expect(at(filled, 160, 180)).toBe(1);
   });
 
+  test("a hole another mask covers stays open; one only a distant mask exists beside is still filled", () => {
+    const inside = rect(145, 165, 30, 40); // a different product sitting in the hole
+    expect(area(fillHoles(tinWithHole(), [inside]))).toBe(120 * 160 - 40 * 50);
+    expect(area(fillHoles(tinWithHole(), [rect(600, 600, 50, 50)]))).toBe(120 * 160);
+  });
+
   test("a gap open to the edge of the mask (space between a tin's shoulders) is not filled", () => {
     const m = rect(0, 0, 100, 100);
     for (let y = 0; y < 50; y++) for (let x = 40; x < 60; x++) m.raster[y * 100 + x] = 0;
