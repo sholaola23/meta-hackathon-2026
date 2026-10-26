@@ -70,6 +70,14 @@ Never commit `.env`. It is listed in `.gitignore`.
 
 Judging (equal weight, 0 to 10): impact · use of Meta AI tooling · technical depth and execution · demo.
 
+## From the hackathon Discord (read 26 Oct)
+
+- `#rules`: anything built from 26 Oct to 4 Nov counts. The demo must show only work done during the event, or the project is disqualified. Submit with a public repo, a working demo video link and every team member added.
+- `#faqs`: the kickoff is at 12pm ET on 26 Oct. Office hours are in `#office-hours` on weekdays, 10 to 11am ET. Unsure whether an idea is allowed? Ask @CV.
+- Credits: the $150 Meta claim form wasn't out yet on 26 Oct (lots of people were asking). Credit questions go only in `#credit-requests`, one post per question, tagged with the partner. Never share keys or card details there.
+- `#faqs` warns that a spend-limit notification does **not** stop billing; spending beyond the credits is charged to the card.
+- Use Baseten model ID `meta-models/muse-spark-open-1026`.
+
 ## Links
 
 - Participant guide: https://cerebralvalley.ai/e/meta-ai-developer-hackathon/details
