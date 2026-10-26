@@ -40,7 +40,7 @@ HOW WE RUN
 - Shola works a day job: expect his replies in the evenings (UK) and at weekends. Line up decisions so one evening reply unblocks everything.
 - Use Shola's Mac for anything that needs his CLIs, his Chrome (Discord, Meta dashboard) or the .env key. Read only from his accounts; never post, create accounts or accept terms for him.
 
-JUDGING (equal weight): impact, use of Meta AI tooling, technical depth, demo. Bonus targets: Best Agentic Use-Case, Most Viral on X, Best Creative Build. Every feature decision should move one of these.
+JUDGING (weighted, per the official rules): impact 30%, use of Meta AI tooling 25%, demo 25%, technical depth 20%. Bonus targets: Best Agentic Use-Case, Most Viral on X, Best Creative Build. Every feature decision should move one of these.
 
 KEY DATES (UK): building 27 Oct to 4 Nov; the submission form needs a public repo, a 3-minute demo video and everyone's names. Submit at https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit by 2am Thu 5 Nov.
 ```

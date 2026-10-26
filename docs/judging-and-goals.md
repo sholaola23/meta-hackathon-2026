@@ -1,6 +1,6 @@
 # What the hackathon wants, and how we aim at it
 
-Sources: the participant guide (cerebralvalley.ai/e/meta-ai-developer-hackathon/details) and the Discord `#rules` and `#faqs`, read 26 Oct 2026. If they change, update this file.
+Sources: the participant guide (cerebralvalley.ai/e/meta-ai-developer-hackathon/details) and the Discord `#rules` and `#faqs`, read 26 Oct 2026. The criteria weights were rechecked against the official rules on the event page (section "How Applications are Reviewed") at 11:21 UTC on 26 Oct. If they change, update this file.
 
 ## The end goal
 
@@ -28,14 +28,14 @@ Submit at https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/subm
 ## How winners are chosen
 
 1. **Stage 1, pass or fail:** fits the theme and really uses Meta's models. No partial credit.
-2. **Stage 2, scored 0 to 10 on four equally weighted criteria:**
+2. **Stage 2, scored on four weighted criteria.** The weights below are quoted from the official rules:
 
-| Criterion | What judges ask | How StallSnap scores |
-|---|---|---|
-| Impact | Who benefits, how much, would people use it? | Real traders, real WhatsApp flow; show a trader actually getting a usable catalogue |
-| Use of Meta AI tooling | Creative, beyond basic integration; "surprised even us" | Four models in a chain, each doing something only it can: SAM cutouts, Pidgin transcription, Spark agent with tool calls that asks the trader back, Image clean-up |
-| Technical depth | Sound, carefully built engineering | Price-to-item matching, corrections, group prices, unpriced-item follow-up; measured accuracy against the answer keys |
-| Demo | Works, holds up live, good to watch | Messy stall photo + voice note in, priced catalogue out on a real phone, inside the first minute |
+| Criterion | Weight | What the rules say | How StallSnap scores |
+|---|---|---|---|
+| Impact | 30% | "the real-world potential of the Project, who benefits, how much it matters, whether it could become something people use, and whether it fits one of the problem statements" | Real traders and a real WhatsApp flow. Show one named trader getting a catalogue they can use. Theme: "Build for Your World" |
+| Use of Meta AI tooling | 25% | "how creatively the team used Meta's AI tooling, whether they went beyond a basic integration, and whether they surfaced unexpected capabilities" | Four models in a chain, each doing a job only it can do: SAM cut-outs, Pidgin transcription, a Spark agent whose tool calls match prices and ask the trader back, and Image clean-up that keeps the real product |
+| Demo | 25% | "whether the Project has a working, impressive demo, whether the product holds up live, and the quality of the demo video" | A messy stall photo and a voice note go in, and a priced catalogue comes back on a real phone, in the opening seconds |
+| Technical depth and execution | 20% | "whether the engineering is sound and thoughtfully refined and the Project demonstrates real craft" | Price-to-item matching, corrections, group prices and follow-up on unpriced items, with accuracy measured against answer keys |
 
 3. **Finals:** the top 5 per track go to a live round on Mon 9 Nov; judges watch the videos and rank them with the same criteria.
 
@@ -55,6 +55,8 @@ Submit at https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/subm
 ## How this shapes the work
 
 - Every feature has to move at least one of the four criteria. If it doesn't, cut it.
+- **Weigh work by the weights.** Impact (30%) and the demo (25%) together are over half the score, and Meta AI tooling is another 25%. When two tasks compete, pick the one that makes the trader's result more real or more visible on screen. Technical depth (20%) still counts, and it shows best as a measured accuracy number.
+- **Go beyond a basic integration.** The tooling criterion asks for "unexpected capabilities", so show what the chain does that one model call can't: Spark choosing tools, checking SAM's cut-outs and asking the trader back.
 - **Working beats wide:** one flow that works reliably end to end (photo + voice note in, catalogue out on WhatsApp) beats many half-built features.
 - **Show each model visibly doing its job** in the video. Judges score the tooling from what they can see.
 - **Measure and show accuracy** (items cut out correctly, prices matched correctly) for the technical-depth score.

@@ -85,7 +85,7 @@ A value it can't read, a value above the ceiling ($25 a day, 500 calls a job) or
 - Three-minute demo video required.
 - Anti-projects include "AI Job Application Screener" and "Simple Image Analyzers".
 
-Judging (equal weight, 0 to 10): impact · use of Meta AI tooling · technical depth and execution · demo.
+Judging (weighted, from the official rules): impact 30% · use of Meta AI tooling 25% · demo 25% · technical depth and execution 20%. Details in `docs/judging-and-goals.md`.
 
 ## From the hackathon Discord (read 26 Oct)
 
