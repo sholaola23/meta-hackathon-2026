@@ -1,5 +1,6 @@
 // Finished paid steps per job, so a retried webhook or a restart resumes without paying twice.
 // One append-only JSONL file per job; a new instance replays what is on disk on first use.
+// Run one server process per log folder: each instance reads a job's file once and never re-reads it.
 import { appendFileSync, existsSync, mkdirSync, readFileSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
 
@@ -29,6 +30,8 @@ export class JobLog {
   private order = new Map<string, string[]>();
   private loaded = new Set<string>();
   private inflight = new Map<string, Map<string, Promise<unknown>>>();
+  /** Bumped by clear(), so a step still running for the old job is not recorded into the new one. */
+  private generation = new Map<string, number>();
 
   /** dir holds one append-only file per job. It is created on first write. */
   constructor(
@@ -51,15 +54,15 @@ export class JobLog {
       return Promise.reject(err);
     }
     const cached = this.results.get(jobId)!;
-    if (cached.has(key)) return Promise.resolve(cached.get(key) as T);
+    if (cached.has(key)) return Promise.resolve(structuredClone(cached.get(key)) as T);
     const flying = this.inflight.get(jobId)?.get(key);
     if (flying) return flying as Promise<T>;
-    const flight = this.runOnce(jobId, key, run);
     let byJob = this.inflight.get(jobId);
     if (!byJob) {
       byJob = new Map();
       this.inflight.set(jobId, byJob);
     }
+    const flight = this.runOnce(jobId, key, run, byJob);
     byJob.set(key, flight);
     return flight as Promise<T>;
   }
@@ -82,6 +85,8 @@ export class JobLog {
   /** Deletes the job's file. Used when the trader starts again. */
   clear(jobId: string): void {
     checkJobId(jobId);
+    this.generation.set(jobId, (this.generation.get(jobId) ?? 0) + 1);
+    this.inflight.delete(jobId);
     this.results.delete(jobId);
     this.order.delete(jobId);
     this.loaded.delete(jobId);
@@ -92,27 +97,32 @@ export class JobLog {
     }
   }
 
-  private async runOnce<T>(jobId: string, key: string, run: () => Promise<T>): Promise<unknown> {
+  private async runOnce<T>(
+    jobId: string,
+    key: string,
+    run: () => Promise<T>,
+    byJob: Map<string, Promise<unknown>>,
+  ): Promise<unknown> {
+    const gen = this.generation.get(jobId) ?? 0;
     try {
       const stored = freeze(await run());
-      this.append(jobId, key, stored);
-      let keys = this.results.get(jobId);
-      if (!keys) {
-        // clear() ran while run was in flight; the step paid, so keep its record.
-        keys = new Map();
-        this.results.set(jobId, keys);
-        this.order.set(jobId, []);
-        this.loaded.add(jobId);
-      }
+      // The trader started again while this ran: hand the result back, but keep it out of the new job.
+      if ((this.generation.get(jobId) ?? 0) !== gen) return structuredClone(stored);
+      const keys = this.results.get(jobId)!;
       if (!keys.has(key)) {
+        // Remember it before writing, so a full or unwritable disk doesn't make every retry pay again.
         keys.set(key, stored);
         this.order.get(jobId)!.push(key);
+        try {
+          this.append(jobId, key, stored);
+        } catch (err) {
+          this.log(`joblog: could not write step ${key} for job ${jobId}, kept in memory only: ${(err as Error).message}`);
+        }
       }
-      return stored;
+      return structuredClone(stored);
     } finally {
-      const byJob = this.inflight.get(jobId);
-      byJob?.delete(key);
-      if (byJob && byJob.size === 0) this.inflight.delete(jobId);
+      byJob.delete(key);
+      if (byJob.size === 0 && this.inflight.get(jobId) === byJob) this.inflight.delete(jobId);
     }
   }
 
@@ -150,22 +160,25 @@ export class JobLog {
       this.log(`joblog: could not read ${file}, starting empty: ${(err as Error).message}`);
       return;
     }
-    for (const line of text.split("\n")) {
+    const lines = text.split("\n");
+    for (const [i, line] of lines.entries()) {
       if (line.trim() === "") continue;
+      // Never log the line itself: it can hold the trader's own words.
+      const bad = `joblog: skipping bad line ${i + 1} (${line.length} chars) in ${file}`;
       let row: unknown;
       try {
         row = JSON.parse(line);
       } catch {
-        this.log(`joblog: skipping bad line in ${file}: ${line.slice(0, 120)}`);
+        this.log(bad);
         continue;
       }
       if (typeof row !== "object" || row === null || Array.isArray(row)) {
-        this.log(`joblog: skipping bad line in ${file}: ${line.slice(0, 120)}`);
+        this.log(bad);
         continue;
       }
       const { key, result } = row as { key?: unknown; result?: unknown };
       if (typeof key !== "string" || key.length === 0 || key.length > KEY_LIMIT || !("result" in row)) {
-        this.log(`joblog: skipping bad line in ${file}: ${line.slice(0, 120)}`);
+        this.log(bad);
         continue;
       }
       if (found.has(key)) continue; // First write wins; later duplicates are ignored.
