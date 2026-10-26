@@ -6,3 +6,7 @@ __pycache__/
 .DS_Store
 *.aiff
 test-results/cache/
+test-results/day1/*.jpg
+test-results/day1/*-sam.json
+.spend/
+!.env.example

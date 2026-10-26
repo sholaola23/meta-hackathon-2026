@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "bun test src",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p src/pricing",
     "eval": "bun src/pricing/eval.ts",
     "report": "bun src/pricing/report.ts"
   },

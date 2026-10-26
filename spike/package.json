@@ -1,0 +1,17 @@
+{
+  "name": "spike",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@meta-sam/parser": "^0.1.0",
+    "openai": "^7.43.0",
+    "sharp": "^0.35.5"
+  }
+}
