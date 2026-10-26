@@ -6,39 +6,39 @@
  "model": "muse-spark-1.3",
  "recorded_at": "2026-10-26",
  "units_recorded": true,
- "transcript": "evening oh water, the 75 CL, Na 300, Coke bottle Coke bottle Na 500, Dismilo sachet hang for there, Na 100 Nara, one one, detergent sachet Na 150 150, bread, the big one, Na 16, egg, one crate, Na five eight, cabin biscuit Na 400, bar soap Na 700, this market no be 1010 Nara market again oh everything don't cost.",
+ "transcript": "Evening oh water the seventy five cl naira three hundred Coke bottle now five hundred this Milo sachet way hang for there nine hundred hundred naira one one detergent sachet now one fifty one fifty bread the big one now one six six egg one crate now now five eight cabin biscuit now four hundred bar soap now soap now seven hundred this market no be ten ten naira market again oh oh everything don't cost.",
  "tool_calls": [
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i1\",\"price_naira\":300,\"quote\":\"water, the 75 CL, Na 300\",\"unit\":\"bottle\"}"
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":300,\"quote\":\"water the seventy five cl naira three hundred\",\"unit\":\"bottle\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i2\",\"price_naira\":500,\"quote\":\"Coke bottle Coke bottle Na 500\",\"unit\":\"bottle\"}"
+   "arguments": "{\"item_id\":\"i2\",\"price_naira\":500,\"quote\":\"Coke bottle now five hundred\",\"unit\":\"bottle\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i3\",\"price_naira\":100,\"quote\":\"Dismilo sachet hang for there, Na 100 Nara, one one\",\"unit\":\"sachet\"}"
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":100,\"quote\":\"Milo sachet way hang for there nine hundred hundred naira one one\",\"unit\":\"sachet\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i4\",\"price_naira\":150,\"quote\":\"detergent sachet Na 150 150\",\"unit\":\"sachet\"}"
+   "arguments": "{\"item_id\":\"i4\",\"price_naira\":150,\"quote\":\"detergent sachet now one fifty one fifty\",\"unit\":\"sachet\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i5\",\"price_naira\":1600,\"quote\":\"bread, the big one, Na 16\",\"unit\":\"loaf\"}"
+   "arguments": "{\"item_id\":\"i5\",\"price_naira\":1600,\"quote\":\"bread the big one now one six\",\"unit\":\"loaf\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i6\",\"price_naira\":5800,\"quote\":\"egg, one crate, Na five eight\",\"unit\":\"crate\"}"
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":5800,\"quote\":\"egg one crate now now five eight\",\"unit\":\"crate\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i8\",\"price_naira\":400,\"quote\":\"cabin biscuit Na 400\",\"unit\":\"pack\"}"
+   "arguments": "{\"item_id\":\"i8\",\"price_naira\":400,\"quote\":\"cabin biscuit now four hundred\",\"unit\":\"pack\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i9\",\"price_naira\":700,\"quote\":\"bar soap Na 700\",\"unit\":\"bar\"}"
+   "arguments": "{\"item_id\":\"i9\",\"price_naira\":700,\"quote\":\"bar soap now soap now seven hundred\",\"unit\":\"bar\"}"
   },
   {
    "name": "flag_missing_price",

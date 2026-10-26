@@ -10,11 +10,19 @@
  "tool_calls": [
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i1\",\"price_naira\":300,\"quote\":\"Water, the 75cl, na tree hundred.\",\"unit\":\"bottle\"}"
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":100,\"quote\":\"Milo sachet na hundred hundred, one one\",\"unit\":\"sachet\"}"
   },
   {
    "name": "set_price",
-   "arguments": "{\"item_id\":\"i4\",\"price_naira\":150,\"quote\":\"Detergent na one-fifty one-fifty.\",\"unit\":\"sachet\"}"
+   "arguments": "{\"item_id\":\"i4\",\"price_naira\":150,\"quote\":\"Detergent na one-fifty one-fifty\",\"unit\":\"sachet\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":300,\"quote\":\"Water, the 75cl, na tree hundred\",\"unit\":\"bottle\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":5800,\"quote\":\"but the crate na five-eight\",\"unit\":\"crate\"}"
   },
   {
    "name": "flag_missing_price",
@@ -22,15 +30,7 @@
   },
   {
    "name": "flag_missing_price",
-   "arguments": "{\"item_id\":\"i3\"}"
-  },
-  {
-   "name": "flag_missing_price",
    "arguments": "{\"item_id\":\"i5\"}"
-  },
-  {
-   "name": "flag_missing_price",
-   "arguments": "{\"item_id\":\"i6\"}"
   },
   {
    "name": "flag_missing_price",
@@ -46,15 +46,7 @@
   },
   {
    "name": "ask_trader",
-   "arguments": "{\"item_ids\":[\"i2\",\"i3\",\"i5\",\"i6\",\"i7\",\"i8\",\"i9\"],\"question\":\"Abeg wetin be price of Coke, Milo, bread, egg crate, sugar cubes, Cabin biscuits and bar soap?\"}"
-  },
-  {
-   "name": "set_price",
-   "arguments": "{\"item_id\":\"i3\",\"price_naira\":100,\"quote\":\"Milo sachet na hundred hundred, one one\",\"unit\":\"sachet\"}"
-  },
-  {
-   "name": "set_price",
-   "arguments": "{\"item_id\":\"i6\",\"price_naira\":5800,\"quote\":\"but the crate na five-eight\",\"unit\":\"crate\"}"
+   "arguments": "{\"item_ids\":[\"i2\",\"i5\",\"i7\",\"i8\",\"i9\"],\"question\":\"Abeg, how much be Coca-Cola bottle, bread loaf, sugar cubes, Cabin biscuit, and bar soap?\"}"
   }
  ]
 }
