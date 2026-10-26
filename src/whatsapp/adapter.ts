@@ -80,7 +80,13 @@ export class StallPipeline implements Pipeline {
   private readonly now: () => Date;
   private readonly slug: () => string;
 
+  private readonly stallName: string;
+
   constructor(private readonly cfg: AdapterConfig) {
+    // Cut by character, not UTF-16 unit, so an emoji at the limit is never split into a broken symbol.
+    this.stallName = Array.from(cfg.stallName?.trim() ?? "").slice(0, 60).join("").trim() || DEMO_STALL_NAME;
+    // The page must never carry a phone number, even one typed into the name setting.
+    if (/\d(?:[\s().+-]*\d){6}/.test(this.stallName)) throw new Error("CATALOGUE_STALL_NAME looks like it holds a phone number; use a name only");
     this.now = cfg.now ?? (() => new Date());
     this.slug = cfg.slug ?? (() => randomBytes(9).toString("base64url").toLowerCase().replace(/[^a-z0-9]/g, "x").slice(0, 12));
   }
@@ -169,7 +175,7 @@ export class StallPipeline implements Pipeline {
       }
       lines.push({ name: line.name, price: line.price, unit: line.unit, image });
     }
-    const page: PublishedCatalogue = { slug, stallName: this.cfg.stallName?.trim() || DEMO_STALL_NAME, publishedAt: this.now().toISOString(), lines };
+    const page: PublishedCatalogue = { slug, stallName: this.stallName, publishedAt: this.now().toISOString(), lines };
     writeFileSync(join(next, "catalogue.json"), JSON.stringify(page, null, 1));
     swapIn(next, dir);
     // The confirm conversation stays private, next to the job, so every price can be traced to the trader's yes.

@@ -474,3 +474,23 @@ describe("catalogue page: stall name", () => {
     expect(renderPage({ slug: "abc000000001", publishedAt: "2026-10-28T09:30:00Z", lines: [] })).toContain("<h1>Price list</h1>");
   });
 });
+
+describe("adapter: the stall name setting (QA PR #11 round 1)", () => {
+  const make = (stallName: string) => () => new StallPipeline({ models: new FakeModels([]), jobLog: new JobLog(mkdtempSync(join(tmpdir(), "stallsnap-name-"))), dataDir: "/x", publicDir: "/x", publicBaseUrl: "https://s.example", stallName });
+
+  test("a phone number in the name is refused at start-up", () => {
+    for (const n of ["Bisi 08031234567", "+234 803 123 4567", "Call (0803) 123-4567"]) expect(make(n), n).toThrow(/phone number/);
+    for (const n of ["Stall 12", "Mama Bisi Provisions", "Shop 4B, Row 12"]) expect(make(n), n).not.toThrow();
+  });
+
+  test("a long name is cut to 60 characters without splitting an emoji", async () => {
+    const m = new FakeModels([["Peak milk"]], { "wamid.V1": "Peak milk na 650 tin" });
+    const root = mkdtempSync(join(tmpdir(), "stallsnap-name-"));
+    const pipeline = new StallPipeline({ models: m, jobLog: new JobLog(join(root, "j")), dataDir: join(root, "d"), publicDir: join(root, "p"), publicBaseUrl: "https://s.example", stallName: `${"x".repeat(59)}🍅 Stall`, slug: () => "abc000000001" });
+    await start(pipeline, [media("wamid.P1")], [media("wamid.V1")]);
+    await reply(pipeline, "YES");
+    await pipeline.publish({ traderId: TRADER, jobId: JOB });
+    const c: PublishedCatalogue = JSON.parse(readFileSync(join(root, "p", "abc000000001", "catalogue.json"), "utf8"));
+    expect(c.stallName).toBe(`${"x".repeat(59)}🍅`);
+  });
+});
