@@ -32,8 +32,9 @@ WhatsApp allows one message every 6 seconds to the same person (error 131056). T
 4. **Download** (`media.ts`). Two steps, as Meta documents: the media id gives a URL that lasts 5 minutes, then the URL is fetched with the token. The type and size are checked before downloading, and the bytes are checked against WhatsApp's SHA-256. An expired URL (404) is fetched again once.
 5. **Collect, then start.** Photos and voice notes arrive as separate webhooks. The loop waits 5 seconds after the last one, then calls the pipeline once with every photo and voice note.
 6. **Confirm or correct.** Each reply to the list goes to the pricing step. A reply that arrives while a list is still being made, or after **Yes, publish** but before the answer, is applied before any list is shown or published, so a list the trader has corrected is never published. Photos and voice notes sent while the catalogue is being published are not used; the trader is asked to wait.
-7. **Publish.** When the pricing step says the trader has confirmed the latest list, the catalogue page is built and its link is sent.
-8. **Restart.** State is kept in `src/whatsapp/.data/state.json`. On start-up, a trader who had sent their photo and voice note gets their list as normal, and a trader whose list was being made is told "something went wrong" and asked to send again. A damaged state file is logged and replaced with an empty one.
+7. **Publish.** When the pricing step says the trader has confirmed the latest list, the catalogue page is built and its link is sent. A list with every line removed is never published. Pictures go on the page as 320px WebP copies, named by item and list version.
+8. **Correct after publishing.** A message with a number or a change word ("comot", "remove", "rename") after the link went out reopens the list. The page stays at the same link but shows "The trader is updating these prices" with no prices until the trader says yes again, then it is rebuilt with the new list. Any other message gets a short help reply.
+9. **Restart.** State is kept in `src/whatsapp/.data/state.json`. On start-up, a trader who had sent their photo and voice note gets their list as normal, a trader who had said yes gets their catalogue published, and a trader whose list was being made is told "something went wrong" and asked to send again. A damaged state file is logged and replaced with an empty one.
 
 ## Limits the loop sets itself
 
@@ -63,7 +64,21 @@ The loop calls an implementation of `Pipeline` in `src/whatsapp/pipeline.ts`:
 
 The adapter wraps each paid step in `JobLog.step(jobId, key, run)` from `src/whatsapp/joblog.ts`, with a key like `cutout:<wamid>` or `transcript:<wamid>`. A retried webhook or a restart then reuses the finished step instead of paying again. Run one server process per log folder. The job id allows only letters, digits, `_` and `-`, so the WhatsApp message id goes in the key, never in the job id. Keep the log folder out of git, because it holds transcripts.
 
-PENDING: the adapter that joins this to the image pipeline, the pricing module and the catalogue page. Until it exists, `server.ts` uses a stand-in that fails every job, and the trader is told "something went wrong". It never invents a list.
+### The adapter
+
+`StallPipeline` in `src/whatsapp/adapter.ts` is that implementation. `live-models.ts` gives it the real model calls, and tests give it fakes.
+
+1. **Photos.** Each photo goes through the image step (`image/`): it is prepared, cut out with SAM 3.1, and its crops are reviewed by Muse Spark. Every product gets a catalogue picture made from its own pixels. Products from all the photos form one numbered list. A photo with no products, or one the image step can't read, gets a message the trader can act on.
+2. **Voice notes.** Each note goes through Muse Voice Transcribe, using the stall's item names as keywords. Typed prices and captions are added to the text.
+3. **Prices.** Muse Spark prices the items with the pricing tool loop (`src/pricing/extract.ts`). `startConfirmation` turns the result into the trader's list.
+4. **Replies.** Every reply, typed or spoken, goes to `handleReply`, and its message goes back to the trader as it is.
+5. **Publish.** `publish()` refuses anything the trader hasn't confirmed. The confirmed lines and their pictures are written to `<WHATSAPP_DATA_DIR>/public/<slug>/`. Each picture can first get a Muse Image studio backdrop, which is used only if the real product pixels survive (`image/catalogue-image.ts`); set `CATALOGUE_RESTYLE=off` to skip that step. The same server serves the page at `/c/<slug>`. The slug is random, so the link doesn't reveal the trader's number. The audit log (`auditLog`) is saved privately next to the job, never on the page.
+
+Each paid step runs once per job through the job log: the cut-out of a photo, the transcript of a note, the pricing run and the restyle of a picture. Every paid call goes through `SpendGuard`.
+
+The server uses the adapter only when `MODEL_API_KEY` and `PUBLIC_BASE_URL` are set. Without them it falls back to a stand-in that fails every job, so the trader is told "something went wrong". It never invents a list.
+
+To try the live pipeline without WhatsApp, on test material only: `bun src/whatsapp/try.ts <photo.jpg> <note.ogg> [--restyle] [--out <dir>]`. On 26 Oct it found all 6 stall-1 products and priced each one as the answer key does, in 107 seconds for $0.12.
 
 ## Setup (Shola only, about 20 minutes)
 
@@ -82,10 +97,13 @@ Claude cannot do these steps: they need your Meta account. Never use the E'Manue
    WHATSAPP_APP_SECRET=       # from step 5
    WHATSAPP_VERIFY_TOKEN=     # any long random string you make up
    WHATSAPP_ALLOWED_NUMBERS=  # your number and test traders', comma separated, for example 447700900123
-   # Optional: WHATSAPP_GRAPH_VERSION (default v26.0), WHATSAPP_RECORD=on, WHATSAPP_DATA_DIR, PORT (default 3000)
+   MODEL_API_KEY=             # already there for the Meta Model API
+   PUBLIC_BASE_URL=           # the tunnel or Railway address, for catalogue links, for example https://....trycloudflare.com
+   # Optional: WHATSAPP_GRAPH_VERSION (default v26.0), WHATSAPP_RECORD=on, WHATSAPP_DATA_DIR, PORT (default 3000),
+   # CATALOGUE_RESTYLE=off (skip Muse Image backdrops)
    ```
 
-7. Start the server and a public HTTPS tunnel to it:
+7. Install the image step's packages once (`cd image && bun install`, then the same in `spike/`; ffmpeg must be installed too). Then start the server and a public HTTPS tunnel to it:
 
    ```bash
    set -a; . ./.env; set +a
@@ -97,7 +115,7 @@ Claude cannot do these steps: they need your Meta account. Never use the E'Manue
 8. In **WhatsApp > Configuration**, set the **Callback URL** to the tunnel address plus `/webhook`, and the **Verify token** to your `WHATSAPP_VERIFY_TOKEN`. Click **Verify and save**, then subscribe to the **messages** field.
 9. Send the test number a photo and a voice note from your phone.
 
-A quick tunnel gets a new address every time it starts, so repeat step 8 after a restart.
+A quick tunnel gets a new address every time it starts, so repeat step 8 after a restart, and update `PUBLIC_BASE_URL` too. Links already sent keep the old address and stop working.
 
 The test number can message only the phones added as recipients in step 3. Research on 26 Oct put the limit at 5; Meta's get-started page doesn't state it.
 

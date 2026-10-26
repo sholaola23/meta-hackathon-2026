@@ -2,19 +2,14 @@
 // then writes the tool calls to test-material/voice/recorded/ so CI can replay them for free.
 // Needs MODEL_API_KEY and ffmpeg. Every live call goes through SpendGuard and is cached, so a rerun costs nothing.
 // Usage: bun src/pricing/eval.ts [--only <case id substring>] [--no-photo]
-import { execFileSync } from "node:child_process";
-import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { SpendGuard, sparkUsd, voiceUsd } from "../spend-guard";
-import { extractPrices, TOOLS, type Respond } from "./extract";
+import { SpendGuard } from "../spend-guard";
+import { extractPrices } from "./extract";
+import { MODEL, responder as liveResponder, transcribe as liveTranscribe } from "./live";
 import { loadAnswerKey, loadMessyTranscripts, loadStalls, RECORDED_DIR, ROOT, VOICE_DIR, type Recording } from "./fixtures";
 import { formatReport, scoreRecordings } from "./report";
 
-const BASE_URL = "https://api.meta.ai/v1";
-const MODEL = "muse-spark-1.3";
-const CACHE = join(ROOT, "test-results/cache/pricing");
-mkdirSync(CACHE, { recursive: true });
 mkdirSync(RECORDED_DIR, { recursive: true });
 process.env.STALLSNAP_SPEND_DIR ??= join(ROOT, "test-results/cache/spend");
 
@@ -22,8 +17,8 @@ const args = process.argv.slice(2);
 const only = args.includes("--only") ? args[args.indexOf("--only") + 1] : undefined;
 const withPhoto = !args.includes("--no-photo");
 const guard = new SpendGuard();
-const key = process.env.MODEL_API_KEY;
-const TOOLS_JSON = JSON.parse(JSON.stringify(TOOLS));
+const transcribe = (jobId: string, audio: string, items: { name: string }[]) => liveTranscribe(guard, jobId, audio, items);
+const responder = (jobId: string) => liveResponder(guard, jobId);
 
 // The photo the trader would send with the note (stall 4 uses v2; see test-material/README.md).
 const PHOTO: Record<string, string> = {
@@ -33,75 +28,6 @@ const PHOTO: Record<string, string> = {
   "stall-4-foodstuff": "images/stall-4-foodstuff-v2.jpg",
   "stall-5-mixed-cluttered": "images/stall-5-mixed-cluttered-v1.jpg",
 };
-
-const hash = (x: unknown) => createHash("sha256").update(typeof x === "string" ? x : JSON.stringify(x)).digest("hex").slice(0, 24);
-
-async function cached<T>(kind: string, k: unknown, fn: () => Promise<T>): Promise<T> {
-  const file = join(CACHE, `${kind}-${hash(k)}.json`);
-  if (existsSync(file)) return JSON.parse(readFileSync(file, "utf8"));
-  if (!key) throw new Error("MODEL_API_KEY is not set and there is no cached response; nothing was called");
-  const v = await fn();
-  writeFileSync(file, JSON.stringify(v));
-  return v;
-}
-
-/**
- * Words to bias transcription toward: the distinct words of the item names (keywords must be 30 characters
- * or fewer) and price words. Pidgin is not one of the 25 supported languages, so English is the closest bias,
- * and Muse Spark reads the result knowing it may be rough.
- */
-function keywordsFor(items: { name: string }[]): string[] {
-  const STOP = new Set(["and", "the", "pack", "single", "big", "small", "medium", "measure", "bucket", "paint", "yards", "bottle", "litre"]);
-  const words = items.flatMap((i) => i.name.replace(/\(.*?\)/g, "").split(/[\s,]+/)).filter((w) => w.length > 2 && !STOP.has(w.toLowerCase()));
-  return [...new Set([...words, "naira", "kobo", "tousand"])].filter((w) => w.length <= 30);
-}
-
-async function transcribe(jobId: string, audio: string, items: { name: string }[]): Promise<string> {
-  const wav = join(CACHE, `${audio.split("/").pop()}.wav`);
-  if (!existsSync(wav)) execFileSync("ffmpeg", ["-loglevel", "error", "-y", "-i", audio, "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", "-map_metadata", "-1", wav]);
-  // dev.meta.ai/docs/speech-to-text: languageBias takes language names ("English"), not codes.
-  const request = { model: "muse-voice-transcribe-1.0", audioEncoding: "WAV", mode: "PUSH_TO_TALK", languageBias: ["English"], keywords: keywordsFor(items) };
-  const r = await cached("asr", { audio: hash(readFileSync(wav).toString("base64")), request }, async () => {
-    const seconds = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", wav]).toString());
-    return guard.paid(jobId, request.model, voiceUsd(seconds), async () => {
-      const form = new FormData();
-      form.append("request", new Blob([JSON.stringify(request)], { type: "application/json" }));
-      form.append("audio", new Blob([readFileSync(wav)], { type: "audio/wav" }), "note.wav");
-      const res = await fetch(`${BASE_URL}/asr/transcribe`, { method: "POST", headers: { Authorization: `Bearer ${key}`, Accept: "application/json" }, body: form });
-      if (!res.ok) throw new Error(`transcribe ${res.status}: ${await res.text()}`);
-      return { transcript: ((await res.json()) as any).transcript as string };
-    });
-  });
-  return r.transcript;
-}
-
-function responder(jobId: string): Respond {
-  return async ({ input }) => {
-    // Stateless replay (dev.meta.ai/docs/reasoning#multi-turn): nothing stored server-side, reasoning replayed
-    // from encrypted content. Reasoning counts against max_output_tokens, so it is set generously.
-    // temperature and top_p are left unset.
-    const body = { model: MODEL, input, tools: TOOLS_JSON, store: false, include: ["reasoning.encrypted_content"], max_output_tokens: 16000 };
-    const r: any = await cached("spark", body, () =>
-      guard.paid(jobId, MODEL, sparkUsd({ input: 6000, output: 1500 }), async () => {
-        const res = await fetch(`${BASE_URL}/responses`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        if (!res.ok) throw new Error(`responses ${res.status}: ${await res.text()}`);
-        const j: any = await res.json();
-        return { output: j.output, usage: j.usage };
-      }, (j) => sparkUsd({ input: j.usage?.input_tokens ?? 0, output: j.usage?.output_tokens ?? 0, cachedInput: j.usage?.input_tokens_details?.cached_tokens ?? 0 })),
-    );
-    const out: any[] = r.output ?? [];
-    return {
-      output: out,
-      outputTokens: r.usage?.output_tokens ?? 0,
-      calls: out.filter((o) => o.type === "function_call").map((o) => ({ name: o.name, arguments: o.arguments, call_id: o.call_id })),
-      text: out.filter((o) => o.type === "message").flatMap((o) => o.content ?? []).map((c: any) => c.text ?? "").join(""),
-    };
-  };
-}
 
 const photoUrl = (stallId: string) =>
   withPhoto && PHOTO[stallId] ? `data:image/jpeg;base64,${readFileSync(join(ROOT, "test-material", PHOTO[stallId]!)).toString("base64")}` : undefined;

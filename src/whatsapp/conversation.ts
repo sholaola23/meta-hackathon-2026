@@ -52,6 +52,9 @@ const freshSession = (): Session => ({
 
 const hasDigit = (s: string) => /\d/.test(s);
 
+/** A reply that changes the list: a number (a price or a line), or a remove or rename word. */
+const LOOKS_LIKE_CHANGE = /\d|\b(comot|remove|delete|name|rename)\b/i;
+
 export class Conversation {
   private queues = new Map<string, Promise<void>>();
   private timers = new Map<string, () => void>();
@@ -84,7 +87,9 @@ export class Conversation {
     for (const trader of this.deps.store.traders()) {
       const s = this.deps.store.get(trader)!;
       if (s.phase === "collecting") this.settle(trader);
-      else if (s.phase === "working" || s.phase === "publishing") {
+      // The trader already said yes: publishing again from the saved list costs nothing, so finish the job.
+      else if (s.phase === "publishing") void this.run(trader, () => this.publish(trader, s));
+      else if (s.phase === "working") {
         void this.run(trader, async () => {
           this.save(trader, freshSession());
           this.send(trader, copy.failed);
@@ -218,6 +223,9 @@ export class Conversation {
         this.save(trader, s);
         return;
       case "done":
+        // A correction after the link went out reopens the same list, so the page never keeps a price
+        // the trader has disowned. Anything else gets the help text.
+        if (LOOKS_LIKE_CHANGE.test(text)) return this.onReply(trader, s, { text });
         this.send(trader, copy.doneHelp);
         return;
       case "collecting":
@@ -321,9 +329,17 @@ export class Conversation {
   private async afterTurn(trader: string, jobId: string, turn: PricingTurn) {
     const s = this.deps.store.get(trader);
     if (!s || s.jobId !== jobId) return; // the trader started again meanwhile
+    const next = s.pending.shift();
+    // A message after the link went out that changed nothing: the page is already right, so no republish or second link.
+    if (s.url && turn.confirmed && turn.version === s.version && !next) {
+      s.phase = "done";
+      this.save(trader, s);
+      return this.send(trader, copy.doneHelp);
+    }
     s.version = turn.version;
     s.phase = "checking";
-    const next = s.pending.shift();
+    // The list is open again, so the next yes must republish.
+    if (!turn.confirmed) delete s.url;
     // A reply sent after Yes but before the answer wins over the Yes: never publish a list the trader has corrected.
     if (turn.confirmed && !next) return this.publish(trader, s);
     this.save(trader, s);
