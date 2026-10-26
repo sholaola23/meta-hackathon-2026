@@ -43,6 +43,11 @@ function parseMessage(raw: unknown): InboundEvent | undefined {
     const ref = media(obj(m.audio));
     if (ref) return { ...base, kind: "audio", media: ref, isVoiceNote: obj(m.audio).voice === true };
   }
+  // Meta's reference sends voice notes as type "audio" with voice: true. Accept a separate "voice" type too.
+  if (type === "voice") {
+    const ref = media(obj(m.voice));
+    if (ref) return { ...base, kind: "audio", media: ref, isVoiceNote: true };
+  }
   if (type === "document") {
     // Traders sometimes send a photo "as a document" to keep the quality, or forward an audio file.
     const doc = obj(m.document);

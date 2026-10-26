@@ -20,14 +20,19 @@ describe("happy path", () => {
     expect(pipeline.starts[0]!.voiceNotes).toHaveLength(1);
     expect(pipeline.starts[0]!.voiceNotes[0]!.isVoiceNote).toBe(true);
     expect(outbox.bodies()).toEqual([copy.working.body, LIST_V1]);
-    const list = outbox.sent[1]!.message;
+    // "typing..." comes after the ack (so the ack does not dismiss it) and before the list.
+    expect(outbox.sent.map((s) => s.message.type)).toEqual(["text", "typing", "buttons"]);
+    const list = outbox.sent[2]!.message;
     expect(list.type === "buttons" && list.buttons.map((b) => b.id)).toEqual(["yes:1", "change:1", "restart:1"]);
 
     await deliver(payload([button("yes:1", T + 60)]));
     expect(pipeline.publishes).toBe(1);
     expect(outbox.bodies()).toEqual([copy.working.body, LIST_V1, copy.catalogueReady("https://stallsnap.example/c/test-stall").body]);
-    // Never an image burst: everything the trader got is text or buttons.
-    expect(outbox.sent.every((s) => s.message.type === "text" || s.message.type === "buttons")).toBe(true);
+    // Never an image burst: text, buttons, typing hints and exactly one link button.
+    expect(outbox.sent.every((s) => ["text", "buttons", "typing", "link"].includes(s.message.type))).toBe(true);
+    expect(outbox.sent.filter((s) => s.message.type === "link")).toHaveLength(1);
+    const link = outbox.sent.at(-1)!.message;
+    expect(link.type === "link" && link.url).toBe("https://stallsnap.example/c/test-stall");
   });
 
   test("voice note before photo (out of order) still makes one list", async () => {
@@ -43,6 +48,44 @@ describe("happy path", () => {
     const v2 = graph.voice(T + 2);
     await deliver(payload([v1, graph.image(T), v2]));
     expect(pipeline.starts[0]!.voiceNotes.map((v) => v.sentAt)).toEqual([T + 2, T + 5]);
+  });
+});
+
+describe("Meta research findings (26 Oct)", () => {
+  test("a voice note sent as type 'voice' is treated like a WhatsApp voice note", async () => {
+    const { graph, pipeline, deliver } = setup();
+    const v = graph.voice(T + 1) as Record<string, unknown>;
+    const voice: Record<string, unknown> = { ...v, type: "voice", voice: v.audio };
+    delete voice.audio;
+    await deliver(payload([graph.image(T), voice]));
+    expect(pipeline.starts[0]!.voiceNotes).toHaveLength(1);
+    expect(pipeline.starts[0]!.voiceNotes[0]!.isVoiceNote).toBe(true);
+  });
+
+  test("a correction gets a typing hint on the trader's message while pricing works", async () => {
+    const { graph, outbox, deliver } = setup();
+    await deliver(payload([graph.image(T), graph.voice(T + 1)]));
+    const correction = text("Peak milk na 650", T + 30);
+    await deliver(payload([correction]));
+    const typing = outbox.sent.filter((s) => s.message.type === "typing").at(-1)!.message;
+    expect(typing.type === "typing" && typing.messageId).toBe(correction.id);
+  });
+
+  test("the list carries the pipeline's header image when it has one", async () => {
+    const ctx = setup();
+    const real = ctx.pipeline.start.bind(ctx.pipeline);
+    ctx.pipeline.start = async (i) => ({ ...(await real(i)), headerImageUrl: "https://stallsnap.example/i/stall.jpg" });
+    await ctx.deliver(payload([ctx.graph.image(T), ctx.graph.voice(T + 1)]));
+    const list = ctx.outbox.sent.find((s) => s.message.type === "buttons")!.message;
+    expect(list.type === "buttons" && list.headerImageUrl).toBe("https://stallsnap.example/i/stall.jpg");
+  });
+
+  test("off-topic chat gets the catalogue-only welcome, never a chat answer", async () => {
+    const { outbox, pipeline, deliver } = setup();
+    await deliver(payload([text("What is the capital of France?", T)]));
+    expect(outbox.bodies()).toEqual([copy.welcome.body]);
+    expect(copy.welcome.body).toContain("price catalogue");
+    expect(pipeline.starts).toHaveLength(0);
   });
 });
 

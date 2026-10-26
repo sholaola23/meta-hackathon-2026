@@ -104,7 +104,7 @@ export class RecordingOutbox {
   }
   /** Bodies sent to the trader, in order. */
   bodies(to = TRADER) {
-    return this.sent.filter((s) => s.to === to).map((s) => s.message.body);
+    return this.sent.filter((s) => s.to === to && s.message.type !== "typing").map((s) => s.message.body);
   }
 }
 

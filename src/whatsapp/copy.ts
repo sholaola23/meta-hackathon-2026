@@ -8,8 +8,9 @@ const text = (body: string): Outgoing => ({ type: "text", body });
 export const LIMITS = { photos: 3, voiceNotes: 3, repliesPerList: 8, buttonBody: 1024, textBody: 4096, buttonTitle: 20 };
 
 export const copy = {
+  // StallSnap is a catalogue builder, not a general chat service (WhatsApp Business policy): this is also the reply to off-topic chat.
   welcome: text(
-    "Welcome to StallSnap! Send me a photo of your stall, then a voice note saying the price of each thing. I will send back a price list for you to check.",
+    "Welcome to StallSnap! I make a price catalogue for your stall, and that is all I can help with. Send me a photo of your stall, then a voice note saying the price of each thing. I will send back a price list for you to check.",
   ),
   gotPhotoNeedVoice: text("Photo received. Now send a voice note with your prices, for example: \"Indomie na 250, Peak milk na 600\"."),
   gotVoiceNeedPhoto: text("Voice note received. Now send a photo of your stall so I can see the things you are selling."),
@@ -38,7 +39,7 @@ export const copy = {
   doneHelp: text("Your catalogue is ready. To make a new one, send a new photo of your stall and a voice note."),
 
   /** The pricing module's list, with the three buttons. Long lists go as text, then a short message with the buttons. */
-  priceList(listText: string, version: number): Outgoing[] {
+  priceList(listText: string, version: number, headerImageUrl?: string): Outgoing[] {
     const buttons: Button[] = [
       { id: `yes:${version}`, title: "Yes, publish" },
       { id: `change:${version}`, title: "Change price" },
@@ -46,12 +47,19 @@ export const copy = {
     ];
     const ask = "Is this right?";
     const full = `${listText.trim()}\n\n${ask}`;
-    if (full.length <= LIMITS.buttonBody) return [{ type: "buttons", body: full, buttons }];
-    return [...splitText(listText.trim()), { type: "buttons", body: ask, buttons }];
+    const header = headerImageUrl ? { headerImageUrl } : {};
+    if (full.length <= LIMITS.buttonBody) return [{ type: "buttons", body: full, buttons, ...header }];
+    return [...splitText(listText.trim()), { type: "buttons", body: ask, buttons, ...header }];
   },
 
+  /** The link is in the body too, so the trader can copy or forward it to customers. */
   catalogueReady(url: string): Outgoing {
-    return text(`Your catalogue is ready! Share this link with your customers on WhatsApp:\n${url}`);
+    return {
+      type: "link",
+      body: `Your catalogue is ready! Share this link with your customers on WhatsApp:\n${url}`,
+      label: "Open catalogue",
+      url,
+    };
   },
 };
 

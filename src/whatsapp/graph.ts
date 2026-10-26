@@ -26,7 +26,14 @@ export interface Button {
   title: string;
 }
 
-export type Outgoing = { type: "text"; body: string } | { type: "buttons"; body: string; buttons: Button[] };
+export type Outgoing =
+  | { type: "text"; body: string }
+  /** Reply buttons; headerImageUrl must be a public HTTPS image (for example a product cut-out). */
+  | { type: "buttons"; body: string; buttons: Button[]; headerImageUrl?: string }
+  /** A call-to-action URL button (label max 20 characters). */
+  | { type: "link"; body: string; label: string; url: string }
+  /** Marks the trader's message as read and shows "typing..." for up to 25 s. Not a message: body is empty. */
+  | { type: "typing"; body: ""; messageId: string };
 
 export class GraphError extends Error {
   constructor(
@@ -88,24 +95,46 @@ export class Graph {
 
   /** Send one message. Returns the WhatsApp message id, which button replies point back to. */
   async send(to: string, message: Outgoing): Promise<string> {
-    const payload =
-      message.type === "text"
-        ? { type: "text", text: { preview_url: true, body: message.body } }
-        : {
-            type: "interactive",
-            interactive: {
-              type: "button",
-              body: { text: message.body },
-              action: { buttons: message.buttons.map((b) => ({ type: "reply", reply: b })) },
-            },
-          };
+    const body = JSON.stringify(
+      message.type === "typing"
+        ? // .../typing-indicators (read 26 Oct 2026)
+          { messaging_product: "whatsapp", status: "read", message_id: message.messageId, typing_indicator: { type: "text" } }
+        : { messaging_product: "whatsapp", recipient_type: "individual", to, ...payloadFor(message) },
+    );
     const res = await this.fetch(`${this.base}/${this.config.phoneNumberId}/messages`, {
       method: "POST",
       headers: this.auth({ "Content-Type": "application/json" }),
-      body: JSON.stringify({ messaging_product: "whatsapp", recipient_type: "individual", to, ...payload }),
+      body,
     });
     if (!res.ok) await fail(res, "send", this.config.token);
-    const body = (await res.json()) as { messages?: { id?: string }[] };
-    return body.messages?.[0]?.id ?? "";
+    const reply = (await res.json()) as { messages?: { id?: string }[] };
+    return reply.messages?.[0]?.id ?? "";
+  }
+}
+
+function payloadFor(message: Exclude<Outgoing, { type: "typing" }>) {
+  switch (message.type) {
+    case "text":
+      return { type: "text", text: { preview_url: true, body: message.body } };
+    case "buttons":
+      return {
+        type: "interactive",
+        interactive: {
+          type: "button",
+          ...(message.headerImageUrl ? { header: { type: "image", image: { link: message.headerImageUrl } } } : {}),
+          body: { text: message.body },
+          action: { buttons: message.buttons.map((b) => ({ type: "reply", reply: b })) },
+        },
+      };
+    case "link":
+      // .../messages/interactive-cta-url-messages (read 26 Oct 2026)
+      return {
+        type: "interactive",
+        interactive: {
+          type: "cta_url",
+          body: { text: message.body },
+          action: { name: "cta_url", parameters: { display_text: message.label, url: message.url } },
+        },
+      };
   }
 }

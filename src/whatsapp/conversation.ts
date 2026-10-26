@@ -57,6 +57,8 @@ export class Conversation {
   private timers = new Map<string, () => void>();
   /** Pipeline calls running per trader. */
   private inFlight = new Map<string, number>();
+  /** Latest message id from each trader, for the typing indicator. */
+  private lastInbound = new Map<string, string>();
   private readonly scheduler: Scheduler;
   private readonly log: (line: string) => void;
 
@@ -137,6 +139,7 @@ export class Conversation {
 
   private async onEvent(e: InboundEvent) {
     const trader = e.from;
+    this.lastInbound.set(trader, e.messageId);
     let s = this.session(trader);
     if (s.phase === "done" && (e.kind === "image" || e.kind === "audio")) s = freshSession();
 
@@ -274,6 +277,7 @@ export class Conversation {
     s.phase = "working";
     this.save(trader, s);
     this.send(trader, copy.working);
+    this.typing(trader);
     this.background(trader, s, () =>
       this.deps.pipeline.start({ traderId: trader, jobId: s.jobId, photos: s.photos, voiceNotes: s.voiceNotes, texts: s.texts }),
     );
@@ -294,7 +298,14 @@ export class Conversation {
     s.replies++;
     s.phase = "working";
     this.save(trader, s);
+    this.typing(trader);
     this.background(trader, s, () => this.deps.pipeline.reply({ traderId: trader, jobId: s.jobId, reply }));
+  }
+
+  /** Show "typing..." while the models work. Queued behind any message so the message does not dismiss it. */
+  private typing(trader: string) {
+    const messageId = this.lastInbound.get(trader);
+    if (messageId) this.send(trader, { type: "typing", body: "", messageId });
   }
 
   /** Run a slow pipeline call outside the trader's queue, then handle its result inside it. */
@@ -318,7 +329,7 @@ export class Conversation {
     this.save(trader, s);
     // A reply that arrived while we were working is about the old list: apply it before showing a list.
     if (next) return this.onReply(trader, s, next);
-    this.send(trader, ...copy.priceList(turn.message, turn.version));
+    this.send(trader, ...copy.priceList(turn.message, turn.version, turn.headerImageUrl));
   }
 
   private async publish(trader: string, s: Session) {

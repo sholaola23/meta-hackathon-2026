@@ -145,6 +145,30 @@ describe("Graph client", () => {
     });
   });
 
+  test("catalogue link goes as a CTA URL button, as documented", async () => {
+    const { calls, fetch } = fakeFetch({ "https://graph.facebook.com/v26.0/PNID/messages": () => Response.json({ messages: [{ id: "w" }] }) });
+    await new Graph(config, fetch).send("1", copy.catalogueReady("https://stallsnap.example/c/abc"));
+    expect(JSON.parse(calls[0]!.init!.body as string).interactive).toEqual({
+      type: "cta_url",
+      body: { text: "Your catalogue is ready! Share this link with your customers on WhatsApp:\nhttps://stallsnap.example/c/abc" },
+      action: { name: "cta_url", parameters: { display_text: "Open catalogue", url: "https://stallsnap.example/c/abc" } },
+    });
+  });
+
+  test("typing indicator marks the message read, as documented", async () => {
+    const { calls, fetch } = fakeFetch({ "https://graph.facebook.com/v26.0/PNID/messages": () => Response.json({ success: true }) });
+    await new Graph(config, fetch).send("1", { type: "typing", body: "", messageId: "wamid.IN1" });
+    expect(JSON.parse(calls[0]!.init!.body as string)).toEqual({
+      messaging_product: "whatsapp", status: "read", message_id: "wamid.IN1", typing_indicator: { type: "text" },
+    });
+  });
+
+  test("list with a header image sends it as an image header", async () => {
+    const { calls, fetch } = fakeFetch({ "https://graph.facebook.com/v26.0/PNID/messages": () => Response.json({ messages: [{ id: "w" }] }) });
+    await new Graph(config, fetch).send("1", copy.priceList("1. Milo: N900", 1, "https://stallsnap.example/i/a.jpg")[0]!);
+    expect(JSON.parse(calls[0]!.init!.body as string).interactive.header).toEqual({ type: "image", image: { link: "https://stallsnap.example/i/a.jpg" } });
+  });
+
   test("API error carries Meta's error code", async () => {
     const { fetch } = fakeFetch({ "https://graph.facebook.com": () => Response.json({ error: { code: 131056, message: "pair rate limit" } }, { status: 400 }) });
     expect(new Graph(config, fetch).send("1", { type: "text", body: "x" })).rejects.toMatchObject({ code: 131056 });
@@ -175,6 +199,22 @@ describe("outbox pacing (1 message per 6 s per trader)", () => {
     expect(at.map((x) => x.body)).toEqual(["a", "b", "c"]);
     expect(at[1]!.t - at[0]!.t).toBeGreaterThanOrEqual(PAIR_GAP_MS);
     expect(at[2]!.t - at[1]!.t).toBeGreaterThanOrEqual(PAIR_GAP_MS);
+  });
+
+  test("typing hints don't wait 6 s, don't delay the next message, and a failed one is only logged", async () => {
+    const clock = fakeClock();
+    const at: { type: string; t: number }[] = [];
+    const logs: string[] = [];
+    const box = new Outbox(async (_to, m) => {
+      if (m.type === "typing") throw new TypeError("fetch failed");
+      at.push({ type: m.type, t: clock.now() });
+      return "id";
+    }, clock, (l) => logs.push(l));
+    await box.enqueue("1", { type: "text", body: "a" });
+    expect(await box.enqueue("1", { type: "typing", body: "", messageId: "w" })).toBe("");
+    await box.enqueue("1", { type: "text", body: "b" });
+    expect(at[1]!.t - at[0]!.t).toBe(PAIR_GAP_MS);
+    expect(logs.at(-1)).toContain("typing indicator");
   });
 
   test("131056 is retried with back-off; other errors are logged, not retried", async () => {
@@ -216,6 +256,10 @@ describe("every message the trader can receive", () => {
     expect(m.body.length).toBeLessThanOrEqual(m.type === "buttons" ? LIMITS.buttonBody : LIMITS.textBody);
     expect(m.body).not.toMatch(/[\u2013\u2014]/);
     expect(m.body).not.toMatch(/\b(color|catalog|center|favorite|organize)\b/i);
+    if (m.type === "link") {
+      expect(m.label.length).toBeLessThanOrEqual(LIMITS.buttonTitle);
+      expect(m.body).toContain(m.url);
+    }
     if (m.type === "buttons") {
       expect(m.buttons.length).toBeLessThanOrEqual(3);
       expect(new Set(m.buttons.map((b) => b.title)).size).toBe(m.buttons.length);

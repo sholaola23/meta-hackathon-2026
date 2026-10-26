@@ -10,11 +10,15 @@ The code is in `src/whatsapp/`. It has no dependencies beyond Bun.
 |---|---|
 | A stall photo and a voice note with prices, in either order | "Thank you! I am making your price list now..." then the priced list with three buttons: **Yes, publish**, **Change price**, **Start again** |
 | A typed or spoken correction, such as "Peak milk na 650" | A new list with fresh buttons. Buttons on older lists stop working |
-| **Yes, publish** | One message with the catalogue link. If an item still has no price, the pricing step first asks once more (see below) |
+| **Yes, publish** | One message with the catalogue link, as an **Open catalogue** button and as text the trader can forward. If an item still has no price, the pricing step first asks once more (see below) |
 | A photo only | "Photo received. Now send a voice note with your prices..." (once) |
 | A voice note only | "Voice note received. Now send a photo of your stall..." (once) |
 | A photo and typed prices, no voice note | Treated like a voice note: the typed prices are used |
-| A greeting or other text before a photo | The welcome message |
+| A greeting or other text before a photo, including off-topic chat | The welcome message, which says StallSnap only makes price catalogues |
+
+While the models work, the trader sees "typing..." (WhatsApp shows it for up to 25 seconds, or until the next message).
+
+StallSnap is presented as a catalogue builder, never as an AI assistant or chatbot: WhatsApp's Business policy bars businesses whose main product is a general chatbot. It does not answer off-topic questions.
 
 Every message StallSnap writes is in `src/whatsapp/copy.ts`. The priced list text, and the "reply YES again" check for unpriced items, come from the pricing module.
 
@@ -92,6 +96,24 @@ Claude cannot do these steps: they need your Meta account. Never use the E'Manue
 9. Send the test number a photo and a voice note from your phone.
 
 A quick tunnel gets a new address every time it starts, so repeat step 8 after a restart.
+
+The test number can message only the phones added as recipients in step 3. Research on 26 Oct put the limit at 5; Meta's get-started page doesn't state it.
+
+### Hosting for the demo and the live final
+
+Shola's Mac with a tunnel is for development. For the demo and the live final on 9 Nov, run the same server on **Railway** (recommended) so it doesn't depend on the Mac staying awake:
+
+- The server is one long-running Bun process (`bun run src/whatsapp/server.ts`) with timers and a state file, so it needs a host that keeps a process running. Railway does; Vercel's serverless functions stop after each request, so the loop would need rework to run there.
+- Add a Railway volume and point `WHATSAPP_DATA_DIR` at it, so state and media survive redeploys.
+- Set the `WHATSAPP_*` values as Railway variables, never in the repo.
+- Don't use AWS.
+
+Creating the Railway account and project is Shola's step.
+
+## Design choices
+
+- **One list, one confirm.** The trader checks the whole priced list in one message and taps **Yes, publish**, rather than confirming each item with its own Yes / Change / Skip buttons and cut-out picture. A stall has 10 to 30 items, and WhatsApp allows one message every 6 seconds per person, so item-by-item confirmation would take 1 to 3 minutes of messages. One list also matches the pricing module's design. The pipeline can still put one image above the list (`headerImageUrl`, for example the cleaned stall cut-outs).
+- **"voice" message type.** Meta's webhook reference sends voice notes as type `audio` with `voice: true`. The loop accepts a separate `voice` type too, in case a client sends one.
 
 ## Testing
 

@@ -25,6 +25,8 @@ export interface PricingTurn {
   message: string;
   /** True only once the trader has confirmed the latest list; the loop then publishes. */
   confirmed: boolean;
+  /** Optional public HTTPS image shown above the list, such as the cleaned stall cut-outs. */
+  headerImageUrl?: string;
 }
 
 export interface StartInput {

@@ -40,6 +40,13 @@ export class Outbox {
   }
 
   private async deliver(to: string, message: Outgoing): Promise<string> {
+    // A typing indicator is not a message: no 6 s wait, no retry, and a failure only costs the "typing..." hint.
+    if (message.type === "typing") {
+      return this.send(to, message).catch((err) => {
+        this.log(`outbox: typing indicator for ${mask(to)} failed: ${(err as Error).message}`);
+        return "";
+      });
+    }
     for (let attempt = 0; attempt < MAX_TRIES; attempt++) {
       const wait = (this.lastSent.get(to) ?? -Infinity) + PAIR_GAP_MS - this.clock.now();
       if (wait > 0) await this.clock.sleep(wait);
