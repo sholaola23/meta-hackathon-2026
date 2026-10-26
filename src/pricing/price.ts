@@ -27,13 +27,11 @@ function checkRange(n: number): PriceResult {
 }
 
 /**
- * "35OO" and "3,5o0" are typing slips for 3500: an O between digits, or two or more Os, is a zero.
- * A single O glued to the end ("1800o") is Pidgin emphasis, not a zero, so it is left and the price refused.
+ * "3,5o0" and "1O0" are typing slips: an O with a digit after it is a zero. O's at the end ("1800o", "1800oo",
+ * "35OO") read as Pidgin emphasis or a slip we can't tell apart, so they are left in and the price is refused.
  */
 function fixLetterO(s: string): string {
-  return s.replace(/[\dOo,.]+/g, (run) =>
-    /\d/.test(run) && (/\d[,.]?[Oo]+[,.]?\d/.test(run) || /[Oo]{2,}/.test(run)) ? run.replace(/[Oo]/g, "0") : run,
-  );
+  return s.replace(/[\dOo,.]+/g, (run) => (/\d/.test(run) ? run.replace(/[Oo](?=[Oo,.]*\d)/g, "0") : run));
 }
 
 function parseDigits(s: string): PriceResult | null {

@@ -38,8 +38,8 @@
     },
     {
       "input": "35OO",
-      "expect": 3500,
-      "attack": "capital O for 0"
+      "expect": "unreadable",
+      "attack": "O's at the end are refused, not read as zeros (QA r2)"
     },
     {
       "input": "3,5o0",
@@ -305,6 +305,16 @@
       "input": "3 tousand",
       "expect": 3000,
       "attack": "digits then Pidgin tousand (QA r1 optional 3)"
+    },
+    {
+      "input": "1O0",
+      "expect": 100,
+      "attack": "an O with a digit after it is a zero"
+    },
+    {
+      "input": "1800oo",
+      "expect": "unreadable",
+      "attack": "Pidgin oo glued to a price is not two zeros (QA r2)"
     }
   ],
   "toolCalls": [
@@ -412,7 +422,7 @@
           "set_price",
           {
             "item_id": "i1",
-            "price_naira": "3,5OO",
+            "price_naira": "3,5O0",
             "unit": "tin",
             "quote": "x"
           }
@@ -725,7 +735,7 @@
     {
       "name": "O for 0 in a reply",
       "replies": [
-        "1 = 36OO",
+        "1 = 36O0",
         "yes"
       ],
       "status": "confirmed",
@@ -1066,6 +1076,36 @@
         "i1": 3500
       },
       "notUnderstood": true
+    },
+    {
+      "name": "kilo is a unit (QA r2 optional 2)",
+      "replies": [
+        "2 na 1500 per kilo",
+        "yes"
+      ],
+      "status": "confirmed",
+      "units": {
+        "i2": "kg"
+      }
+    },
+    {
+      "name": "no thanks asks which one (QA r2 optional 3)",
+      "replies": [
+        "no thanks"
+      ],
+      "status": "awaiting",
+      "version": 1
+    },
+    {
+      "name": "plural on the item side: 'peak milk tins' finds Peak milk tin (QA r2 optional 1)",
+      "replies": [
+        "peak milk tins na 1900",
+        "yes"
+      ],
+      "status": "confirmed",
+      "prices": {
+        "i3": 1900
+      }
     }
   ]
 }

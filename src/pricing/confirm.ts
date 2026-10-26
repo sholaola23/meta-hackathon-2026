@@ -50,7 +50,7 @@ const UNIT_WORDS: Record<string, SaleUnit> = {
   paint: "paint bucket", bucket: "paint bucket", sachets: "sachet", strips: "strip", packs: "pack",
   tins: "tin", bottles: "bottle", jars: "jar", bars: "bar", loaves: "loaf", tubers: "tuber", sets: "set",
   crates: "crate", cups: "cup", bags: "bag", heaps: "heap", bunches: "bunch", yards: "yard", pairs: "pair",
-  pieces: "piece",
+  pieces: "piece", kilo: "kg", kilos: "kg", kilogram: "kg",
 };
 
 function unitWord(w: string): SaleUnit | null {
@@ -94,7 +94,7 @@ export function startConfirmation(draft: Draft, now: () => Date = () => new Date
 }
 
 const YES = /^(yes|yess+|yes please|yes publish|publish|yeah|yep|ok|okay|oya|correct|e correct|all correct|everything correct|na so|confirm|confirmed|confam|send|send am|go ahead|good|fine|perfect|sure|👍|✅)$/i;
-const NO = /^(no|nope|not correct|no correct|e no correct|no be so|wrong|e wrong)$/i;
+const NO = /^(no|nope|not correct|no correct|e no correct|no be so|no thanks|wrong|e wrong)$/i;
 const THANKS = /^(thank you|thanks|thank u|tank you)$/i;
 // WhatsApp sends 👍 with a skin-tone modifier (👍🏾); the modifier alone carries no meaning.
 const SKIN_TONE = /[\u{1F3FB}-\u{1F3FF}]/gu;
@@ -146,8 +146,10 @@ function findByName(s: Session, name: string): number | "ambiguous" | null {
   if (!want.length) return null;
   const hits = s.lines.flatMap((l, i) => {
     if (l.removed) return [];
-    const have = new Set(tokens(l.item.name));
-    return want.every((w) => have.has(w) || have.has(w.replace(/s$/, ""))) ? [i] : [];
+    // Plurals match either way: "sugar cube" finds "Sugar cubes pack", "tins" finds "Milo tin".
+    const stem = (w: string) => w.replace(/s$/, "");
+    const have = new Set(tokens(l.item.name).map(stem));
+    return want.every((w) => have.has(stem(w))) ? [i] : [];
   });
   if (!hits.length) return null;
   return hits.length === 1 ? hits[0]! : "ambiguous";
@@ -285,7 +287,7 @@ function decide(session: Session, reply: string): ReplyResult {
         session,
         notUnderstood,
         message: [
-          "Abeg tell me wetin each price buy:",
+          "Abeg tell me wetin each price buy (per piece, pack, tin, bottle, sachet, kg and so on):",
           ...noUnit.map((l) => `${session.lines.indexOf(l) + 1}. ${l.item.name}: ${naira(l.price!)} per what? Send like: ${session.lines.indexOf(l) + 1} na ${l.price} per pack`),
         ].join("\n"),
       };
