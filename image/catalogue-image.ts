@@ -52,6 +52,8 @@ export interface CatalogueImage {
   fidelity: { opaquePixels: number; maxChannelDiff: number };
   /** The scaled product layer (RGBA, placement-sized), kept so a restyle can be pasted back over. */
   product: Buffer;
+  /** The contact shadow's alpha over the whole canvas, where a restyle may legitimately darken. */
+  shade: Uint8Array;
 }
 
 /** Every fully opaque product pixel must come through unchanged; throws FidelityError otherwise. */
@@ -88,10 +90,15 @@ export async function composeCatalogueImage(photo: Buffer, mask: Mask, backdrop:
     .png()
     .toBuffer();
 
+  const shadowTop = Math.min(SIZE - height, top + Math.round(height * 0.03));
+  const shade = new Uint8Array(SIZE * SIZE);
+  const { data: sa } = await sharp(shadow).raw().toBuffer({ resolveWithObject: true });
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) shade[(shadowTop + y) * SIZE + left + x] = sa[(y * width + x) * 4 + 3]!;
+
   const base = await sharp(backdrop).resize(SIZE, SIZE, { fit: "cover" }).removeAlpha().png().toBuffer();
   const out = await sharp(base)
     .composite([
-      { input: shadow, left, top: Math.min(SIZE - height, top + Math.round(height * 0.03)) },
+      { input: shadow, left, top: shadowTop },
       { input: product, raw: { width, height, channels: 4 }, left, top },
     ])
     .removeAlpha()
@@ -100,40 +107,92 @@ export async function composeCatalogueImage(photo: Buffer, mask: Mask, backdrop:
 
   const fidelity = checkFidelity(out, product, { left, top, width, height });
   const png = await sharp(out, { raw: { width: SIZE, height: SIZE, channels: 3 } }).png().toBuffer();
-  return { png, placement: { left, top, width, height, scale }, fidelity, product };
+  return { png, placement: { left, top, width, height, scale }, fidelity, product, shade };
 }
 
-/** Grid for the no-new-objects check, and how far (in grid cells) around the product edges are ignored. */
-const GRID = 256, MARGIN_CELLS = 4;
+/** How far a restyled pixel may stray from a smooth relight of the composed picture, off the product. */
+const STRAY = 24;
+/** Under the product a restyle may add a contact shadow: an even darkening of the backdrop, by at most this share. */
+const MAX_SHADOW_DARKENING = 0.4;
+/** More stray pixels than this is something new: an invented bottle, text, a ghost of a moved product. */
+export const MAX_NEW_PIXELS = 300;
+
+/** Solves the 6x6 normal equations for one quadratic surface; returns null when they are singular. */
+function solve(a: number[][], b: number[]): number[] | null {
+  const n = b.length, m = a.map((row, i) => [...row, b[i]!]);
+  for (let c = 0; c < n; c++) {
+    let piv = c;
+    for (let r = c + 1; r < n; r++) if (Math.abs(m[r]![c]!) > Math.abs(m[piv]![c]!)) piv = r;
+    if (Math.abs(m[piv]![c]!) < 1e-9) return null;
+    [m[c], m[piv]] = [m[piv]!, m[c]!];
+    for (let r = 0; r < n; r++) {
+      if (r === c) continue;
+      const f = m[r]![c]! / m[c]![c]!;
+      for (let k = c; k <= n; k++) m[r]![k]! -= f * m[c]![k]!;
+    }
+  }
+  return m.map((row, i) => row[n]! / row[i]!);
+}
 
 /**
- * Share of strong edges outside the product (and a margin round it). The composed picture has a plain backdrop and a
- * blurred shadow, so anything Muse Image drew there (a second bottle, text, a ghost of a moved product) shows up here.
+ * Counts pixels where a restyle adds something to the composed picture. A legitimate restyle only relights the plain
+ * backdrop, which a smooth (quadratic) change per channel explains. Whatever that surface cannot explain is new
+ * structure: a hard-edged bottle, a softly shaded blob, or a tin drawn against the product's edge. Only the product
+ * itself (with a 2 px rim) is ignored; under the product, an even darkening (a contact shadow) is allowed.
  */
-export async function edgeShareOutside(image: Buffer, product: Buffer, p: { left: number; top: number; width: number; height: number }) {
-  const cell = SIZE / GRID;
-  const near = new Uint8Array(GRID * GRID);
+export function newPixels(composed: Buffer, restyled: Buffer, product: Buffer, p: { left: number; top: number; width: number; height: number }, shade: Uint8Array): number {
+  const skip = new Uint8Array(SIZE * SIZE);
   for (let y = 0; y < p.height; y++)
     for (let x = 0; x < p.width; x++) {
       if (!product[(y * p.width + x) * 4 + 3]) continue;
-      const gx = Math.floor((p.left + x) / cell), gy = Math.floor((p.top + y) / cell);
-      for (let dy = -MARGIN_CELLS; dy <= MARGIN_CELLS; dy++)
-        for (let dx = -MARGIN_CELLS; dx <= MARGIN_CELLS; dx++) {
-          const nx = gx + dx, ny = gy + dy;
-          if (nx >= 0 && ny >= 0 && nx < GRID && ny < GRID) near[ny * GRID + nx] = 1;
+      for (let dy = -2; dy <= 2; dy++)
+        for (let dx = -2; dx <= 2; dx++) {
+          const X = p.left + x + dx, Y = p.top + y + dy;
+          if (X >= 0 && Y >= 0 && X < SIZE && Y < SIZE) skip[Y * SIZE + X] = 1;
         }
     }
-  const { data } = await sharp(image).resize(GRID, GRID, { fit: "fill" }).greyscale().raw().toBuffer({ resolveWithObject: true });
-  let strong = 0, outside = 0;
-  for (let y = 1; y < GRID - 1; y++)
-    for (let x = 1; x < GRID - 1; x++) {
-      if (near[y * GRID + x]) continue;
-      outside++;
-      const gx = data[y * GRID + x + 1]! - data[y * GRID + x - 1]!;
-      const gy = data[(y + 1) * GRID + x]! - data[(y - 1) * GRID + x]!;
-      if (Math.hypot(gx, gy) > 24) strong++;
+  const terms = (x: number, y: number) => {
+    const u = (2 * x) / SIZE - 1, v = (2 * y) / SIZE - 1;
+    return [1, u, v, u * u, u * v, v * v];
+  };
+  const fits: number[][] = [];
+  for (let c = 0; c < 3; c++) {
+    const A = Array.from({ length: 6 }, () => new Array(6).fill(0)), B = new Array(6).fill(0);
+    for (let y = 0; y < SIZE; y += 4)
+      for (let x = 0; x < SIZE; x += 4) {
+        const i = y * SIZE + x;
+        if (skip[i]) continue;
+        const t = terms(x, y), d = restyled[i * 3 + c]! - composed[i * 3 + c]!;
+        for (let r = 0; r < 6; r++) {
+          B[r] += t[r]! * d;
+          for (let k = 0; k < 6; k++) A[r]![k] += t[r]! * t[k]!;
+        }
+      }
+    fits.push(solve(A, B) ?? [0, 0, 0, 0, 0, 0]);
+  }
+  // Where a restyle's own contact shadow can fall: under the lower half of the product, a little wider and lower.
+  const below = (x: number, y: number) =>
+    x >= p.left - p.width * 0.1 && x <= p.left + p.width * 1.1 && y >= p.top + p.height / 2 && y <= p.top + p.height * 1.15;
+  let stray = 0;
+  for (let y = 0; y < SIZE; y++)
+    for (let x = 0; x < SIZE; x++) {
+      const i = y * SIZE + x;
+      if (skip[i]) continue;
+      const t = terms(x, y);
+      let worst = 0;
+      const ratio: number[] = [];
+      for (let c = 0; c < 3; c++) {
+        const expected = composed[i * 3 + c]! + fits[c]!.reduce((s, w, k) => s + w * t[k]!, 0);
+        worst = Math.max(worst, Math.abs(restyled[i * 3 + c]! - expected));
+        ratio.push(restyled[i * 3 + c]! / Math.max(1, expected));
+      }
+      if (worst <= STRAY) continue;
+      // A shadow under the product darkens the backdrop evenly; a tin or a coloured object does not.
+      const evenDarkening = Math.max(...ratio) - Math.min(...ratio) <= 0.06 && Math.min(...ratio) >= 1 - MAX_SHADOW_DARKENING;
+      if (evenDarkening && (shade[i]! > 4 || below(x, y))) continue;
+      stray++;
     }
-  return outside ? strong / outside : 0;
+  return stray;
 }
 
 export interface FinalImage {
@@ -141,7 +200,8 @@ export interface FinalImage {
   source: "muse-image" | "local";
   /** Why a restyle was not used, when one was offered. */
   rejected?: string;
-  edgeShare?: number;
+  /** Pixels the restyle changed beyond a smooth relight, off the product. */
+  newPixels?: number;
   fidelity: { opaquePixels: number; maxChannelDiff: number };
 }
 
@@ -164,10 +224,11 @@ export async function restyleCatalogueImage(composed: CatalogueImage, restyled: 
       .removeAlpha()
       .raw()
       .toBuffer();
+    const before = await sharp(composed.png).removeAlpha().raw().toBuffer();
+    const added = newPixels(before, out, composed.product, p, composed.shade);
+    if (added > MAX_NEW_PIXELS) return { ...local, rejected: `something new appeared around the product (${added} pixels)`, newPixels: added };
     const png = await sharp(out, { raw: { width: SIZE, height: SIZE, channels: 3 } }).png().toBuffer();
-    const edgeShare = await edgeShareOutside(png, composed.product, p);
-    if (edgeShare >= 0.01) return { ...local, rejected: "something new appeared around the product", edgeShare };
-    return { png, source: "muse-image", edgeShare, fidelity: checkFidelity(out, composed.product, p) };
+    return { png, source: "muse-image", newPixels: added, fidelity: checkFidelity(out, composed.product, p) };
   } catch (e) {
     return { ...local, rejected: (e as Error).message };
   }

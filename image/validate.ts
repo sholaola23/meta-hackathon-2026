@@ -86,7 +86,7 @@ if (import.meta.main) {
     const r = await cutOut(photo.path, photo.width, photo.height, liveCalls(guard, job, { width: photo.width, height: photo.height }));
     const bytes = readFileSync(photo.path);
     const tiles: { png: Buffer; label: string }[] = [];
-    const pictures: { number: number; name: string; source: string; rejected?: string; edgeShare?: number; maxChannelDiff: number }[] = [];
+    const pictures: { number: number; name: string; source: string; rejected?: string; newPixels?: number; maxChannelDiff: number }[] = [];
     // One restyle per photo, on its biggest item, so the cap spreads across photos.
     const biggest = [...r.items].sort((a, b) => area(b.cover) - area(a.cover))[0];
     for (const it of r.items) {
@@ -95,7 +95,7 @@ if (import.meta.main) {
       if (raw) writeFileSync(join(OUT, "restyle", `${stem}-${it.number}-raw.png`), raw);
       const final = await restyleCatalogueImage(composed, raw);
       tiles.push({ png: final.png, label: `${it.number} ${it.name}${final.source === "muse-image" ? " *" : ""}`.slice(0, 24) });
-      pictures.push({ number: it.number, name: it.name, source: final.source, rejected: final.rejected, edgeShare: final.edgeShare, maxChannelDiff: final.fidelity.maxChannelDiff });
+      pictures.push({ number: it.number, name: it.name, source: final.source, rejected: final.rejected, newPixels: final.newPixels, maxChannelDiff: final.fidelity.maxChannelDiff });
     }
     const crops = r.items.flatMap((it) => it.crops.map((c) => ({ ...c, number: it.number })));
     await overlay(photo.path, crops, join(OUT, `${stem}-overlay.jpg`));

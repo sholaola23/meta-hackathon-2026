@@ -141,15 +141,34 @@ describe("Muse Image restyle (the real product is pasted back; nothing new may a
   test("a restyle that redrew or recoloured the product is corrected: the trader's own pixels go back on top", async () => {
     const c = await composed();
     const p = c.placement;
-    const altered = await sharp(c.png)
-      .composite([{ input: { create: { width: p.width, height: p.height, channels: 3, background: "#00ff00" } }, left: p.left, top: p.top }])
-      .png()
-      .toBuffer();
+    // Muse Image recolours the product itself (every product pixel green), backdrop untouched.
+    const green = Buffer.from(c.product);
+    for (let i = 0; i < p.width * p.height; i++) if (green[i * 4 + 3]) [green[i * 4], green[i * 4 + 1], green[i * 4 + 2]] = [0, 255, 0];
+    const altered = await sharp(c.png).composite([{ input: green, raw: { width: p.width, height: p.height, channels: 4 }, left: p.left, top: p.top }]).png().toBuffer();
     const out = await restyleCatalogueImage(c, altered);
     expect(out.source).toBe("muse-image");
     expect(out.fidelity.maxChannelDiff).toBe(0);
     const cx = p.left + Math.round(p.width / 2), cy = p.top + Math.round(p.height / 2);
     expect(await pixel(out.png, cx, cy)).toEqual(await pixel(c.png, cx, cy));
+  });
+
+  test("a restyle that relights the backdrop and adds its own soft contact shadow is used", async () => {
+    const c = await composed();
+    const p = c.placement;
+    const lit = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}">
+<defs><radialGradient id="g" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#f2efe9"/><stop offset="100%" stop-color="#bdb6aa"/></radialGradient></defs>
+<rect width="100%" height="100%" fill="url(#g)"/><ellipse cx="${p.left + p.width / 2}" cy="${p.top + p.height}" rx="${p.width / 2}" ry="30" fill="#000" fill-opacity="0.25"/></svg>`);
+    const out = await restyleCatalogueImage(c, await sharp(lit).blur(6).png().toBuffer());
+    expect(out.source).toBe("muse-image");
+  });
+
+  test("a dark or coloured object drawn under the product is not mistaken for its shadow", async () => {
+    const c = await composed();
+    const p = c.placement;
+    for (const fill of ["#222222", "#c0392b"]) {
+      const tin = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}"><rect x="${p.left + p.width / 2 - 30}" y="${p.top + p.height + 4}" width="60" height="40" fill="${fill}"/></svg>`);
+      expect((await restyleCatalogueImage(c, await studio().composite([{ input: tin }]).png().toBuffer())).source).toBe("local");
+    }
   });
 
   test("a restyle that adds an invented bottle beside the product is rejected", async () => {

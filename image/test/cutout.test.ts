@@ -110,13 +110,13 @@ describe("filterCandidates", () => {
     expect(filterCandidates([a, b], [], AREA).kept).toHaveLength(2);
   });
 
-  test("loose matches below SAM confidence 0.5 are dropped; masks with no confidence are kept", () => {
+  test("loose matches below SAM confidence 0.5 are dropped, and so are masks with no confidence", () => {
     const loose = cand(rect(100, 100, 80, 80, 0.3), 0, "sachet");
     const sure = cand(rect(300, 100, 80, 80, 0.5), 0, "sachet");
     const unknown = { ...cand(rect(500, 100, 80, 80), 0, "sachet"), confidence: undefined };
     const { kept, dropped } = filterCandidates([loose, sure, unknown], [], AREA);
-    expect(kept).toHaveLength(2);
-    expect(dropped.map((d) => d.reason)).toEqual(["low-confidence"]);
+    expect(kept).toHaveLength(1);
+    expect(dropped.map((d) => d.reason)).toEqual(["low-confidence", "low-confidence"]);
   });
 
   test("crops are numbered in reading order whatever order SAM returned them", () => {
@@ -218,13 +218,13 @@ describe("cutOut with Spark's review", () => {
     expect(r.items.map((i) => i.name)).toEqual(["Rice", "Beans", "Millet"]);
   });
 
-  test("crops Spark skips are kept as unreviewed rather than lost", async () => {
+  test("a crop Spark gives no verdict on counts as rejected (the rules say: if you cannot tell, reject)", async () => {
     const { calls } = fake([P("Tin", "milk tin", "tin")], { tin: [rect(100, 100, 50, 50), rect(300, 100, 50, 50)] }, {
       review: () => ({ crops: [{ number: 1, accept: true, name: "Peak milk", lot: "a" }, { number: 99, accept: false, name: "ghost", lot: "z" }], missing: [] }),
     });
     const r = await cutOut("photo.jpg", W, H, calls);
-    expect(r.items.map((i) => [i.name, i.source])).toEqual([["Peak milk", "review"], ["Tin", "unreviewed"]]);
-    expect(r.rejected).toEqual([]); // number 99 does not exist and is ignored
+    expect(r.items.map((i) => [i.name, i.source])).toEqual([["Peak milk", "review"]]);
+    expect(r.rejected).toEqual([{ number: 2, name: "Tin" }]); // number 99 does not exist and is ignored
   });
 
   test("a failed review call (API error or spend cap) degrades to unreviewed items, not a crash", async () => {

@@ -90,6 +90,9 @@ export const LIMITS = {
   personDropFraction: 0.5,
 };
 
+/** SAM's confidence is at or above the floor. A missing or NaN confidence counts as a loose match. */
+export const confident = (m: Mask) => (m.confidence ?? NaN) >= LIMITS.minConfidence;
+
 export type DropReason = "low-confidence" | "too-big" | "too-small" | "person" | "duplicate";
 
 export interface Filtered {
@@ -108,7 +111,7 @@ export function filterCandidates(candidates: Candidate[], people: Mask[], imageA
   const dropped: Filtered["dropped"] = [];
   const survivors: Candidate[] = [];
   for (const c of candidates) {
-    if (c.confidence !== undefined && c.confidence < LIMITS.minConfidence) {
+    if (!confident(c)) {
       dropped.push({ candidate: c, reason: "low-confidence" });
       continue;
     }

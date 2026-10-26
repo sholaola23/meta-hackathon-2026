@@ -21,4 +21,4 @@ The day-one test made 280 paid calls for about $1.16 (about £0.90). Every live 
 
 ## Licences
 
-Overlays and crop sheets made from `test-material/real-photos/` adapt CC BY-SA photos and carry the same licence. The credits are in `test-material/real-photos/ATTRIBUTION.md`. None of this test material may appear in the demo video.
+Any picture made from `test-material/real-photos/` adapts CC BY-SA photos and carries the same licence. The credits are in `test-material/real-photos/ATTRIBUTION.md`. None of this test material may appear in the demo video.

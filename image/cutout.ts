@@ -6,7 +6,7 @@
 //    groups crops of one lot (a heap, a basin, a strip) and gives boxes for stock it can see but no crop covers;
 // 4. SAM 3.1 segments those boxes (box prompts, at most 16 per request).
 // The model calls are injected so the messy-input suite runs the real logic with no API calls.
-import { area, filterCandidates, LIMITS, overlapOfSmaller, subtract, type Box, type Candidate, type DropReason, type Mask } from "./mask";
+import { area, confident, filterCandidates, LIMITS, overlapOfSmaller, subtract, type Box, type Candidate, type DropReason, type Mask } from "./mask";
 
 export interface Product {
   /** What the trader would call it. Never shown as fact until the trader confirms it. */
@@ -55,7 +55,7 @@ export interface CatalogueItem {
   name: string;
   cover: Crop;
   crops: Crop[];
-  /** "review": Spark accepted it; "box": Spark pointed at it and SAM cut it out; "unreviewed": Spark said nothing. */
+  /** "review": Spark accepted it; "box": Spark pointed at it and SAM cut it out; "unreviewed": the review call failed. */
   source: "review" | "box" | "unreviewed";
 }
 
@@ -77,11 +77,13 @@ export const BROAD_PHRASES = ["bottle", "packet", "bag"];
 export const MAX_BOXES = 16;
 /** Spark reviews at most this many crops (the biggest); smaller leftovers are dropped. */
 export const MAX_REVIEW = 48;
+/** Spark is asked for at most 12 product types; more would blow the per-job call limit after paying for the first 60. */
+export const MAX_PRODUCTS = 12;
 const BROAD = -1;
 const FROM_BOX = -2;
 
 // Phrasings that name people rather than stock. SAM would hand back the trader, so never send these.
-const PERSON_WORDS = /^(person|people|man|men|woman|women|trader|seller|vendor|customer|buyer|child|boy|girl|human|face|hand|hands)$/;
+const PERSON_WORDS = /\b(person|people|man|men|woman|women|lady|ladies|trader|traders|seller|sellers|vendor|vendors|hawker|hawkers|customer|customers|buyer|buyers|child|children|kid|kids|boy|boys|girl|girls|baby|babies|human|face|hand|hands|arm|arms)\b/;
 
 export function normalisePhrase(p: string): string {
   return p.toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
@@ -107,9 +109,34 @@ export function gridToPixels(box: number[], width: number, height: number): Box 
   return right - left >= 4 && bottom - top >= 4 ? { left, top, right, bottom } : null;
 }
 
+const text = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+
+/** Spark's product list, checked at the boundary: string fields only, empty names dropped, at most MAX_PRODUCTS. */
+export function parseProducts(raw: unknown): Product[] {
+  const list = Array.isArray(raw) ? raw : [];
+  return list
+    .filter((p): p is Record<string, unknown> => !!p && typeof p === "object")
+    .map((p) => ({ name: text(p.name), specific: text(p.specific), plain: text(p.plain), general: text(p.general) }))
+    .filter((p) => p.name || p.specific || p.plain)
+    .slice(0, MAX_PRODUCTS);
+}
+
+/** Spark's review, checked at the boundary: accept only when it is literally true; boxes must be four numbers. */
+export function parseReview(raw: unknown): Review {
+  const r = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const crops = (Array.isArray(r.crops) ? r.crops : [])
+    .filter((v): v is Record<string, unknown> => !!v && typeof v === "object" && Number.isInteger(v.number))
+    .map((v) => ({ number: v.number as number, accept: v.accept === true, name: text(v.name), lot: text(v.lot) }));
+  const missing = (Array.isArray(r.missing) ? r.missing : [])
+    .filter((m): m is Record<string, unknown> => !!m && typeof m === "object")
+    .filter((m) => Array.isArray(m.box) && m.box.length === 4 && m.box.every((n) => typeof n === "number" && Number.isFinite(n)))
+    .map((m) => ({ name: text(m.name), box: m.box as number[] }));
+  return { crops, missing };
+}
+
 export async function cutOut(photoPath: string, width: number, height: number, calls: ModelCalls): Promise<CutoutResult> {
   const imageArea = width * height;
-  const products = await calls.proposeProducts(photoPath);
+  const products = parseProducts(await calls.proposeProducts(photoPath));
   const empty: CutoutResult = { status: "no-products", products, phrases: [], people: 0, items: [], rejected: [], dropped: [], boxPrompts: 0 };
   if (!products.length) return empty;
 
@@ -149,23 +176,30 @@ export async function cutOut(photoPath: string, width: number, height: number, c
   let reviewError: string | undefined;
   if (crops.length)
     try {
-      review = await calls.review(photoPath, crops);
+      review = parseReview(await calls.review(photoPath, crops));
     } catch (e) {
       reviewError = (e as Error).message;
     }
   const verdicts = new Map<number, ReviewVerdict>();
-  for (const v of review.crops ?? []) if (Number.isInteger(v.number) && !verdicts.has(v.number)) verdicts.set(v.number, v);
+  for (const v of review.crops) if (Number.isInteger(v.number) && !verdicts.has(v.number)) verdicts.set(v.number, v);
 
   const lots = new Map<string, { name: string; crops: Crop[]; source: CatalogueItem["source"] }>();
   const rejected: CutoutResult["rejected"] = [];
   for (const c of crops) {
     const v = verdicts.get(c.number);
-    if (v && !v.accept) {
-      rejected.push({ number: c.number, name: v.name || c.productName });
+    if (reviewError) {
+      // No review: keep only crops of the trader's own products, never the broad "bag", "bottle", "packet" matches.
+      if (c.productIndex < 0) {
+        out.push({ phrase: c.phrase, reason: "not-reviewed", box: c.box });
+        continue;
+      }
+    } else if (!v?.accept) {
+      // A rejection, or no verdict at all: the review rules say "if you cannot tell, reject".
+      rejected.push({ number: c.number, name: v?.name || c.productName });
       continue;
     }
-    const label = v?.name?.trim() || c.productName;
-    const key = v ? `lot:${normalisePhrase(v.lot || "") || `crop-${c.number}`}` : `crop-${c.number}`;
+    const label = v?.name || c.productName;
+    const key = v ? `lot:${normalisePhrase(v.lot) || `crop-${c.number}`}` : `crop-${c.number}`;
     const lot = lots.get(key) ?? { name: label, crops: [], source: v ? "review" : "unreviewed" };
     lot.crops.push({ ...c, productName: label });
     lots.set(key, lot);
@@ -173,8 +207,8 @@ export async function cutOut(photoPath: string, width: number, height: number, c
 
   // Box prompts for stock Spark can see but no accepted crop covers.
   const accepted = [...lots.values()].flatMap((l) => l.crops);
-  const wanted = (review.missing ?? [])
-    .map((m) => ({ name: (m.name ?? "").trim() || "item", box: gridToPixels(m.box ?? [], width, height) }))
+  const wanted = review.missing
+    .map((m) => ({ name: m.name || "item", box: gridToPixels(m.box, width, height) }))
     .filter((m): m is { name: string; box: Box } => m.box !== null)
     .slice(0, MAX_BOXES);
   let boxPrompts = 0;
@@ -182,7 +216,7 @@ export async function cutOut(photoPath: string, width: number, height: number, c
     const masks = await calls.segmentBoxes(photoPath, wanted.map((m) => m.box));
     boxPrompts = wanted.length;
     masks.forEach((m, i) => {
-      if (!m) return;
+      if (!m || !confident(m)) return;
       const clean = people.length ? subtract(m, people) : m;
       const frac = area(clean) / imageArea;
       if (frac < LIMITS.minAreaFraction || frac > LIMITS.maxAreaFraction) return;
