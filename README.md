@@ -21,6 +21,7 @@ The catalogue goes back as a web link over WhatsApp.
 
 | Path | What is in it |
 |------|---------------|
+| `docs/judging-and-goals.md` | What the hackathon wants, how winners are chosen, and how we aim at it |
 | `docs/idea-decision.md` | Why StallSnap, the guardrails, the day-one test and the fallback |
 | `test-material/stalls.json` | Answer key: 5 stalls, their items and naira prices |
 | `test-material/images/` | Generated stall photos (Muse Image) for the test, with prompts |

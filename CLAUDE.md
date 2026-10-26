@@ -2,6 +2,8 @@
 
 Personal project for Olushola, not WorkCrew. Solo, Indie Developer track. Submissions due Wed 4 Nov 9pm ET (2am Thu 5 Nov UK).
 
+Read `docs/judging-and-goals.md` before planning any feature: every feature must move one of the four judging criteria.
+
 ## Hard rules
 - Only code written after kickoff (Mon 26 Oct) counts. Do not copy code from ResumeRadar or other repos.
 - The repo is PUBLIC. Never commit `.env` or any key. The key lives in `.env` as `MODEL_API_KEY`.
