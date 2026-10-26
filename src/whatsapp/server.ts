@@ -55,6 +55,8 @@ if (import.meta.main) {
     (events) => void loop.handle(events),
   );
   const port = Number(process.env.PORT ?? 3000);
-  Bun.serve({ port, fetch: handler });
+  loop.resume();
+  // Meta batches up to 3 MB per POST; refuse anything much bigger before reading it.
+  Bun.serve({ port, fetch: handler, maxRequestBodySize: 4 * 1024 * 1024 });
   console.log(`StallSnap WhatsApp webhook on http://localhost:${port}/webhook for ${allowed.size} allowed number(s)`);
 }

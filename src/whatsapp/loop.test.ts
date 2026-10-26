@@ -122,10 +122,10 @@ describe("too much", () => {
     expect(outbox.bodies()).toEqual([copy.audioTooBig.body]);
   });
 
-  test("WhatsApp's own 'file over 100 MB' error gets the too-big message", async () => {
+  test("WhatsApp's own 'file over 100 MB' error gets the file-too-big message", async () => {
     const { outbox, deliver } = setup();
     await deliver(payload([msg("unsupported", {}, T, TRADER, { errors: [{ code: 131052, title: "Media file size too big" }] })]));
-    expect(outbox.bodies()).toEqual([copy.imageTooBig.body]);
+    expect(outbox.bodies()).toEqual([copy.fileTooBig.body]);
   });
 });
 

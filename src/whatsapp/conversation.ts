@@ -74,6 +74,23 @@ export class Conversation {
     return Promise.all(work).then(() => undefined);
   }
 
+  /**
+   * Call once at start-up. Timers and running jobs do not survive a restart: collecting sessions wait
+   * again and then start, and traders whose job was running are told it was lost.
+   */
+  resume() {
+    for (const trader of this.deps.store.traders()) {
+      const s = this.deps.store.get(trader)!;
+      if (s.phase === "collecting") this.settle(trader);
+      else if (s.phase === "working" || s.phase === "publishing") {
+        void this.run(trader, async () => {
+          this.save(trader, freshSession());
+          this.send(trader, copy.failed);
+        });
+      }
+    }
+  }
+
   /** Resolves when every queued step for every trader has finished. For tests. */
   async idle(): Promise<void> {
     for (;;) {
@@ -128,7 +145,7 @@ export class Conversation {
         return;
       case "other":
         // 131052: WhatsApp refused the media for being over 100 MB.
-        this.send(trader, e.errorCode === 131052 ? copy.imageTooBig : copy.unsupported);
+        this.send(trader, e.errorCode === 131052 ? copy.fileTooBig : copy.unsupported);
         return;
       case "button":
         return this.onButton(trader, s, e.buttonId);
@@ -141,8 +158,10 @@ export class Conversation {
   }
 
   private async onMedia(trader: string, s: Session, e: Extract<InboundEvent, { kind: "image" | "audio" }>) {
-    if (e.kind === "image" && (s.phase === "working" || s.phase === "checking" || s.phase === "publishing")) {
-      this.tellOnce(trader, s, "photo-while-checking", s.phase === "checking" ? copy.photoWhileChecking : copy.stillWorking);
+    // While publishing nothing more can change the list, and a photo never joins a list already made.
+    if (s.phase === "publishing" || (e.kind === "image" && (s.phase === "working" || s.phase === "checking"))) {
+      if (s.phase === "checking") this.tellOnce(trader, s, "photo-while-checking", copy.photoWhileChecking);
+      else this.tellOnce(trader, s, "still-working", copy.stillWorking);
       this.save(trader, s);
       return;
     }
@@ -291,10 +310,11 @@ export class Conversation {
   private async afterTurn(trader: string, jobId: string, turn: PricingTurn) {
     const s = this.deps.store.get(trader);
     if (!s || s.jobId !== jobId) return; // the trader started again meanwhile
-    if (turn.confirmed) return this.publish(trader, s);
     s.version = turn.version;
     s.phase = "checking";
     const next = s.pending.shift();
+    // A reply sent after Yes but before the answer wins over the Yes: never publish a list the trader has corrected.
+    if (turn.confirmed && !next) return this.publish(trader, s);
     this.save(trader, s);
     // A reply that arrived while we were working is about the old list: apply it before showing a list.
     if (next) return this.onReply(trader, s, next);

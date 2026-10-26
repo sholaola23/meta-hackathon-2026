@@ -30,13 +30,24 @@ export class Store {
   private seen: string[] = [];
   private seenSet = new Set<string>();
 
-  constructor(private readonly file?: string) {
-    if (file && existsSync(file)) {
+  constructor(
+    private readonly file?: string,
+    log: (line: string) => void = console.error,
+  ) {
+    if (!file || !existsSync(file)) return;
+    try {
       const data = JSON.parse(readFileSync(file, "utf8")) as { sessions: Record<string, Session>; seen: string[] };
-      this.sessions = new Map(Object.entries(data.sessions));
-      this.seen = data.seen;
-      this.seenSet = new Set(data.seen);
+      this.sessions = new Map(Object.entries(data.sessions ?? {}));
+      this.seen = Array.isArray(data.seen) ? data.seen : [];
+      this.seenSet = new Set(this.seen);
+    } catch (err) {
+      // A damaged file should not keep the server down; traders just start again.
+      log(`store: could not read ${file}, starting empty: ${(err as Error).message}`);
     }
+  }
+
+  traders(): string[] {
+    return [...this.sessions.keys()];
   }
 
   /** True the first time a message id is offered, false for every repeat. */

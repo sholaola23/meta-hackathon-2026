@@ -18,7 +18,7 @@ The code is in `src/whatsapp/`. It has no dependencies beyond Bun.
 
 Every message StallSnap writes is in `src/whatsapp/copy.ts`. The priced list text, and the "reply YES again" check for unpriced items, come from the pricing module.
 
-WhatsApp allows one message every 6 seconds to the same person (error 131056). The outbox spaces messages 6 seconds apart and retries after 1, 4 and 16 seconds on 131056. So the catalogue goes back as one link, never as a burst of images.
+WhatsApp allows one message every 6 seconds to the same person (error 131056). The outbox spaces messages 6 seconds apart. It retries after 1, 4 and 16 seconds on rate limits (131056, 130429, 80007), Meta server errors (HTTP 5xx) and network failures; other errors are logged without the token. So the catalogue goes back as one link, never as a burst of images.
 
 ## How it works
 
@@ -27,8 +27,9 @@ WhatsApp allows one message every 6 seconds to the same person (error 131056). T
 3. **Filter** (`conversation.ts`). Numbers not in `WHATSAPP_ALLOWED_NUMBERS` are ignored: no reply, no download, no model call. Message ids already handled are skipped, so a webhook delivered twice is handled once. The ids are kept on disk, so this holds across a restart.
 4. **Download** (`media.ts`). Two steps, as Meta documents: the media id gives a URL that lasts 5 minutes, then the URL is fetched with the token. The type and size are checked before downloading, and the bytes are checked against WhatsApp's SHA-256. An expired URL (404) is fetched again once.
 5. **Collect, then start.** Photos and voice notes arrive as separate webhooks. The loop waits 5 seconds after the last one, then calls the pipeline once with every photo and voice note.
-6. **Confirm or correct.** Each reply to the list goes to the pricing step. A reply that arrives while a list is still being made is applied before any list is shown, so the trader never confirms a list they have already corrected.
+6. **Confirm or correct.** Each reply to the list goes to the pricing step. A reply that arrives while a list is still being made, or after **Yes, publish** but before the answer, is applied before any list is shown or published, so a list the trader has corrected is never published. Photos and voice notes sent while the catalogue is being published are not used; the trader is asked to wait.
 7. **Publish.** When the pricing step says the trader has confirmed the latest list, the catalogue page is built and its link is sent.
+8. **Restart.** State is kept in `src/whatsapp/.data/state.json`. On start-up, a trader who had sent their photo and voice note gets their list as normal, and a trader whose list was being made is told "something went wrong" and asked to send again. A damaged state file is logged and replaced with an empty one.
 
 ## Limits the loop sets itself
 

@@ -1,10 +1,16 @@
 // Sends to one trader at most once every 6 seconds (WhatsApp's pair rate limit, error 131056).
-// On 131056 it retries after 4^x seconds, as the docs advise (about-the-platform#rate-limits, read 26 Oct 2026).
+// Rate limits (131056, 130429, 80007), Meta server errors (5xx) and network failures are retried after
+// 1, 4 and 16 seconds (4^x, as about-the-platform#rate-limits advises, read 26 Oct 2026). Others are not.
 import { GraphError, type Outgoing } from "./graph";
 
 export const PAIR_GAP_MS = 6000;
-const PAIR_RATE_LIMITED = 131056;
-const MAX_TRIES = 3;
+const RATE_LIMITED = new Set([131056, 130429, 80007]);
+const MAX_TRIES = 4;
+
+function retryable(err: unknown): boolean {
+  if (!(err instanceof GraphError)) return true; // fetch threw: network or tunnel blip
+  return err.status >= 500 || (err.code !== undefined && RATE_LIMITED.has(err.code));
+}
 
 export interface Clock {
   now(): number;
@@ -43,7 +49,7 @@ export class Outbox {
         return id;
       } catch (err) {
         this.lastSent.set(to, this.clock.now());
-        if (err instanceof GraphError && err.code === PAIR_RATE_LIMITED && attempt < MAX_TRIES - 1) {
+        if (retryable(err) && attempt < MAX_TRIES - 1) {
           await this.clock.sleep(4 ** attempt * 1000);
           continue;
         }
