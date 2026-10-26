@@ -152,14 +152,22 @@ describe("Muse Image restyle (the real product is pasted back; nothing new may a
     expect(await pixel(out.png, cx, cy)).toEqual(await pixel(c.png, cx, cy));
   });
 
-  test("a restyle that relights the backdrop and adds its own soft contact shadow is used", async () => {
+  test("a restyle that relights the backdrop and deepens the existing contact shadow is used", async () => {
+    const c = await composed();
+    // Relit backdrop, and the composed shadow made 30% darker (an even darkening inside the shadow only).
+    const lit = await sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}">
+<defs><radialGradient id="g" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#f2efe9"/><stop offset="100%" stop-color="#bdb6aa"/></radialGradient></defs>
+<rect width="100%" height="100%" fill="url(#g)"/></svg>`)).removeAlpha().raw().toBuffer();
+    for (let i = 0; i < SIZE * SIZE; i++) if (c.shade[i]! > 4) for (let k = 0; k < 3; k++) lit[i * 3 + k] = Math.round(lit[i * 3 + k]! * 0.7);
+    const out = await restyleCatalogueImage(c, await sharp(lit, { raw: { width: SIZE, height: SIZE, channels: 3 } }).png().toBuffer());
+    expect(out.source).toBe("muse-image");
+  });
+
+  test("a restyle that draws its own shadow outside the composed one fails closed to the composed picture", async () => {
     const c = await composed();
     const p = c.placement;
-    const lit = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}">
-<defs><radialGradient id="g" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#f2efe9"/><stop offset="100%" stop-color="#bdb6aa"/></radialGradient></defs>
-<rect width="100%" height="100%" fill="url(#g)"/><ellipse cx="${p.left + p.width / 2}" cy="${p.top + p.height}" rx="${p.width / 2}" ry="30" fill="#000" fill-opacity="0.25"/></svg>`);
-    const out = await restyleCatalogueImage(c, await sharp(lit).blur(6).png().toBuffer());
-    expect(out.source).toBe("muse-image");
+    const shadow = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}"><ellipse cx="${p.left + p.width / 2}" cy="${p.top + p.height + 40}" rx="${p.width / 2}" ry="40" fill="#000" fill-opacity="0.25"/></svg>`);
+    expect((await restyleCatalogueImage(c, await studio().composite([{ input: shadow }]).png().toBuffer())).source).toBe("local");
   });
 
   test("a dark or coloured object drawn under the product is not mistaken for its shadow", async () => {

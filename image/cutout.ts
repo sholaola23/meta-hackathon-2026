@@ -82,8 +82,9 @@ export const MAX_PRODUCTS = 12;
 const BROAD = -1;
 const FROM_BOX = -2;
 
-// Phrasings that name people rather than stock. SAM would hand back the trader, so never send these.
-const PERSON_WORDS = /\b(person|people|man|men|woman|women|lady|ladies|trader|traders|seller|sellers|vendor|vendors|hawker|hawkers|customer|customers|buyer|buyers|child|children|kid|kids|boy|boys|girl|girls|baby|babies|human|face|hand|hands|arm|arms)\b/;
+// Phrasings whose head noun (last word) is a person or body part. SAM would hand back the trader, so never send these.
+// "ladies finger", "baby wipes" and "men's shoes" are stock and stay.
+const PERSON_WORDS = /^(person|people|man|men|woman|women|lady|ladies|trader|traders|seller|sellers|vendor|vendors|hawker|hawkers|customer|customers|buyer|buyers|child|children|kid|kids|boy|boys|girl|girls|baby|babies|human|face|hand|hands|arm|arms)$/;
 
 export function normalisePhrase(p: string): string {
   return p.toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
@@ -96,7 +97,7 @@ const NOT_ONE_CONCEPT = /[,/&;]|\b(and|or|not|no|without|except|left|right|top|b
 export function usable(raw: string | undefined): string {
   if (!raw || NOT_ONE_CONCEPT.test(raw.toLowerCase())) return "";
   const p = normalisePhrase(raw);
-  return p && !PERSON_WORDS.test(p) ? p : "";
+  return p && !PERSON_WORDS.test(p.split(" ").at(-1)!) ? p : "";
 }
 
 /** Turns Spark's 0-1000 box into image pixels, clamped to the photo. Null for a box with no area. */

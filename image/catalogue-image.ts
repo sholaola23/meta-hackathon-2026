@@ -112,7 +112,7 @@ export async function composeCatalogueImage(photo: Buffer, mask: Mask, backdrop:
 
 /** How far a restyled pixel may stray from a smooth relight of the composed picture, off the product. */
 const STRAY = 24;
-/** Under the product a restyle may add a contact shadow: an even darkening of the backdrop, by at most this share. */
+/** Inside the composed shadow a restyle may deepen it: an even darkening of the backdrop, by at most this share. */
 const MAX_SHADOW_DARKENING = 0.4;
 /** More stray pixels than this is something new: an invented bottle, text, a ghost of a moved product. */
 export const MAX_NEW_PIXELS = 300;
@@ -138,7 +138,8 @@ function solve(a: number[][], b: number[]): number[] | null {
  * Counts pixels where a restyle adds something to the composed picture. A legitimate restyle only relights the plain
  * backdrop, which a smooth (quadratic) change per channel explains. Whatever that surface cannot explain is new
  * structure: a hard-edged bottle, a softly shaded blob, or a tin drawn against the product's edge. Only the product
- * itself (with a 2 px rim) is ignored; under the product, an even darkening (a contact shadow) is allowed.
+ * itself (with a 2 px rim) is ignored; inside the composed contact shadow, an even darkening is allowed. A restyle
+ * that draws a shadow anywhere else fails closed: the composed picture is kept.
  */
 export function newPixels(composed: Buffer, restyled: Buffer, product: Buffer, p: { left: number; top: number; width: number; height: number }, shade: Uint8Array): number {
   const skip = new Uint8Array(SIZE * SIZE);
@@ -170,9 +171,6 @@ export function newPixels(composed: Buffer, restyled: Buffer, product: Buffer, p
       }
     fits.push(solve(A, B) ?? [0, 0, 0, 0, 0, 0]);
   }
-  // Where a restyle's own contact shadow can fall: under the lower half of the product, a little wider and lower.
-  const below = (x: number, y: number) =>
-    x >= p.left - p.width * 0.1 && x <= p.left + p.width * 1.1 && y >= p.top + p.height / 2 && y <= p.top + p.height * 1.15;
   let stray = 0;
   for (let y = 0; y < SIZE; y++)
     for (let x = 0; x < SIZE; x++) {
@@ -189,7 +187,7 @@ export function newPixels(composed: Buffer, restyled: Buffer, product: Buffer, p
       if (worst <= STRAY) continue;
       // A shadow under the product darkens the backdrop evenly; a tin or a coloured object does not.
       const evenDarkening = Math.max(...ratio) - Math.min(...ratio) <= 0.06 && Math.min(...ratio) >= 1 - MAX_SHADOW_DARKENING;
-      if (evenDarkening && (shade[i]! > 4 || below(x, y))) continue;
+      if (evenDarkening && shade[i]! > 4) continue;
       stray++;
     }
   return stray;
