@@ -74,6 +74,14 @@ export function subtract<T extends Mask>(m: T, others: Mask[]): T {
   return { ...m, raster };
 }
 
+/**
+ * Masks that are a different object from m. Another phrasing of the same tin overlaps it heavily and must not block
+ * its holes, or the holed copy wins the dedupe and the backdrop shows through again.
+ */
+export function otherObjects(m: Mask, masks: Mask[]): Mask[] {
+  return masks.filter((o) => o !== m && overlapOfSmaller(m, o) <= LIMITS.duplicateOverlap);
+}
+
 /** A hole is filled only when other masks cover less than this share of it. */
 const HOLE_BLOCKED = 0.1;
 
@@ -177,9 +185,9 @@ export function filterCandidates(candidates: Candidate[], people: Mask[], imageA
       dropped.push({ candidate: raw, reason: "low-confidence" });
       continue;
     }
-    // Fill label-picture holes, but never over another candidate or a person (they would be swallowed or the
+    // Fill label-picture holes, but never over a different object or a person (they would be swallowed or the
     // product dropped as "person"). People are cut out afterwards, so a hand over a product stays out.
-    const c = fillHoles(raw, [...candidates, ...people]);
+    const c = fillHoles(raw, [...otherObjects(raw, candidates), ...people]);
     if (coveredFraction(c, people) >= LIMITS.personDropFraction) {
       dropped.push({ candidate: c, reason: "person" });
       continue;

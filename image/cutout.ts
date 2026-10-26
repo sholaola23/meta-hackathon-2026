@@ -6,7 +6,7 @@
 //    groups crops of one lot (a heap, a basin, a strip) and gives boxes for stock it can see but no crop covers;
 // 4. SAM 3.1 segments those boxes (box prompts, at most 16 per request).
 // The model calls are injected so the messy-input suite runs the real logic with no API calls.
-import { area, confident, fillHoles, filterCandidates, LIMITS, overlapOfSmaller, subtract, type Box, type Candidate, type DropReason, type Mask } from "./mask";
+import { area, confident, fillHoles, filterCandidates, LIMITS, otherObjects, overlapOfSmaller, subtract, type Box, type Candidate, type DropReason, type Mask } from "./mask";
 
 export interface Product {
   /** What the trader would call it. Never shown as fact until the trader confirms it. */
@@ -218,7 +218,7 @@ export async function cutOut(photoPath: string, width: number, height: number, c
     boxPrompts = wanted.length;
     masks.forEach((m, i) => {
       if (!m || !confident(m)) return;
-      m = fillHoles(m, [...accepted, ...people]);
+      m = fillHoles(m, [...otherObjects(m, accepted), ...people]);
       const clean = people.length ? subtract(m, people) : m;
       const frac = area(clean) / imageArea;
       if (frac < LIMITS.minAreaFraction || frac > LIMITS.maxAreaFraction) return;
