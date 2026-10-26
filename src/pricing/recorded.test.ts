@@ -5,6 +5,7 @@ import { applyToolCalls } from "./draft";
 import { loadAnswerKey, loadMessyTranscripts, loadRecordings, loadStalls } from "./fixtures";
 import { formatReport, scoreRecordings } from "./report";
 import { scoreDraft, simulateTrader } from "./score";
+import { handleReply, publish, startConfirmation } from "./confirm";
 
 const results = scoreRecordings();
 
@@ -89,5 +90,16 @@ describe("scorer", () => {
     const run = simulateTrader(d, stall.truth);
     expect(run.replies[0]).toContain("3 na 100 per sachet");
     expect(run.publishedWrong).toEqual([]);
+  });
+  test("a trader who prices an unpriced item without a unit is asked per what, and nothing publishes without one", () => {
+    const d = applyToolCalls(stall.items, right);
+    let { session } = startConfirmation(d);
+    session = handleReply(session, "7 na 1200").session;
+    const asked = handleReply(session, "yes");
+    expect(asked.session.status).toBe("awaiting");
+    expect(asked.message).toContain("7. Sugar cubes pack: ₦1,200 per what?");
+    session = handleReply(asked.session, "7 na 1200 per pack").session;
+    session = handleReply(session, "yes").session;
+    expect(publish(session).lines.find((l) => l.name === "Sugar cubes pack")).toMatchObject({ price: 1200, unit: "pack" });
   });
 });

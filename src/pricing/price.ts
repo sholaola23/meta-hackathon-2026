@@ -26,9 +26,14 @@ function checkRange(n: number): PriceResult {
   return { ok: true, naira: n };
 }
 
-/** "35OO" and "3,5o0" are typing slips for 3500: an O inside a run of digits is a zero. */
+/**
+ * "35OO" and "3,5o0" are typing slips for 3500: an O between digits, or two or more Os, is a zero.
+ * A single O glued to the end ("1800o") is Pidgin emphasis, not a zero, so it is left and the price refused.
+ */
 function fixLetterO(s: string): string {
-  return s.replace(/[\dOo,.]+/g, (run) => (/\d/.test(run) ? run.replace(/[Oo]/g, "0") : run));
+  return s.replace(/[\dOo,.]+/g, (run) =>
+    /\d/.test(run) && (/\d[,.]?[Oo]+[,.]?\d/.test(run) || /[Oo]{2,}/.test(run)) ? run.replace(/[Oo]/g, "0") : run,
+  );
 }
 
 function parseDigits(s: string): PriceResult | null {
@@ -38,6 +43,7 @@ function parseDigits(s: string): PriceResult | null {
   const frac = m[2];
   if (m[3]) return checkRange(Math.round(Number(`${whole}.${frac ?? 0}`) * 1000));
   if (frac === undefined) return checkRange(whole);
+  if (whole === 0) return { ok: false, reason: "unreadable" };
   // "250.00" is exact naira. "1.8" or "2.5" is market shorthand for thousands. "250.50" has kobo.
   if (/^0+$/.test(frac)) return checkRange(whole);
   if (whole < 100 && frac.length === 1) return checkRange(Math.round(Number(`${whole}.${frac}`) * 1000));
@@ -57,16 +63,28 @@ function parseWords(s: string): PriceResult | null {
     const tens = TENS[w[1]!];
     const digit = SMALL[w[1]!];
     if (tens !== undefined) return checkRange(first * 100 + tens);
-    if (digit !== undefined && digit <= 9) return checkRange(first * 1000 + digit * 100);
+    if (digit !== undefined && digit >= 1 && digit <= 9) return checkRange(first * 1000 + digit * 100);
+    if (digit !== undefined) return { ok: false, reason: "unreadable" };
   }
   let total = 0;
   let group = 0;
   let afterThousand = false;
+  // Number words since the last scale word. Only "twenty five" (a tens word then one digit) may run together;
+  // "twelve fifty" or "twenty fifty" has no single reading, so it is refused rather than summed to 62 or 70.
+  let prev: "small" | "tens" | null = null;
   for (const x of w) {
-    if (x in SMALL) group += SMALL[x]!;
-    else if (x in TENS) group += TENS[x]!;
-    else if (x === "hundred") group = (group || 1) * 100;
-    else {
+    if (x in SMALL || x in TENS) {
+      const kind = x in TENS ? "tens" : "small";
+      if (prev && !(prev === "tens" && kind === "small" && SMALL[x]! <= 9)) return { ok: false, reason: "unreadable" };
+      group += x in TENS ? TENS[x]! : SMALL[x]!;
+      prev = kind;
+    } else if (x === "hundred") {
+      group = (group || 1) * 100;
+      prev = null;
+    } else {
+      // A bare "k" is a typo; "tousand" alone is Pidgin for 1,000.
+      if (x === "k" && group === 0) return { ok: false, reason: "unreadable" };
+      prev = null;
       total += (group || 1) * 1000;
       group = 0;
       afterThousand = true;
@@ -95,6 +113,9 @@ export function parsePrice(input: string | number | null | undefined): PriceResu
     .replace(/\s*(naira|ngn)$/i, "")
     .trim();
   s = fixLetterO(s);
+  // "2 thousand", "3 tousand": digits then the scale word.
+  const dw = s.match(/^(\d{1,3})\s+(thousand|tousand)$/i);
+  if (dw) return checkRange(Number(dw[1]) * 1000);
   if (/^-\s*\d/.test(s)) return { ok: false, reason: "negative" };
   if (/\d\s*(-|–|to|\/|or)\s*[₦#n]?\d/i.test(s) || /^between\b/i.test(s) || /\b\w+\s+(to|or)\s+\w+/i.test(s)) {
     return { ok: false, reason: "range" };

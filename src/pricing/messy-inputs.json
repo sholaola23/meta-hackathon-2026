@@ -48,8 +48,8 @@
     },
     {
       "input": "1O",
-      "expect": 10,
-      "attack": "O for 0 at the minimum"
+      "expect": "unreadable",
+      "attack": "a single O glued to the end is refused, not read as 0 (QA r1 B2)"
     },
     {
       "input": "3k",
@@ -260,6 +260,51 @@
       "input": "3000 each",
       "expect": 3000,
       "attack": "each after the price"
+    },
+    {
+      "input": "1800o",
+      "expect": "unreadable",
+      "attack": "Pidgin o glued to a price is not a zero (QA r1 B2)"
+    },
+    {
+      "input": "k",
+      "expect": "unreadable",
+      "attack": "a lone k is not 1,000 (QA r1 B3)"
+    },
+    {
+      "input": "tousand",
+      "expect": 1000,
+      "attack": "Pidgin tousand alone is 1,000"
+    },
+    {
+      "input": "twelve fifty",
+      "expect": "unreadable",
+      "attack": "two-digit words in a row are refused, not summed (QA r1 B4)"
+    },
+    {
+      "input": "twenty five",
+      "expect": 25,
+      "attack": "tens then one digit is fine"
+    },
+    {
+      "input": "two zero",
+      "expect": "unreadable",
+      "attack": "shorthand with zero is refused (QA r1 optional 7)"
+    },
+    {
+      "input": "0.5",
+      "expect": "unreadable",
+      "attack": "0.5 is not 500 (QA r1 optional 7)"
+    },
+    {
+      "input": "2 thousand",
+      "expect": 2000,
+      "attack": "digits then a scale word (QA r1 optional 3)"
+    },
+    {
+      "input": "3 tousand",
+      "expect": 3000,
+      "attack": "digits then Pidgin tousand (QA r1 optional 3)"
     }
   ],
   "toolCalls": [
@@ -954,6 +999,72 @@
         "name 9 Horlicks"
       ],
       "status": "awaiting",
+      "notUnderstood": true
+    },
+    {
+      "name": "skin-tone thumbs up is yes (QA r1 optional 1)",
+      "replies": [
+        "👍🏾"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "yes with a skin-tone thumbs up (QA r1 optional 1)",
+      "replies": [
+        "yes 👍🏾"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "yes oo (QA r1 optional 1)",
+      "replies": [
+        "yes oo"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "ok, thank you (QA r1 optional 1)",
+      "replies": [
+        "ok, thank you"
+      ],
+      "status": "confirmed"
+    },
+    {
+      "name": "no be so asks which one (QA r1 optional 4)",
+      "replies": [
+        "no be so"
+      ],
+      "status": "awaiting",
+      "version": 1
+    },
+    {
+      "name": "removing everything then yes does not publish an empty catalogue (QA r1 optional 5)",
+      "replies": [
+        "comot 1\ncomot 2\ncomot 3",
+        "yes"
+      ],
+      "status": "awaiting"
+    },
+    {
+      "name": "a rename that ends in a price is refused (QA r1 optional 6)",
+      "replies": [
+        "name 2 Milo sachet na 50"
+      ],
+      "status": "awaiting",
+      "notUnderstood": true,
+      "names": {
+        "i2": "Milo sachet"
+      }
+    },
+    {
+      "name": "a dangling no changes nothing (QA r1 B5)",
+      "replies": [
+        "1 na 3600 no"
+      ],
+      "status": "awaiting",
+      "prices": {
+        "i1": 3500
+      },
       "notUnderstood": true
     }
   ]

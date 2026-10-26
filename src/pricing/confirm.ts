@@ -64,7 +64,7 @@ export function naira(n: number): string {
 
 function lineText(l: SessionLine, n: number): string {
   if (l.price === null) return `${n}. ${l.item.name}: NO PRICE. ${l.question ?? "Na how much?"}`;
-  return `${n}. ${l.item.name}: ${naira(l.price)}${l.unit ? ` per ${l.unit}` : ""}`;
+  return `${n}. ${l.item.name}: ${naira(l.price)} ${l.unit ? `per ${l.unit}` : `per what? Send like: ${n} na ${l.price} per pack`}`;
 }
 
 export function renderList(s: Session): string {
@@ -94,7 +94,10 @@ export function startConfirmation(draft: Draft, now: () => Date = () => new Date
 }
 
 const YES = /^(yes|yess+|yes please|yes publish|publish|yeah|yep|ok|okay|oya|correct|e correct|all correct|everything correct|na so|confirm|confirmed|confam|send|send am|go ahead|good|fine|perfect|sure|👍|✅)$/i;
-const NO = /^(no|nope|not correct|e no correct|wrong|e wrong)$/i;
+const NO = /^(no|nope|not correct|no correct|e no correct|no be so|wrong|e wrong)$/i;
+const THANKS = /^(thank you|thanks|thank u|tank you)$/i;
+// WhatsApp sends 👍 with a skin-tone modifier (👍🏾); the modifier alone carries no meaning.
+const SKIN_TONE = /[\u{1F3FB}-\u{1F3FF}]/gu;
 const REMOVE_FIRST = /^(?:remove|comot|delete|cancel|no sell|i no sell|don finish|finish|out of stock)\s+(?:item\s+|number\s+|no\.?\s*)?(\d{1,3})$/i;
 const REMOVE_LAST = /^(?:item\s+|number\s+)?(\d{1,3})\s+(?:comot|remove|delete|don finish|finish|no dey|no more|out of stock)$/i;
 // Names come from a photo guess (SAM matches loosely), so the trader can fix them: "name 2 Horlicks sachet".
@@ -102,7 +105,8 @@ const RENAME = /^(?:name|rename|call)\s+(?:item\s+|number\s+)?(\d{1,3})\s*(?:[:=
 const BY_NUMBER = /^(?:item\s+|number\s+|no\.?\s*)?(\d{1,3})\s*(?:[.):=-]\s*|\s+(?:na|is|be|for|price|now)\s+|\s+)(.+)$/i;
 const BY_NAME = /^(.+?)\s+(?:na|is|be|price|now|=|:)\s+(.+)$/i;
 const CORRECTION = /\b(?:no no|no wait|no|sorry|i mean|make am|change am to)\b/i;
-const STOP = new Set(["the", "and", "one", "dis", "dat", "this", "that", "big", "small", "for", "with"]);
+// Size and pack words (big, small, carton, strip) are never ignored: they can name a different line.
+const STOP = new Set(["the", "and", "one", "dis", "dat", "this", "that", "for", "with"]);
 
 function tokens(s: string): string[] {
   return s.toLowerCase().replace(/[^a-z0-9\s-]/g, " ").split(/[\s-]+/).filter((w) => w.length > 2 && !STOP.has(w));
@@ -115,6 +119,8 @@ function readPrice(text: string): { price: number; unit?: SaleUnit } | null {
   // A correction inside the reply: the last value wins, and if the last value is unclear, so is the clause.
   // "na 3500, no be 3000" is Pidgin for "3500, not 3000": the denied value is dropped before corrections are read.
   const kept = text.replace(/[,\s]*\b(?:no be|not|e no be)\s+[^,]+$/i, "");
+  // "2 na 1800 no" ends on a correction with nothing after it: the trader's last word is missing.
+  if (new RegExp(`${CORRECTION.source}\\s*$`, "i").test(kept)) return null;
   const parts = kept.split(CORRECTION).map((p) => p.trim()).filter(Boolean);
   let last = parts[parts.length - 1];
   if (!last) return null;
@@ -131,29 +137,29 @@ function readPrice(text: string): { price: number; unit?: SaleUnit } | null {
   return p.ok ? { price: p.naira, unit } : null;
 }
 
+/**
+ * A change by name lands only on an item that has every word the trader used, so "Peak milk small tin" never
+ * reaches "Peak milk tin (big)" and "Indomie carton" never reaches the single pack. Anything else asks for the number.
+ */
 function findByName(s: Session, name: string): number | "ambiguous" | null {
   const want = tokens(name);
   if (!want.length) return null;
-  let best = 0;
-  let hits: number[] = [];
-  s.lines.forEach((l, i) => {
-    if (l.removed) return;
+  const hits = s.lines.flatMap((l, i) => {
+    if (l.removed) return [];
     const have = new Set(tokens(l.item.name));
-    const score = want.filter((w) => have.has(w) || have.has(w.replace(/s$/, ""))).length;
-    if (score > best) {
-      best = score;
-      hits = [i];
-    } else if (score === best && score > 0) hits.push(i);
+    return want.every((w) => have.has(w) || have.has(w.replace(/s$/, ""))) ? [i] : [];
   });
-  if (!best) return null;
+  if (!hits.length) return null;
   return hits.length === 1 ? hits[0]! : "ambiguous";
 }
 
-function parseClause(s: Session, clause: string): Change | "yes" | "no" | { error: string } {
-  // A trailing "o" is Pidgin emphasis ("yes o", "correct o").
-  const c = clause.trim().replace(/[!?.]+$/, "").replace(/\s+o$/i, "").trim();
-  if (YES.test(c)) return "yes";
+function parseClause(s: Session, clause: string): Change | "yes" | "no" | "thanks" | { error: string } {
+  // A trailing "o" or "oo" is Pidgin emphasis ("yes o", "correct oo"); "thank you" after a yes adds nothing.
+  const c = clause.replace(SKIN_TONE, "").trim().replace(/[!?.]+$/, "").replace(/\s+o+$/i, "").trim();
+  const bare = c.replace(/[\s,]*(thank you|thanks|thank u)$/i, "").replace(/\s*[👍✅]+$/u, "").trim();
+  if (YES.test(c) || YES.test(bare)) return "yes";
   if (NO.test(c)) return "no";
+  if (THANKS.test(c)) return "thanks";
   const valid = (n: number) => n >= 1 && n <= s.lines.length && !s.lines[n - 1]!.removed;
   const rm = c.match(REMOVE_FIRST) ?? c.match(REMOVE_LAST);
   if (rm) {
@@ -163,7 +169,12 @@ function parseClause(s: Session, clause: string): Change | "yes" | "no" | { erro
   const rn = c.match(RENAME);
   if (rn) {
     const n = Number(rn[1]);
-    return valid(n) ? { index: n - 1, name: rn[2]!.trim() } : { error: `no item ${n} for the list` };
+    if (!valid(n)) return { error: `no item ${n} for the list` };
+    const name = rn[2]!.trim();
+    // "name 2 Milo sachet na 50" mixes a rename and a price: ask for them one at a time.
+    const tail = name.match(/\s+(?:na|=|:)\s+(.+)$/i);
+    if (tail && readPrice(tail[1]!)) return { error: `for item ${n}, send the name and the price on separate lines` };
+    return { index: n - 1, name };
   }
   const bn = c.match(BY_NUMBER);
   if (bn) {
@@ -194,7 +205,9 @@ function splitClauses(reply: string): string[] {
 }
 
 /** Applies the trader's reply and adds the reply and the answer to the audit log. */
-export function handleReply(session: Session, reply: string, now: () => Date = () => new Date()): ReplyResult {
+export function handleReply(saved: Session, reply: string, now: () => Date = () => new Date()): ReplyResult {
+  // A session saved before the audit log existed has no log: start one rather than fail the trader's reply.
+  const session: Session = { ...saved, log: saved.log ?? [] };
   const r = decide(session, reply);
   const at = now().toISOString();
   r.session = {
@@ -217,12 +230,15 @@ function decide(session: Session, reply: string): ReplyResult {
     const r = parseClause(session, clause);
     if (r === "yes") yes = true;
     else if (r === "no") no = true;
+    else if (r === "thanks") continue;
     else if ("error" in r) notUnderstood.push(r.error);
     else changes.push(r);
   }
 
   const wasConfirmed = session.status === "confirmed";
   if (wasConfirmed && !changes.length && !notUnderstood.length) {
+    // A "no" just after YES: the trader has seen a mistake, so tell them how to fix it.
+    if (no) return { session, notUnderstood, message: "Which one no correct? Send the number and the right price, like: 2 na 1800" };
     return { session, message: "Your catalogue don already confirm.", notUnderstood };
   }
 
@@ -258,7 +274,23 @@ function decide(session: Session, reply: string): ReplyResult {
   }
 
   if (yes && !no) {
-    const open = session.lines.filter((l) => !l.removed && l.price === null);
+    const shown = session.lines.filter((l) => !l.removed);
+    if (!shown.length) {
+      return { session, notUnderstood, message: "Everything don comot from the list. Abeg send a new photo of your stall." };
+    }
+    // Every published price says what it buys, so a price with no unit blocks the yes until the trader names one.
+    const noUnit = shown.filter((l) => l.price !== null && l.unit === null);
+    if (noUnit.length) {
+      return {
+        session,
+        notUnderstood,
+        message: [
+          "Abeg tell me wetin each price buy:",
+          ...noUnit.map((l) => `${session.lines.indexOf(l) + 1}. ${l.item.name}: ${naira(l.price!)} per what? Send like: ${session.lines.indexOf(l) + 1} na ${l.price} per pack`),
+        ].join("\n"),
+      };
+    }
+    const open = shown.filter((l) => l.price === null);
     if (open.length && session.warnedUnpriced !== session.version) {
       // One extra check before items go out with no price, so a quick YES doesn't skip the questions.
       const next: Session = { ...session, warnedUnpriced: session.version };
@@ -287,17 +319,27 @@ function decide(session: Session, reply: string): ReplyResult {
   };
 }
 
-/** The only way to get a catalogue. Throws unless the trader confirmed the latest list. */
+/**
+ * The only way to get a catalogue. Throws unless the trader confirmed the latest list.
+ * The catalogue is safe to show customers: the confirm conversation stays out of it (see auditLog).
+ */
 export function publish(session: Session): Catalogue {
   if (session.status !== "confirmed" || !session.confirmedReply) {
     throw new Error("Not confirmed by the trader: nothing is published until they reply YES to the latest list.");
   }
+  if (session.lines.some((l) => !l.removed && l.price !== null && l.unit === null)) {
+    throw new Error("A price has no sale unit: every published price must say what it buys.");
+  }
   return {
     confirmedVersion: session.version,
     confirmedReply: session.confirmedReply,
-    log: session.log,
     lines: session.lines
       .filter((l) => !l.removed)
       .map((l) => ({ itemId: l.item.id, name: l.item.name, price: l.price, unit: l.unit })),
   };
+}
+
+/** The confirm conversation behind a catalogue: keep it with the trader's records, never on the public page. */
+export function auditLog(session: Session): AuditEntry[] {
+  return session.log ?? [];
 }

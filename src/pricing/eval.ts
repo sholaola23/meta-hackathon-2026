@@ -52,9 +52,8 @@ async function cached<T>(kind: string, k: unknown, fn: () => Promise<T>): Promis
  */
 function keywordsFor(items: { name: string }[]): string[] {
   const STOP = new Set(["and", "the", "pack", "single", "big", "small", "medium", "measure", "bucket", "paint", "yards", "bottle", "litre"]);
-  const NUMBER_WORDS = ["hundred", "thousand", "fifty"];
   const words = items.flatMap((i) => i.name.replace(/\(.*?\)/g, "").split(/[\s,]+/)).filter((w) => w.length > 2 && !STOP.has(w.toLowerCase()));
-  return [...new Set([...words, "naira", "kobo", "tousand", ...NUMBER_WORDS])].filter((w) => w.length <= 30);
+  return [...new Set([...words, "naira", "kobo", "tousand"])].filter((w) => w.length <= 30);
 }
 
 async function transcribe(jobId: string, audio: string, items: { name: string }[]): Promise<string> {

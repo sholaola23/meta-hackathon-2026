@@ -1,6 +1,6 @@
 // Runs every case in messy-inputs.json. Add new attacks to the JSON, not here.
 import { describe, expect, test } from "bun:test";
-import { handleReply, publish, startConfirmation, type Session } from "./confirm";
+import { auditLog, handleReply, publish, startConfirmation, type Session } from "./confirm";
 import { applyToolCalls } from "./draft";
 import suite from "./messy-inputs.json";
 import { parsePrice } from "./price";
@@ -104,18 +104,19 @@ describe("publish gate", () => {
     expect(r.session.lines).toEqual(session.lines);
     expect(r.reopened).toBeUndefined();
   });
-  test("the audit log records every list and reply, and travels with the catalogue", () => {
+  test("the audit log records every list and reply, and stays off the public catalogue", () => {
     const clock = () => new Date("2026-10-26T12:00:00Z");
     let { session } = startConfirmation(baseDraft(), clock);
     session = handleReply(session, "1 na 3600", clock).session;
     session = handleReply(session, "yes", clock).session;
-    const cat = publish(session);
-    expect(cat.log.map((e) => [e.from, e.version])).toEqual([
+    expect("log" in publish(session)).toBe(false);
+    const log = auditLog(session);
+    expect(log.map((e) => [e.from, e.version])).toEqual([
       ["stallsnap", 1], ["trader", 1], ["stallsnap", 2], ["trader", 2], ["stallsnap", 2],
     ]);
-    expect(cat.log[1]!.text).toBe("1 na 3600");
-    expect(cat.log[2]!.text).toContain("₦3,600 per tin");
-    expect(cat.log.every((e) => e.at === "2026-10-26T12:00:00.000Z")).toBe(true);
+    expect(log[1]!.text).toBe("1 na 3600");
+    expect(log[2]!.text).toContain("₦3,600 per tin");
+    expect(log.every((e) => e.at === "2026-10-26T12:00:00.000Z")).toBe(true);
   });
   test("a change after confirmation reopens the list with a new version, and a new YES confirms it", () => {
     let { session } = startConfirmation(baseDraft());
