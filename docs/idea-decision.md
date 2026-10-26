@@ -20,14 +20,18 @@ Why: all three agents ended up here. It has lower Stage-1 risk, every model does
 - Catalogue sent as a web link over WhatsApp, not the WhatsApp Catalog API (business verification takes too long).
 - Tap-to-confirm when a price could match more than one item ("dis one", "the big one").
 
-## Day-one go/no-go test (27 Oct, about 4 hours)
+## Day-one go/no-go test (planned for 27 Oct; ran on 26 Oct)
 1. SAM 3.1 on 5 real stall photos: at least 70% of the sellable items come out as separate crops.
 2. 3 real Pidgin voice notes: at least 80% of the prices land on the right item (tap-to-confirm allowed).
-3. WhatsApp round trip works (receive an image, reply). Changed on 26 Oct from Kapso to Meta's WhatsApp Cloud API with the free test number, approved by Shola; Kapso is a fallback only. The full loop is in [whatsapp.md](whatsapp.md).
+3. WhatsApp round trip works (receive an image, reply). Changed 26 Oct from Kapso to the Meta WhatsApp Cloud API with the free test number, approved by Shola; Kapso is a fallback only. See `docs/plan.md` and, for the full loop, [whatsapp.md](whatsapp.md).
 
-If 1 or 2 fails, or there are no real stall photos by 28 Oct, switch to the fallback.
+If 1 or 2 fails, or there are no real stall photos by 28 Oct, switch to the fallback (now the same-pipeline fallbacks in `docs/plan.md`).
 
-## Fallback: ResumeRadar Vision, reframed
+## Fallback
+
+Changed 26 Oct, after the day-one test: the fallbacks now reuse the StallSnap pipeline (one photo per product if SAM falls short on real stalls, a web page if the WhatsApp loop isn't ready). See `docs/plan.md`. The original fallback is kept below for the record.
+
+### Original fallback: ResumeRadar Vision, reframed
 A "parser's-eye view" for applicants, not recruiters. No match score, and the job description is optional. Fresh code only. The centrepiece is a parser round trip (for example 11/23 facts kept before, 23/23 after), backed by a Muse Spark Open no-invented-facts verifier. Remaining anti-project risk is roughly 15 to 20%.
 
 ## Dropped

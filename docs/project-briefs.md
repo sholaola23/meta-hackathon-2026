@@ -74,7 +74,7 @@ Build the StallSnap MVP on a branch, against README.md and docs/idea-decision.md
 (1) pipeline script: photo + voice note -> priced item list (JSON)
 (2) Muse Spark agent loop with tool calls (create_item, flag_missing_price, ask_trader)
 (3) web catalogue page from the JSON
-(4) WhatsApp in/out via Meta's WhatsApp Cloud API (test number; Kapso is a fallback only, changed 26 Oct)
+(4) WhatsApp in/out via the Meta WhatsApp Cloud API
 (5) Muse Image cutout clean-up
 Each step is a small, separately checkable unit with a test against test-material. Log each step in docs/build-log.md. Hand off to QA after steps 2, 4 and 5, with evidence (CI output, screenshots at 375px and desktop, spend so far).
 ```

@@ -2,9 +2,9 @@
 
 **Snap your stall, say your prices, get a shop.** A market trader photographs their stall and sends a voice note in Pidgin with the prices. StallSnap sends back a priced catalogue they can share on WhatsApp.
 
-Personal entry for the Meta Global AI Developer Hackathon 2026, Indie Developer track, theme "Build for Your World". Everything in this repo was built during the hackathon (26 Oct to 4 Nov 2026).
+Personal entry for the Meta Global AI Developer Hackathon 2026, Indie Developer track, theme "Build for Your World". All code and documents in this repo were written during the hackathon, which runs from 26 Oct to 4 Nov 2026; the dated [build log](docs/build-log.md) shows what was built when. The one exception is the openly licensed stall photos in `test-material/real-photos/`, which belong to their photographers (see `ATTRIBUTION.md`) and are used only for testing.
 
-> Status: the day-one go/no-go test runs on 27 Oct. If it fails, the fallback idea is in [docs/idea-decision.md](docs/idea-decision.md).
+> Status: the day-one go/no-go test ran on 26 Oct and passed with conditions. The schedule to submission is in [docs/plan.md](docs/plan.md).
 
 ## How it works
 
@@ -21,6 +21,9 @@ The catalogue goes back as a web link over WhatsApp.
 
 | Path | What is in it |
 |------|---------------|
+| `docs/plan.md` | Dated schedule to submission, with the feature freeze |
+| `docs/build-log.md` | Dated record of what was built during the hackathon |
+| `src/spend-guard.ts` | Hard spend cap for paid Meta API calls |
 | `docs/judging-and-goals.md` | What the hackathon wants, how winners are chosen, and how we aim at it |
 | `docs/idea-decision.md` | Why StallSnap, the guardrails, the day-one test and the fallback |
 | `test-material/stalls.json` | Answer key: 5 stalls, their items and naira prices |
@@ -42,6 +45,18 @@ curl -s https://api.meta.ai/v1/responses \
 ```
 
 Never commit `.env`. It is listed in `.gitignore`.
+
+### Spend cap
+
+Every paid Meta API call goes through `SpendGuard.paid()` in `src/spend-guard.ts`. Cached responses never reach it, so reruns stay free. It refuses a call, before the call is made, when:
+
+| Setting in `.env` | Default | What it stops |
+|---|---|---|
+| `STALLSNAP_PAID_CALLS=off` | `on` | Every paid call (the off switch) |
+| `STALLSNAP_MAX_CALLS_PER_JOB` | 60 | Calls past this number in one job (one trader's photo and voice note) |
+| `STALLSNAP_DAILY_CAP_USD` | 2 | Any call that would take today's spend (UTC day, on this machine) over the cap |
+
+A value it can't read, a value above the ceiling ($25 a day, 500 calls a job) or a misspelt `STALLSNAP_` setting stops start-up instead of lifting a cap. The daily total is locked and shared by every process on the machine; the per-job count is kept in the process that runs the job. Check today's spend with `bun src/spend-guard.ts`, and run the tests with `bun test src`.
 
 ## Meta Model API
 
