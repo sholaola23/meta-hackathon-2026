@@ -25,9 +25,13 @@ Why: all three agents ended up here. It has lower Stage-1 risk, every model does
 2. 3 real Pidgin voice notes: at least 80% of the prices land on the right item (tap-to-confirm allowed).
 3. Kapso WhatsApp round trip (receive an image, reply with an image) works. (Changed 26 Oct: the route is now the Meta WhatsApp Cloud API, see `docs/plan.md`.)
 
-If 1 or 2 fails, or there are no real stall photos by 28 Oct, switch to the fallback.
+If 1 or 2 fails, or there are no real stall photos by 28 Oct, switch to the fallback (now the same-pipeline fallbacks in `docs/plan.md`).
 
-## Fallback: ResumeRadar Vision, reframed
+## Fallback
+
+Changed 26 Oct, after the day-one test: the fallbacks now reuse the StallSnap pipeline (one photo per product if SAM falls short on real stalls, a web page if the WhatsApp loop isn't ready). See `docs/plan.md`. The original fallback is kept below for the record.
+
+### Original fallback: ResumeRadar Vision, reframed
 A "parser's-eye view" for applicants, not recruiters. No match score, and the job description is optional. Fresh code only. The centrepiece is a parser round trip (for example 11/23 facts kept before, 23/23 after), backed by a Muse Spark Open no-invented-facts verifier. Remaining anti-project risk is roughly 15 to 20%.
 
 ## Dropped

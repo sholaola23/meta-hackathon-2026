@@ -10,7 +10,7 @@ The day-one test passed on 26 Oct with conditions (voice price matching 97% agai
 |---|---|
 | Build StallSnap | Go, with the conditions below (26 Oct) |
 | WhatsApp route | Meta WhatsApp Cloud API with a free test number, approved 26 Oct. Kapso is no longer planned |
-| Fallback | Pending: see "Fallback" below |
+| Fallback | Fallbacks that reuse the StallSnap pipeline, approved 26 Oct: see "Fallback" below |
 
 ## Schedule
 
@@ -43,11 +43,11 @@ After the freeze, only fixes for blocking findings, the demo and the docs change
 | Feature freeze | 31 Oct | Everyone |
 | Hard spend cap and off switch | 26 Oct | `src/spend-guard.ts` |
 | Provenance check and dated build log | 26 Oct, then ongoing | `docs/build-log.md` |
-| Fallback that reuses the same pipeline | Decision due 27 Oct | Below |
+| Fallback that reuses the same pipeline | Decided 26 Oct; checks on 28 and 30 Oct | Below |
 
 ## Fallback
 
-Pending Shola's decision. The proposal is to replace the separate fallback project with fallbacks that reuse the StallSnap pipeline, each with a check date:
+Decided 26 Oct: the fallbacks reuse the StallSnap pipeline instead of switching to a separate project. Each has a check date:
 
 - **Check 1 (Wed 28 Oct): SAM on the real stall photos.** If fewer than 70% of products come out as separate cut-outs, switch to one photo per product: the trader sends a few close-up photos, SAM cuts out the main item in each, and the voice note prices them as before.
 - **Check 2 (Fri 30 Oct): the WhatsApp loop.** If it isn't working end to end, the trader uses a simple web page instead (take a photo, record a voice note) and gets the same catalogue link.
