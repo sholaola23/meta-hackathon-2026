@@ -59,4 +59,6 @@ export interface Catalogue {
   /** Which version of the list the trader said yes to. */
   confirmedVersion: number;
   confirmedReply: string;
+  /** The confirm conversation that led to this catalogue. */
+  log: { at: string; from: "stallsnap" | "trader"; version: number; text: string }[];
 }

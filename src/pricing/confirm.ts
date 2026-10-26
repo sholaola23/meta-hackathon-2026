@@ -13,6 +13,15 @@ export interface SessionLine {
   question?: string;
 }
 
+/** One message in the confirm conversation, kept so every published price can be traced to the trader's yes. */
+export interface AuditEntry {
+  at: string;
+  from: "stallsnap" | "trader";
+  /** The list version the message was about. */
+  version: number;
+  text: string;
+}
+
 export interface Session {
   version: number;
   status: "awaiting" | "confirmed";
@@ -20,6 +29,8 @@ export interface Session {
   confirmedReply?: string;
   /** The list version on which the trader was told that unpriced items will show as "Ask for price". */
   warnedUnpriced?: number;
+  /** Every list sent and every reply received, oldest first. */
+  log: AuditEntry[];
 }
 
 export interface ReplyResult {
@@ -70,13 +81,16 @@ export function renderList(s: Session): string {
   ].join("\n");
 }
 
-export function startConfirmation(draft: Draft): { session: Session; message: string } {
+export function startConfirmation(draft: Draft, now: () => Date = () => new Date()): { session: Session; message: string } {
   const session: Session = {
     version: 1,
     status: "awaiting",
     lines: draft.lines.map((l) => ({ item: l.item, price: l.price, unit: l.unit, removed: false, question: l.question })),
+    log: [],
   };
-  return { session, message: renderList(session) };
+  const message = renderList(session);
+  session.log.push({ at: now().toISOString(), from: "stallsnap", version: 1, text: message });
+  return { session, message };
 }
 
 const YES = /^(yes|yess+|yes please|yes publish|publish|yeah|yep|ok|okay|oya|correct|e correct|all correct|everything correct|na so|confirm|confirmed|confam|send|send am|go ahead|good|fine|perfect|sure|👍|✅)$/i;
@@ -179,7 +193,22 @@ function splitClauses(reply: string): string[] {
     .filter(Boolean);
 }
 
-export function handleReply(session: Session, reply: string): ReplyResult {
+/** Applies the trader's reply and adds the reply and the answer to the audit log. */
+export function handleReply(session: Session, reply: string, now: () => Date = () => new Date()): ReplyResult {
+  const r = decide(session, reply);
+  const at = now().toISOString();
+  r.session = {
+    ...r.session,
+    log: [
+      ...session.log,
+      { at, from: "trader", version: session.version, text: reply },
+      { at, from: "stallsnap", version: r.session.version, text: r.message },
+    ],
+  };
+  return r;
+}
+
+function decide(session: Session, reply: string): ReplyResult {
   let yes = false;
   let no = false;
   const changes: Change[] = [];
@@ -219,7 +248,7 @@ export function handleReply(session: Session, reply: string): ReplyResult {
     }
     // Any change makes a new list, and only a yes to that new list confirms it.
     // A change after a YES (the trader taps Yes, then corrects) reopens the list the same way.
-    const next: Session = { version: session.version + 1, status: "awaiting", lines };
+    const next: Session = { version: session.version + 1, status: "awaiting", lines, log: session.log };
     return {
       session: next,
       notUnderstood,
@@ -266,6 +295,7 @@ export function publish(session: Session): Catalogue {
   return {
     confirmedVersion: session.version,
     confirmedReply: session.confirmedReply,
+    log: session.log,
     lines: session.lines
       .filter((l) => !l.removed)
       .map((l) => ({ itemId: l.item.id, name: l.item.name, price: l.price, unit: l.unit })),

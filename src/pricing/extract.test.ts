@@ -14,7 +14,6 @@ test("stateless loop: replays the output items, then one output per call in call
     if (round === 1) {
       const calls = [
         fc("c1", "set_price", { item_id: "i1", price_naira: 100, unit: "sachet", quote: "hundred hundred" }),
-        fc("c2", "flag_missing_price", { item_id: "i2" }),
         fc("c3", "set_price", { item_id: "i9", price_naira: 500, unit: "piece", quote: "" }),
         fc("c4", "set_price", { item_id: "i2", price_naira: "2000-2500", unit: "pack", quote: "two or two-five" }),
       ];
@@ -25,6 +24,7 @@ test("stateless loop: replays the output items, then one output per call in call
   const r = await extractPrices(items, "Milo sachet na hundred hundred", respond);
   expect(r.rounds).toBe(2);
   expect(r.stopped).toBeUndefined();
+  expect(r.done).toBe(true);
   expect(r.summary).toBe("Milo priced, sugar flagged.");
   expect(r.draft.lines.map((l) => [l.price, l.unit])).toEqual([[100, "sachet"], [null, null]]);
   expect(r.draft.rejected.length).toBe(2);
@@ -34,9 +34,8 @@ test("stateless loop: replays the output items, then one output per call in call
   const second = seen[1]!;
   expect(second.slice(0, 2)).toEqual(first);
   expect(second[2]).toEqual(reasoning);
-  expect(second.slice(7)).toEqual([
+  expect(second.slice(6)).toEqual([
     { type: "function_call_output", call_id: "c1", output: "ok" },
-    { type: "function_call_output", call_id: "c2", output: "ok" },
     { type: "function_call_output", call_id: "c3", output: "refused: unknown item_id i9" },
     { type: "function_call_output", call_id: "c4", output: "refused: price range; flag the item and ask the trader instead" },
   ]);
@@ -76,4 +75,30 @@ test("tools are strict: every property required, no extra properties, unit from 
   expect(set.parameters.properties.unit.enum).toEqual([...SALE_UNITS]);
   expect(SYSTEM).toContain("per sachet");
   expect(SYSTEM).toContain("Never invent a price");
+});
+
+test("stops as soon as every item is priced or flagged, without paying for a summary turn", async () => {
+  let turns = 0;
+  const r = await extractPrices(items, "x", async () => {
+    turns++;
+    return {
+      calls: [fc("c1", "set_price", { item_id: "i1", price_naira: 100, unit: "sachet", quote: "" }), fc("c2", "flag_missing_price", { item_id: "i2" })],
+      text: "",
+      output: [],
+    };
+  });
+  expect(turns).toBe(1);
+  expect(r.done).toBe(true);
+  expect(r.draft.lines[1]!.question).toBe("Abeg, Sugar cubes pack na how much?");
+});
+
+test("stops when the output-token budget is spent", async () => {
+  const r = await extractPrices(
+    items, "x",
+    async ({ round }) => ({ calls: [fc(`c${round}`, "set_price", { item_id: "i1", price_naira: 100 + round, unit: "sachet", quote: "" })], text: "", output: [], outputTokens: 30_000 }),
+    undefined, 10, 50_000,
+  );
+  expect(r.rounds).toBe(2);
+  expect(r.done).toBe(false);
+  expect(r.stopped).toContain("budget");
 });

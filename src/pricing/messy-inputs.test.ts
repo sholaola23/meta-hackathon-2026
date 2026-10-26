@@ -100,8 +100,22 @@ describe("publish gate", () => {
     let { session } = startConfirmation(baseDraft());
     session = handleReply(session, "yes").session;
     const r = handleReply(session, "yes");
-    expect(r.session).toBe(session);
+    expect([r.session.status, r.session.version]).toEqual(["confirmed", 1]);
+    expect(r.session.lines).toEqual(session.lines);
     expect(r.reopened).toBeUndefined();
+  });
+  test("the audit log records every list and reply, and travels with the catalogue", () => {
+    const clock = () => new Date("2026-10-26T12:00:00Z");
+    let { session } = startConfirmation(baseDraft(), clock);
+    session = handleReply(session, "1 na 3600", clock).session;
+    session = handleReply(session, "yes", clock).session;
+    const cat = publish(session);
+    expect(cat.log.map((e) => [e.from, e.version])).toEqual([
+      ["stallsnap", 1], ["trader", 1], ["stallsnap", 2], ["trader", 2], ["stallsnap", 2],
+    ]);
+    expect(cat.log[1]!.text).toBe("1 na 3600");
+    expect(cat.log[2]!.text).toContain("₦3,600 per tin");
+    expect(cat.log.every((e) => e.at === "2026-10-26T12:00:00.000Z")).toBe(true);
   });
   test("a change after confirmation reopens the list with a new version, and a new YES confirms it", () => {
     let { session } = startConfirmation(baseDraft());

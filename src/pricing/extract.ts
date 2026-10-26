@@ -81,6 +81,8 @@ export type Respond = (req: { round: number; input: unknown[] }) => Promise<{
   text: string;
   /** The response's output items, replayed as input on the next turn. */
   output: unknown[];
+  /** Output tokens this turn used (reasoning included), for the token budget. */
+  outputTokens?: number;
 }>;
 
 export function userPrompt(items: Item[], transcript: string): string {
@@ -103,6 +105,8 @@ function toolOutput(c: ToolCall, known: Set<string>): string {
 
 /** The same (tool, arguments) this many times means the model is looping. */
 export const MAX_IDENTICAL_CALLS = 3;
+/** Output tokens across the whole loop; past this the loop stops, whatever the turn count. */
+export const OUTPUT_TOKEN_BUDGET = 40_000;
 
 export async function extractPrices(
   items: Item[],
@@ -110,7 +114,8 @@ export async function extractPrices(
   respond: Respond,
   photoDataUrl?: string,
   maxRounds = 4,
-): Promise<{ draft: Draft; calls: ToolCall[]; rounds: number; summary: string; stopped?: string }> {
+  tokenBudget = OUTPUT_TOKEN_BUDGET,
+): Promise<{ draft: Draft; calls: ToolCall[]; rounds: number; summary: string; stopped?: string; done: boolean }> {
   const content: unknown[] = [{ type: "input_text", text: userPrompt(items, transcript) }];
   if (photoDataUrl) content.push({ type: "input_image", image_url: photoDataUrl });
   // Rules go in the developer role; the photo goes only in the user message.
@@ -124,6 +129,14 @@ export async function extractPrices(
   let summary = "";
   let rounds = 0;
   let stopped: string | undefined;
+  let tokens = 0;
+  // The objective end: every item either has a price or a flag. The loop stops there rather than paying for
+  // a summary turn; any flagged item without a model question gets the default Pidgin question.
+  const settled = () => {
+    const d = applyToolCalls(items, all);
+    const flagged = new Set(all.filter((c) => c.name === "flag_missing_price").map((c) => { try { return JSON.parse(c.arguments).item_id; } catch { return null; } }));
+    return d.lines.every((l) => l.status === "priced" || flagged.has(l.item.id));
+  };
   for (let round = 1; round <= maxRounds; round++) {
     rounds = round;
     const r = await respond({ round, input });
@@ -139,8 +152,11 @@ export async function extractPrices(
       seen.set(k, (seen.get(k) ?? 0) + 1);
       if (seen.get(k)! >= MAX_IDENTICAL_CALLS) stopped = `repeated ${c.name} ${MAX_IDENTICAL_CALLS} times`;
     }
-    if (stopped) break;
+    tokens += r.outputTokens ?? 0;
+    if (!stopped && tokens > tokenBudget) stopped = `used ${tokens} output tokens, over the ${tokenBudget} budget`;
+    if (stopped || settled()) break;
     if (round === maxRounds) stopped = `hit the ${maxRounds}-turn cap`;
   }
-  return { draft: applyToolCalls(items, all), calls: all, rounds, summary, ...(stopped ? { stopped } : {}) };
+  const draft = applyToolCalls(items, all);
+  return { draft, calls: all, rounds, summary, done: !stopped, ...(stopped ? { stopped } : {}) };
 }

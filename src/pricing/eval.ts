@@ -52,8 +52,9 @@ async function cached<T>(kind: string, k: unknown, fn: () => Promise<T>): Promis
  */
 function keywordsFor(items: { name: string }[]): string[] {
   const STOP = new Set(["and", "the", "pack", "single", "big", "small", "medium", "measure", "bucket", "paint", "yards", "bottle", "litre"]);
+  const NUMBER_WORDS = ["hundred", "thousand", "fifty"];
   const words = items.flatMap((i) => i.name.replace(/\(.*?\)/g, "").split(/[\s,]+/)).filter((w) => w.length > 2 && !STOP.has(w.toLowerCase()));
-  return [...new Set([...words, "naira", "kobo", "tousand"])].filter((w) => w.length <= 30);
+  return [...new Set([...words, "naira", "kobo", "tousand", ...NUMBER_WORDS])].filter((w) => w.length <= 30);
 }
 
 async function transcribe(jobId: string, audio: string, items: { name: string }[]): Promise<string> {
@@ -96,6 +97,7 @@ function responder(jobId: string): Respond {
     const out: any[] = r.output ?? [];
     return {
       output: out,
+      outputTokens: r.usage?.output_tokens ?? 0,
       calls: out.filter((o) => o.type === "function_call").map((o) => ({ name: o.name, arguments: o.arguments, call_id: o.call_id })),
       text: out.filter((o) => o.type === "message").flatMap((o) => o.content ?? []).map((c: any) => c.text ?? "").join(""),
     };
