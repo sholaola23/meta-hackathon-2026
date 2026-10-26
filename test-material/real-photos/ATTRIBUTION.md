@@ -1,0 +1,23 @@
+# Real market stall photos: attribution
+
+All photos come from Wikimedia Commons and were downloaded on 26 October 2026 as the Commons 1500px-wide thumbnail, then capped at 1500px on the longest side. real-08 is the full original, which is only 963x640. They are real photographs of Nigerian market stalls, used here as test inputs for SAM 3.1 product segmentation.
+
+Seven files are CC BY-SA 4.0 and one is CC BY-SA 2.0. Both licences allow reuse and modification as long as you credit the author, link the licence and say whether you changed the image. Adapted versions, such as crops or segmentation overlays that you publish, must use the same licence. Changes made here: the images were resized only.
+
+- CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0
+- CC BY-SA 2.0: https://creativecommons.org/licenses/by-sa/2.0
+
+| File | Commons title | Author | Licence | Commons page | On the stall | Difficulty |
+|---|---|---|---|---|---|---|
+| real-01-onitsha-sandals-wall.jpg | Main Market Onitsha 4.jpg | Chinelo Okonkwo-Chukwunweike | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Main_Market_Onitsha_4.jpg | Two pegboard walls of about 80 hanging women's sandals and slides (chain straps, branded insoles). Each pair hangs on its own peg and there are no people. | Easy to medium: the items are separate, but neighbouring pairs touch and the slides look alike. |
+| real-02-buguma-pepper-okra.jpg | Pepper and Okra Stall.jpg | TopmanJnr1 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Pepper_and_Okra_Stall.jpg | A wooden table with one heap of okra, one heap of red scotch bonnet peppers and a POS card terminal. The background is plain. | Easy for the two heaps; hard for single peppers or okra pods inside the heaps. |
+| real-03-dry-foodstuff-basins.jpg | Dry foodstuffs.jpg | Vivian Amalachukwu | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Dry_foodstuffs.jpg | Overhead shot of seven basins of grains and seeds (crushed maize, dark seeds, egusi-type seeds, a large basin with tin measuring cups), plus loose maize cobs on a tarp. | Easy for the basins and cobs, which are well separated. Medium if each cob or tin cup must be a separate mask. |
+| real-04-ikot-nakanda-foodstuff.jpg | Foodstuff Trader 01.jpg | LauraB1 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Foodstuff_Trader_01.jpg | A front-on table: Maggi-type stock cubes, peppers laid out in rows, okra, bagged crayfish and garri, onions, smoked fish, bottles of palm oil and a trader in the middle. | Medium: many product types, mostly laid in rows. Bagged goods overlap and the smoked fish is heaped. |
+| real-05-oyingbo-fruit.jpg | Oyingbo Market, Lagos Nigeria 1.jpg | Onikepe32 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Oyingbo_Market,_Lagos_Nigeria_1.jpg | Street fruit stalls with about 30 baskets of oranges, watermelons, pawpaw, cucumbers, pineapples and sliced watermelon. Three traders and a customer are partly in front. | Medium: baskets are easy to count. Single fruits in piled baskets are hard, and people block some baskets. |
+| real-06-provision-store.jpg | A woman purchasing food stuff from a provision store.jpg | Umshushima | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:A_woman_purchasing_food_stuff_from_a_provision_store.jpg | Strips of hanging seasoning sachets (Onga, SpiCity), shelved provisions, basins and baskets of rice, beans and grains, cartons and a green crate. The trader faces away. | Hard: long chains of near-identical sachets that touch, with clutter at several depths and some goods behind mesh. |
+| real-07-provisions-seller.jpg | Provisions Seller in the Market.jpg | Johnnybam | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Provisions_Seller_in_the_Market.jpg | A packed provisions shop: hanging Ovaltine and Milo refill packs, Klin detergent sachets, Nasco Cornflakes, noodle cartons, biscuits and stacked boxes. A man in a blue shirt fills the right third of the frame. | Hard: low light, goods stacked against each other and partly hidden by the man in the foreground. |
+| real-08-balogun-ankara-alley.jpg | 2007 Balogun Market Lagos Nigeria 9395578408.jpg | Seattle Globalist | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:2007_Balogun_Market_Lagos_Nigeria_9395578408.jpg | Ankara alley in Balogun Market: stacks of folded wax-print fabric and hanging bolts. A smiling trader holding naira notes fills the left 40% of the frame. | Hard: folded fabrics stacked edge to edge with similar busy patterns, a dominant person, and a low resolution (963x640). |
+
+## Suggested credit line
+
+"<Commons title>" by <Author>, via Wikimedia Commons, licensed under <licence> (<licence URL>). Resized.

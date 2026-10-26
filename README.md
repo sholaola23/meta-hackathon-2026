@@ -1,6 +1,53 @@
-# Meta Global AI Developer Hackathon 2026
+# StallSnap
 
-Personal entry, Indie Developer track. Everything in this repo was built during the hackathon (27 Oct to 4 Nov 2026).
+**Snap your stall, say your prices, get a shop.** A market trader photographs their stall and sends a voice note in Pidgin with the prices. StallSnap sends back a priced catalogue they can share on WhatsApp.
+
+Personal entry for the Meta Global AI Developer Hackathon 2026, Indie Developer track, theme "Build for Your World". Everything in this repo was built during the hackathon (26 Oct to 4 Nov 2026).
+
+> Status: the day-one go/no-go test runs on 27 Oct. If it fails, the fallback idea is in [docs/idea-decision.md](docs/idea-decision.md).
+
+## How it works
+
+| Step | Meta model | What it does |
+|------|-----------|--------------|
+| 1 | SAM 3.1 | Cuts out each product on the stall photo |
+| 2 | Muse Voice Transcribe | Turns the Pidgin price note into text |
+| 3 | Muse Spark | Matches spoken prices to the cutouts with tool calls, and asks the trader about anything it couldn't price |
+| 4 | Muse Image | Cleans the background and lighting of the real cutouts only (it never invents products) |
+
+The catalogue goes back as a web link over WhatsApp.
+
+## Repo layout
+
+| Path | What is in it |
+|------|---------------|
+| `docs/idea-decision.md` | Why StallSnap, the guardrails, the day-one test and the fallback |
+| `test-material/stalls.json` | Answer key: 5 stalls, their items and naira prices |
+| `test-material/images/` | Generated stall photos (Muse Image) for the test, with prompts |
+| `test-material/real-photos/` | Real openly licensed stall photos (Wikimedia Commons), with attribution |
+| `test-material/voice/` | Pidgin price scripts, placeholder voice notes and the price answer key |
+
+Test material is for the spike test only. The demo will use real stalls and real voice notes.
+
+## Setup
+
+```bash
+cp .env.example .env   # then paste your Meta Model API key
+set -a; . ./.env; set +a
+curl -s https://api.meta.ai/v1/responses \
+  -H "Authorization: Bearer $MODEL_API_KEY" -H "Content-Type: application/json" \
+  -d '{"model":"muse-spark-1.3","input":"Reply with: ready"}'
+```
+
+Never commit `.env`. It is listed in `.gitignore`.
+
+## Meta Model API
+
+- Base URL: `https://api.meta.ai/v1` (OpenAI-compatible; Anthropic Messages at `https://api.meta.ai`)
+- Default model: `muse-spark-1.3`
+- Key in env var `MODEL_API_KEY`
+- Usage alert: email at £25 a month (set 26 Oct; Meta offers alerts, not a hard cap)
+- Muse Code CLI: `curl -fsSL https://dev.meta.ai/install.sh | sh`, then `muse`
 
 ## Key dates (UK time)
 
@@ -15,22 +62,13 @@ Personal entry, Indie Developer track. Everything in this repo was built during 
 
 ## Rules that shape the build
 
-- Repo must be **public** at submission.
+- Repo must be public at submission.
 - Only work done during the event counts; the demo must show only that work.
-- Must use Meta models: Muse Spark, Muse Wonder, Muse Image, Muse Voice Transcribe, SAM 3.1 (Meta Model API), or Muse Glimmer / Muse Spark Open (open weights).
+- Must use Meta models via Meta Model API or the open-weight models.
 - Three-minute demo video required.
 - Anti-projects include "AI Job Application Screener" and "Simple Image Analyzers".
 
-## Judging (equal weight, 0 to 10)
-
-Impact · Use of Meta AI tooling · Technical depth and execution · Demo
-
-## Meta Model API
-
-- Base URL: `https://api.meta.ai/v1` (OpenAI-compatible; Anthropic Messages at `https://api.meta.ai`)
-- Default model: `muse-spark-1.3`
-- Key in env var `MODEL_API_KEY` (never commit it)
-- Muse Code CLI: `curl -fsSL https://dev.meta.ai/install.sh | sh`, then `muse`
+Judging (equal weight, 0 to 10): impact · use of Meta AI tooling · technical depth and execution · demo.
 
 ## Links
 
@@ -41,3 +79,7 @@ Impact · Use of Meta AI tooling · Technical depth and execution · Demo
 - Cookbook: https://github.com/meta-models/meta-model-cookbook
 - Baseten credits form: https://docs.google.com/forms/d/e/1FAIpQLSfM7gcK8yMZEmAGq6DbTyiuv2c71IH7CKCy0fXGIfUED1qxVQ/viewform (use model `meta-models/muse-spark-open-1026`)
 - Modal credits form: https://docs.google.com/forms/d/e/1FAIpQLSe_GDPtLZsdA57xPhFcOCi_yLjPf8HRxMIQJ5V7ystoKSqWCQ/viewform
+
+## Licence
+
+MIT. Third-party photos in `test-material/real-photos/` keep their own licences, listed in `ATTRIBUTION.md`.

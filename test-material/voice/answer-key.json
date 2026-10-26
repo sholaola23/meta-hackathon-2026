@@ -1,0 +1,257 @@
+{
+  "_note": "Answer key for the Pidgin voice-note test scripts. Item names match test-material/stalls.json exactly. Prices in naira. expected_prices covers only items the trader actually prices; unpriced_items should trigger a follow-up question from the system. TTS files are British-accented placeholders (macOS Daniel voice).",
+  "stalls": [
+    {
+      "id": "stall-1-provisions",
+      "script": "stall-1-provisions.txt",
+      "tts_audio": "stall-1-provisions-tts.ogg",
+      "expected_prices": {
+        "Indomie noodles (single pack)": 250,
+        "Peak milk tin (big)": 1800,
+        "Milo tin": 3500,
+        "Golden Morn cereal pack": 2800,
+        "Bournvita jar": 4200,
+        "Gala sausage roll": 200
+      },
+      "unpriced_items": [],
+      "tricky_phrases": [
+        {
+          "phrase": "Indomie na two-fifty",
+          "resolves_to": 250,
+          "item": "Indomie noodles (single pack)",
+          "type": "number words"
+        },
+        {
+          "phrase": "Peak milk, the big tin, na 1.8",
+          "resolves_to": 1800,
+          "item": "Peak milk tin (big)",
+          "type": "shorthand (1.8 = 1,800) + size pointer"
+        },
+        {
+          "phrase": "Milo na 3k... no no, 3,500",
+          "resolves_to": 3500,
+          "item": "Milo tin",
+          "type": "mid-sentence correction (final value wins, not 3,000)"
+        },
+        {
+          "phrase": "Bournvita, dis one for corner, na four-two",
+          "resolves_to": 4200,
+          "item": "Bournvita jar",
+          "type": "pointing word + shorthand (four-two = 4,200)"
+        }
+      ]
+    },
+    {
+      "id": "stall-2-fabrics",
+      "script": "stall-2-fabrics.txt",
+      "tts_audio": "stall-2-fabrics-tts.ogg",
+      "expected_prices": {
+        "Ankara wax print, blue and yellow (6 yards)": 12000,
+        "Ankara wax print, red pattern (6 yards)": 12000,
+        "Lace fabric, gold (5 yards)": 35000,
+        "Aso oke set, purple": 28000,
+        "Plain cotton fabric, white (5 yards)": 6500
+      },
+      "unpriced_items": [],
+      "tricky_phrases": [
+        {
+          "phrase": "All the Ankara na 12k each",
+          "resolves_to": 12000,
+          "item": [
+            "Ankara wax print, blue and yellow (6 yards)",
+            "Ankara wax print, red pattern (6 yards)"
+          ],
+          "type": "group price (applies to every Ankara item)"
+        },
+        {
+          "phrase": "The gold one, the lace, five yards, na 35k",
+          "resolves_to": 35000,
+          "item": "Lace fabric, gold (5 yards)",
+          "type": "colour pointer + k shorthand"
+        },
+        {
+          "phrase": "Dat purple one wey dey hang, the aso oke set, na twenty-eight tousand",
+          "resolves_to": 28000,
+          "item": "Aso oke set, purple",
+          "type": "pointing word + Pidgin pronunciation (tousand)"
+        },
+        {
+          "phrase": "Plain white cotton na six-five",
+          "resolves_to": 6500,
+          "item": "Plain cotton fabric, white (5 yards)",
+          "type": "shorthand (six-five = 6,500)"
+        }
+      ]
+    },
+    {
+      "id": "stall-3-phone-accessories",
+      "script": "stall-3-phone-accessories.txt",
+      "tts_audio": "stall-3-phone-accessories-tts.ogg",
+      "expected_prices": {
+        "USB-C charging cable": 2500,
+        "iPhone charger head": 7000,
+        "Power bank 20000mAh": 18000,
+        "Wired earphones": 1500,
+        "Phone case (assorted)": 3000,
+        "Bluetooth speaker (small)": 15000
+      },
+      "unpriced_items": [
+        "Screen protector"
+      ],
+      "tricky_phrases": [
+        {
+          "phrase": "Dis USB-C cable na 2.5",
+          "resolves_to": 2500,
+          "item": "USB-C charging cable",
+          "type": "pointing word + shorthand (2.5 = 2,500)"
+        },
+        {
+          "phrase": "Power bank, twenty tousand mAh, na eighteen tousand",
+          "resolves_to": 18000,
+          "item": "Power bank 20000mAh",
+          "type": "distractor number (20,000 is capacity, not price)"
+        },
+        {
+          "phrase": "Earphones na one five",
+          "resolves_to": 1500,
+          "item": "Wired earphones",
+          "type": "shorthand (one five = 1,500)"
+        },
+        {
+          "phrase": "Phone case ... all of them na tree tousand each",
+          "resolves_to": 3000,
+          "item": "Phone case (assorted)",
+          "type": "group price + Pidgin pronunciation (tree = three)"
+        },
+        {
+          "phrase": "The small speaker, the red one for top, na fifteen tousand",
+          "resolves_to": 15000,
+          "item": "Bluetooth speaker (small)",
+          "type": "pointing word needing the photo (red, on top)"
+        }
+      ]
+    },
+    {
+      "id": "stall-4-foodstuff",
+      "script": "stall-4-foodstuff.txt",
+      "tts_audio": "stall-4-foodstuff-tts.ogg",
+      "expected_prices": {
+        "Rice, paint bucket measure": 6000,
+        "Beans (brown), paint bucket measure": 5500,
+        "Garri (white), paint bucket measure": 3000,
+        "Palm oil (1 litre bottle)": 2500,
+        "Groundnut oil (1 litre bottle)": 3200,
+        "Crayfish (small cup)": 1500,
+        "Tomato paste sachet": 150,
+        "Yam tuber (medium)": 3500
+      },
+      "unpriced_items": [],
+      "tricky_phrases": [
+        {
+          "phrase": "Rice na 6k for one paint",
+          "resolves_to": 6000,
+          "item": "Rice, paint bucket measure",
+          "type": "k shorthand + unit word (paint = paint bucket measure)"
+        },
+        {
+          "phrase": "Beans, the brown one, na five-five for paint",
+          "resolves_to": 5500,
+          "item": "Beans (brown), paint bucket measure",
+          "type": "shorthand (five-five = 5,500)"
+        },
+        {
+          "phrase": "Garri, dat white one for basin, na 3k paint",
+          "resolves_to": 3000,
+          "item": "Garri (white), paint bucket measure",
+          "type": "pointing word + k shorthand"
+        },
+        {
+          "phrase": "Palm oil, one litre, na two-five",
+          "resolves_to": 2500,
+          "item": "Palm oil (1 litre bottle)",
+          "type": "shorthand (two-five = 2,500); 'one litre' is a distractor number"
+        },
+        {
+          "phrase": "Groundnut oil na tree tousand... no wait, tree tousand two hundred",
+          "resolves_to": 3200,
+          "item": "Groundnut oil (1 litre bottle)",
+          "type": "mid-sentence correction (final value wins, not 3,000)"
+        },
+        {
+          "phrase": "Crayfish, small cup, na one five",
+          "resolves_to": 1500,
+          "item": "Crayfish (small cup)",
+          "type": "shorthand (one five = 1,500)"
+        },
+        {
+          "phrase": "Tomato paste sachet na one-fifty",
+          "resolves_to": 150,
+          "item": "Tomato paste sachet",
+          "type": "number words"
+        },
+        {
+          "phrase": "Yam, dis medium one, tree tousand five",
+          "resolves_to": 3500,
+          "item": "Yam tuber (medium)",
+          "type": "pointing word + 'tree tousand five' = 3,500"
+        }
+      ]
+    },
+    {
+      "id": "stall-5-mixed-cluttered",
+      "script": "stall-5-mixed-cluttered.txt",
+      "tts_audio": "stall-5-mixed-cluttered-tts.ogg",
+      "expected_prices": {
+        "Bottled water (75cl)": 300,
+        "Coca-Cola bottle (50cl)": 500,
+        "Hanging sachets of Milo (strip)": 100,
+        "Hanging sachets of detergent (strip)": 150,
+        "Bread loaf (big)": 1600,
+        "Eggs (crate)": 5800,
+        "Biscuits pack (Cabin)": 400,
+        "Bar soap": 700
+      },
+      "unpriced_items": [
+        "Sugar cubes pack"
+      ],
+      "tricky_phrases": [
+        {
+          "phrase": "Water, the 75cl, na tree hundred",
+          "resolves_to": 300,
+          "item": "Bottled water (75cl)",
+          "type": "distractor number (75cl is size, not price)"
+        },
+        {
+          "phrase": "Dis Milo sachet wey hang for there, na hundred hundred naira, one one",
+          "resolves_to": 100,
+          "item": "Hanging sachets of Milo (strip)",
+          "type": "pointing word + reduplication (hundred hundred = 100 each)"
+        },
+        {
+          "phrase": "Detergent sachet na one-fifty one-fifty",
+          "resolves_to": 150,
+          "item": "Hanging sachets of detergent (strip)",
+          "type": "reduplication (one-fifty one-fifty = 150 each)"
+        },
+        {
+          "phrase": "Bread, the big one, na one-six",
+          "resolves_to": 1600,
+          "item": "Bread loaf (big)",
+          "type": "pointing word + shorthand (one-six = 1,600)"
+        },
+        {
+          "phrase": "Egg, one crate, na five-eight",
+          "resolves_to": 5800,
+          "item": "Eggs (crate)",
+          "type": "shorthand (five-eight = 5,800)"
+        },
+        {
+          "phrase": "Dis market no be ten ten naira market again o",
+          "resolves_to": null,
+          "item": null,
+          "type": "figure of speech: 'ten ten naira' is not a price for any item and must be ignored"
+        }
+      ]
+    }
+  ]
+}
