@@ -47,6 +47,8 @@ export interface Pipeline {
   start(input: StartInput): Promise<PricingTurn>;
   /** One reply from the trader to the latest list. */
   reply(input: { traderId: string; jobId: string; reply: TraderReply }): Promise<PricingTurn>;
+  /** The latest list as saved, without changing it or calling a model. The loop uses it after a restart. */
+  current(input: { traderId: string; jobId: string }): Promise<PricingTurn>;
   /** The trader confirmed: build the catalogue page and return its public link. */
   publish(input: { traderId: string; jobId: string }): Promise<{ url: string }>;
 }

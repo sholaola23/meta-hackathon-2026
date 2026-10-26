@@ -89,7 +89,11 @@ export class Conversation {
       if (s.phase === "collecting") this.settle(trader);
       // The trader already said yes: publishing again from the saved list costs nothing, so finish the job.
       else if (s.phase === "publishing") void this.run(trader, () => this.publish(trader, s));
-      else if (s.phase === "working") {
+      // A list already exists (the crash came during a reply): pick it up again rather than lose the trader's work.
+      // This also takes a published page out of "updating" once the trader confirms the corrected list.
+      else if (s.phase === "working" && s.version !== undefined) {
+        void this.run(trader, async () => this.background(trader, s, () => this.deps.pipeline.current({ traderId: trader, jobId: s.jobId })));
+      } else if (s.phase === "working") {
         void this.run(trader, async () => {
           this.save(trader, freshSession());
           this.send(trader, copy.failed);

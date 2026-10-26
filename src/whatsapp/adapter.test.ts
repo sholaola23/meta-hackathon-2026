@@ -11,6 +11,7 @@ import { renderPage, serveCatalogue } from "./catalogue-page";
 import { JobLog } from "./joblog";
 import type { LocalMedia } from "./pipeline";
 import { photoErrorMessage } from "./pipeline";
+import { Store } from "./store";
 import { button, payload, setup as loopSetup, text } from "./test-helpers";
 
 const TRADER = "2348000000001";
@@ -363,5 +364,78 @@ describe("loop: after the catalogue is out", () => {
     const html = await serveCatalogue("/c/abc000000001", publicDir)!.text();
     expect(html).toContain("₦3,000 per tin");
     expect(html).not.toContain("₦3,500");
+  });
+});
+
+describe("loop: a restart in the middle of a correction after publishing", () => {
+  const T = 1_790_000_000;
+  async function published() {
+    const m = new FakeModels([["Peak milk"]], { "*": "Peak milk na 650 tin" });
+    const store = new Store();
+    const { pipeline, publicDir, root } = setup(m);
+    const h = loopSetup({ pipeline, store });
+    await h.deliver(payload([h.graph.image(T), h.graph.voice(T + 1)]));
+    await h.deliver(payload([button("yes:1", T + 10)]));
+    expect(await serveCatalogue("/c/abc000000001", publicDir)!.text()).toContain("₦650 per tin");
+    // A fresh adapter on the same folders, as after a restart.
+    const restart = () =>
+      loopSetup({
+        store,
+        pipeline: new StallPipeline({
+          models: m,
+          jobLog: new JobLog(join(root, "joblog")),
+          dataDir: join(root, "data"),
+          publicDir,
+          publicBaseUrl: "https://stallsnap.example/",
+          now: () => new Date("2026-10-28T09:30:00Z"),
+          slug: () => "abc999999999",
+        }),
+      });
+    return { pipeline, store, publicDir, restart, m };
+  }
+
+  test("the correction was saved: the trader gets the corrected list back, and yes puts the page right", async () => {
+    const { pipeline, store, publicDir, restart } = await published();
+    const s = store.get(TRADER)!;
+    await pipeline.reply({ traderId: TRADER, jobId: s.jobId, reply: { text: "1 na 700" } });
+    store.set(TRADER, { ...s, phase: "working" }); // the crash: the loop never saw the answer
+    expect(await serveCatalogue("/c/abc000000001", publicDir)!.text()).toContain("updating");
+
+    const h2 = restart();
+    h2.loop.resume();
+    await h2.loop.idle();
+    const list = h2.outbox.sent.find((x) => x.message.type === "buttons")!;
+    expect(list.message.body).toContain("₦700");
+    expect(h2.outbox.bodies().join("\n")).not.toContain("something went wrong");
+
+    const yes = list.message.type === "buttons" ? list.message.buttons[0]!.id : "";
+    await h2.deliver(payload([button(yes, T + 100)]));
+    expect(h2.outbox.bodies().at(-1)).toContain("https://stallsnap.example/c/abc000000001");
+    const html = await serveCatalogue("/c/abc000000001", publicDir)!.text();
+    expect(html).toContain("₦700 per tin");
+    expect(html).not.toContain("updating");
+  });
+
+  test("the correction never reached the pricing step: the page keeps its prices and the trader is not sent the link again", async () => {
+    const { store, publicDir, restart, m } = await published();
+    store.set(TRADER, { ...store.get(TRADER)!, phase: "working" });
+    const h2 = restart();
+    h2.loop.resume();
+    await h2.loop.idle();
+    expect(h2.outbox.bodies().join("\n")).not.toContain("/c/abc000000001");
+    expect(h2.outbox.bodies().length).toBe(1);
+    expect(await serveCatalogue("/c/abc000000001", publicDir)!.text()).toContain("₦650 per tin");
+    expect(m.calls).toMatchObject({ cutout: 1, price: 1 });
+  });
+
+  test("a restart before any list exists still asks the trader to send again", async () => {
+    const m = new FakeModels([["Peak milk"]], { "*": "Peak milk na 650 tin" });
+    const store = new Store();
+    const { pipeline } = setup(m);
+    store.set(TRADER, { jobId: JOB, phase: "working", photos: [], voiceNotes: [], texts: [], replies: 0, pending: [], told: [] });
+    const h = loopSetup({ pipeline, store });
+    h.loop.resume();
+    await h.loop.idle();
+    expect(h.outbox.bodies().join("\n")).toContain("something went wrong");
   });
 });
