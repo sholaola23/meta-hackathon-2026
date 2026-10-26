@@ -1,0 +1,52 @@
+{
+ "case": "stall-5-mixed-cluttered",
+ "stall": "stall-5-mixed-cluttered",
+ "source": "bun src/pricing/eval.ts",
+ "audio": "stall-5-mixed-cluttered-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": true,
+ "transcript": "Evening oh water the seventy five cl naira three hundred Coke bottle now five hundred this Milo sachet way hang for there nine hundred hundred naira one one detergent sachet now one fifty one fifty bread the big one now one six six egg one crate now now five eight cabin biscuit now four hundred bar soap now soap now seven hundred this market no be ten ten naira market again oh oh everything don't cost.",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i1\",\"price_naira\":300,\"quote\":\"water the seventy five cl naira three hundred\",\"unit\":\"bottle\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i2\",\"price_naira\":500,\"quote\":\"Coke bottle now five hundred\",\"unit\":\"bottle\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i3\",\"price_naira\":100,\"quote\":\"Milo sachet way hang for there nine hundred hundred naira one one\",\"unit\":\"sachet\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i4\",\"price_naira\":150,\"quote\":\"detergent sachet now one fifty one fifty\",\"unit\":\"sachet\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i5\",\"price_naira\":1600,\"quote\":\"bread the big one now one six\",\"unit\":\"loaf\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i6\",\"price_naira\":5800,\"quote\":\"egg one crate now now five eight\",\"unit\":\"crate\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i8\",\"price_naira\":400,\"quote\":\"cabin biscuit now four hundred\",\"unit\":\"pack\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\":\"i9\",\"price_naira\":700,\"quote\":\"bar soap now soap now seven hundred\",\"unit\":\"bar\"}"
+  },
+  {
+   "name": "flag_missing_price",
+   "arguments": "{\"item_id\":\"i7\"}"
+  },
+  {
+   "name": "ask_trader",
+   "arguments": "{\"item_ids\":[\"i7\"],\"question\":\"Abeg, how much be sugar cubes pack?\"}"
+  }
+ ]
+}

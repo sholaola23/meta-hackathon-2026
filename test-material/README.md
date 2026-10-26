@@ -15,6 +15,6 @@ Fixtures for the 27 Oct go/no-go test (thresholds in `../docs/idea-decision.md`)
 - Generated packaging shows real brand names. That's fine for internal testing, but keep it out of the demo and marketing.
 - Voice notes are British-accented text-to-speech, so they test price parsing only. Real recordings: see `voice/RECORDING-GUIDE.md`.
 - Deliberately unpriced items: Screen protector (stall 3) and Sugar cubes pack (stall 5). The system should ask about these.
-- Sachet items in `stalls.json` say "(strip)", but the price is per sachet (100 and 150).
+- The hanging sachets in stall 5 are priced per sachet (Milo 100, detergent 150), not per strip. They were called "(strip)" until 26 Oct; they are now "Milo sachet" and "Detergent sachet" with unit `sachet`. Every item has a `unit`; see `docs/pricing.md`.
 - Real photos are CC BY-SA, so any published crops or mask overlays made from them must carry the same licence and credit.
 - There is no real phone-accessories photo; no suitable openly licensed one was found.

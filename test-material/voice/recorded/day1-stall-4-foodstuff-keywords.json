@@ -1,0 +1,44 @@
+{
+ "case": "stall-4-foodstuff",
+ "stall": "stall-4-foodstuff",
+ "source": "Day-one spike run (26 Oct, test-results/day1/voice-results.json on PR #1), rebuilt from its final outcome: one set_price per priced item, so mid-note corrections show only their final value. Predates the unit field.",
+ "audio": "stall-4-foodstuff-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": false,
+ "transcript": "Mama, seafood stuff, rice now six K for one paint, beans, the brown one, now five five for paint, Garri, that white one for basin, now three K paint, Palm oil, one liter, now two five, Groundnut oil, now three thousand, no weight, three thousand two hundred, one liter, Crayfish, small cup, now now one five, Tomato paste, sachet, now one fifty, Yam, this medium one, three thousand five, market no easy, but I go give you fair price,",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i1\", \"price_naira\": 6000, \"quote\": \"rice now six K for one paint\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i2\", \"price_naira\": 5500, \"quote\": \"beans, the brown one, now five five for paint\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i3\", \"price_naira\": 3000, \"quote\": \"Garri, that white one for basin, now three K paint\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i4\", \"price_naira\": 2500, \"quote\": \"Palm oil, one liter, now two five\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i5\", \"price_naira\": 3200, \"quote\": \"three thousand two hundred, one liter\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i6\", \"price_naira\": 1500, \"quote\": \"Crayfish, small cup, now now one five\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i7\", \"price_naira\": 150, \"quote\": \"Tomato paste, sachet, now one fifty\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i8\", \"price_naira\": 3500, \"quote\": \"Yam, this medium one, three thousand five\"}"
+  }
+ ]
+}

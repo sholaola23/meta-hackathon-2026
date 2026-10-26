@@ -1,0 +1,32 @@
+{
+ "case": "stall-2-fabrics",
+ "stall": "stall-2-fabrics",
+ "source": "Day-one spike run (26 Oct, test-results/day1/voice-results.json on PR #1), rebuilt from its final outcome: one set_price per priced item, so mid-note corrections show only their final value. Predates the unit field.",
+ "audio": "stall-2-fabrics-tts.ogg",
+ "model": "muse-spark-1.3",
+ "recorded_at": "2026-10-26",
+ "units_recorded": false,
+ "transcript": " fabric dayo, fine fabric, all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards, the gold one, the lace, five yards, now 35 K now original Lace Aso, that that purple one way the Aso oke set, now 28,000, Plain white cotton now six five, five yards, if you want so for come, I go do well for for you.",
+ "tool_calls": [
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i1\", \"price_naira\": 12000, \"quote\": \"all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i2\", \"price_naira\": 12000, \"quote\": \"all all the Ankara and R12 K each, the blue and yellow one and the red one, six yards\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i3\", \"price_naira\": 35000, \"quote\": \"the gold one, the lace, five yards, now 35 K now original Lace\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i4\", \"price_naira\": 28000, \"quote\": \"that that purple one way the Aso oke set, now 28,000\"}"
+  },
+  {
+   "name": "set_price",
+   "arguments": "{\"item_id\": \"i5\", \"price_naira\": 6500, \"quote\": \"Plain white cotton now six five, five yards\"}"
+  }
+ ]
+}
