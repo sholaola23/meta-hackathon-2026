@@ -1,0 +1,2463 @@
+{
+ "photo": "test-material/real-photos/real-01-onitsha-sandals-wall.jpg",
+ "status": "ok",
+ "products": [
+  {
+   "name": "ladies flat sandals",
+   "plain": "sandal",
+   "specific": "hanging sandal"
+  }
+ ],
+ "phrases": [
+  {
+   "phrase": "hanging sandal",
+   "productIndex": 0,
+   "instances": 82
+  },
+  {
+   "phrase": "sandal",
+   "productIndex": 0,
+   "instances": 90
+  }
+ ],
+ "people": 0,
+ "crops": [
+  {
+   "number": 1,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 212,
+    "top": 0,
+    "right": 276,
+    "bottom": 35
+   },
+   "confidence": 0.5540069937705994
+  },
+  {
+   "number": 2,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 802,
+    "top": 0,
+    "right": 858,
+    "bottom": 197
+   },
+   "confidence": 0.5661016702651978
+  },
+  {
+   "number": 3,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1094,
+    "top": 0,
+    "right": 1203,
+    "bottom": 197
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 4,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1180,
+    "top": 0,
+    "right": 1273,
+    "bottom": 191
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 5,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1438,
+    "top": 0,
+    "right": 1500,
+    "bottom": 208
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 6,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1264,
+    "top": 4,
+    "right": 1361,
+    "bottom": 209
+   },
+   "confidence": 0.7697842121124268
+  },
+  {
+   "number": 7,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1355,
+    "top": 8,
+    "right": 1443,
+    "bottom": 209
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 8,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 939,
+    "top": 15,
+    "right": 1019,
+    "bottom": 208
+   },
+   "confidence": 0.7770034670829773
+  },
+  {
+   "number": 9,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 121,
+    "top": 19,
+    "right": 196,
+    "bottom": 205
+   },
+   "confidence": 0.719298243522644
+  },
+  {
+   "number": 10,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 853,
+    "top": 25,
+    "right": 932,
+    "bottom": 226
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 11,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 428,
+    "top": 27,
+    "right": 497,
+    "bottom": 199
+   },
+   "confidence": 0.6289855241775513
+  },
+  {
+   "number": 12,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 0,
+    "top": 36,
+    "right": 71,
+    "bottom": 205
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 13,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1007,
+    "top": 38,
+    "right": 1093,
+    "bottom": 238
+   },
+   "confidence": 0.7887788414955139
+  },
+  {
+   "number": 14,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 187,
+    "top": 40,
+    "right": 283,
+    "bottom": 207
+   },
+   "confidence": 0.5241636037826538
+  },
+  {
+   "number": 15,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 290,
+    "top": 41,
+    "right": 345,
+    "bottom": 214
+   },
+   "confidence": 0.6800000071525574
+  },
+  {
+   "number": 16,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 346,
+    "top": 46,
+    "right": 419,
+    "bottom": 212
+   },
+   "confidence": 0.8160918951034546
+  },
+  {
+   "number": 17,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 773,
+    "top": 199,
+    "right": 840,
+    "bottom": 385
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 18,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 116,
+    "top": 212,
+    "right": 194,
+    "bottom": 381
+   },
+   "confidence": 0.6878048777580261
+  },
+  {
+   "number": 19,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1172,
+    "top": 217,
+    "right": 1266,
+    "bottom": 410
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 20,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 428,
+    "top": 223,
+    "right": 509,
+    "bottom": 403
+   },
+   "confidence": 0.8128654956817627
+  },
+  {
+   "number": 21,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1084,
+    "top": 223,
+    "right": 1186,
+    "bottom": 416
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 22,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1430,
+    "top": 225,
+    "right": 1500,
+    "bottom": 433
+   },
+   "confidence": 0.675126850605011
+  },
+  {
+   "number": 23,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 0,
+    "top": 226,
+    "right": 65,
+    "bottom": 385
+   },
+   "confidence": 0.7887788414955139
+  },
+  {
+   "number": 24,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1259,
+    "top": 227,
+    "right": 1355,
+    "bottom": 420
+   },
+   "confidence": 0.7770034670829773
+  },
+  {
+   "number": 25,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1339,
+    "top": 227,
+    "right": 1445,
+    "bottom": 443
+   },
+   "confidence": 0.7500000596046448
+  },
+  {
+   "number": 26,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 278,
+    "top": 235,
+    "right": 349,
+    "bottom": 400
+   },
+   "confidence": 0.8128654956817627
+  },
+  {
+   "number": 27,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 839,
+    "top": 235,
+    "right": 943,
+    "bottom": 418
+   },
+   "confidence": 0.6604774594306946
+  },
+  {
+   "number": 28,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 934,
+    "top": 235,
+    "right": 1020,
+    "bottom": 436
+   },
+   "confidence": 0.7730495929718018
+  },
+  {
+   "number": 29,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 59,
+    "top": 238,
+    "right": 120,
+    "bottom": 408
+   },
+   "confidence": 0.6012461185455322
+  },
+  {
+   "number": 30,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 205,
+    "top": 241,
+    "right": 285,
+    "bottom": 416
+   },
+   "confidence": 0.8202247023582458
+  },
+  {
+   "number": 31,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 347,
+    "top": 246,
+    "right": 424,
+    "bottom": 429
+   },
+   "confidence": 0.8202247023582458
+  },
+  {
+   "number": 32,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1015,
+    "top": 262,
+    "right": 1095,
+    "bottom": 447
+   },
+   "confidence": 0.7730495929718018
+  },
+  {
+   "number": 33,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 157,
+    "top": 398,
+    "right": 212,
+    "bottom": 549
+   },
+   "confidence": 0.6289855241775513
+  },
+  {
+   "number": 34,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 0,
+    "top": 408,
+    "right": 80,
+    "bottom": 569
+   },
+   "confidence": 0.8128654956817627
+  },
+  {
+   "number": 35,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 774,
+    "top": 408,
+    "right": 856,
+    "bottom": 574
+   },
+   "confidence": 0.6332378387451172
+  },
+  {
+   "number": 36,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 67,
+    "top": 422,
+    "right": 143,
+    "bottom": 580
+   },
+   "confidence": 0.7928802371025085
+  },
+  {
+   "number": 37,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 212,
+    "top": 432,
+    "right": 281,
+    "bottom": 594
+   },
+   "confidence": 0.8202247023582458
+  },
+  {
+   "number": 38,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1166,
+    "top": 432,
+    "right": 1260,
+    "bottom": 628
+   },
+   "confidence": 0.719298243522644
+  },
+  {
+   "number": 39,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 276,
+    "top": 434,
+    "right": 348,
+    "bottom": 605
+   },
+   "confidence": 0.8324607610702515
+  },
+  {
+   "number": 40,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1084,
+    "top": 437,
+    "right": 1164,
+    "bottom": 618
+   },
+   "confidence": 0.7500000596046448
+  },
+  {
+   "number": 41,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 342,
+    "top": 444,
+    "right": 434,
+    "bottom": 607
+   },
+   "confidence": 0.7852349281311035
+  },
+  {
+   "number": 42,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 854,
+    "top": 446,
+    "right": 937,
+    "bottom": 637
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 43,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1414,
+    "top": 448,
+    "right": 1486,
+    "bottom": 645
+   },
+   "confidence": 0.6952381134033203
+  },
+  {
+   "number": 44,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1244,
+    "top": 452,
+    "right": 1330,
+    "bottom": 651
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 45,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1328,
+    "top": 456,
+    "right": 1418,
+    "bottom": 653
+   },
+   "confidence": 0.7575758099555969
+  },
+  {
+   "number": 46,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 995,
+    "top": 468,
+    "right": 1089,
+    "bottom": 665
+   },
+   "confidence": 0.7620818018913269
+  },
+  {
+   "number": 47,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 135,
+    "top": 579,
+    "right": 214,
+    "bottom": 748
+   },
+   "confidence": 0.8083832263946533
+  },
+  {
+   "number": 48,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 15,
+    "top": 587,
+    "right": 79,
+    "bottom": 747
+   },
+   "confidence": 0.7655677795410156
+  },
+  {
+   "number": 49,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 752,
+    "top": 604,
+    "right": 844,
+    "bottom": 782
+   },
+   "confidence": 0.7620818018913269
+  },
+  {
+   "number": 50,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 78,
+    "top": 607,
+    "right": 143,
+    "bottom": 764
+   },
+   "confidence": 0.7697842121124268
+  },
+  {
+   "number": 51,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 211,
+    "top": 619,
+    "right": 283,
+    "bottom": 786
+   },
+   "confidence": 0.7928802371025085
+  },
+  {
+   "number": 52,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 279,
+    "top": 621,
+    "right": 348,
+    "bottom": 778
+   },
+   "confidence": 0.7852349281311035
+  },
+  {
+   "number": 53,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 348,
+    "top": 629,
+    "right": 416,
+    "bottom": 789
+   },
+   "confidence": 0.8012422323226929
+  },
+  {
+   "number": 54,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 904,
+    "top": 638,
+    "right": 999,
+    "bottom": 811
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 55,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1060,
+    "top": 645,
+    "right": 1151,
+    "bottom": 824
+   },
+   "confidence": 0.7419355511665344
+  },
+  {
+   "number": 56,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1152,
+    "top": 650,
+    "right": 1241,
+    "bottom": 852
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 57,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 832,
+    "top": 652,
+    "right": 915,
+    "bottom": 827
+   },
+   "confidence": 0.7142857313156128
+  },
+  {
+   "number": 58,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1245,
+    "top": 662,
+    "right": 1336,
+    "bottom": 849
+   },
+   "confidence": 0.7344398498535156
+  },
+  {
+   "number": 59,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1323,
+    "top": 665,
+    "right": 1441,
+    "bottom": 859
+   },
+   "confidence": 0.7344398498535156
+  },
+  {
+   "number": 60,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1431,
+    "top": 667,
+    "right": 1500,
+    "bottom": 856
+   },
+   "confidence": 0.6559139490127563
+  },
+  {
+   "number": 61,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 987,
+    "top": 673,
+    "right": 1070,
+    "bottom": 864
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 62,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 123,
+    "top": 763,
+    "right": 204,
+    "bottom": 925
+   },
+   "confidence": 0.7928802371025085
+  },
+  {
+   "number": 63,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 11,
+    "top": 767,
+    "right": 80,
+    "bottom": 917
+   },
+   "confidence": 0.7887788414955139
+  },
+  {
+   "number": 64,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 417,
+    "top": 784,
+    "right": 499,
+    "bottom": 948
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 65,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 68,
+    "top": 790,
+    "right": 144,
+    "bottom": 947
+   },
+   "confidence": 0.7928802371025085
+  },
+  {
+   "number": 66,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 769,
+    "top": 798,
+    "right": 850,
+    "bottom": 966
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 67,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 214,
+    "top": 805,
+    "right": 285,
+    "bottom": 971
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 68,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 285,
+    "top": 808,
+    "right": 354,
+    "bottom": 974
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 69,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 351,
+    "top": 813,
+    "right": 427,
+    "bottom": 983
+   },
+   "confidence": 0.7419355511665344
+  },
+  {
+   "number": 70,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 917,
+    "top": 834,
+    "right": 1002,
+    "bottom": 1018
+   },
+   "confidence": 0.7770034670829773
+  },
+  {
+   "number": 71,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1063,
+    "top": 848,
+    "right": 1150,
+    "bottom": 1047
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 72,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 844,
+    "top": 856,
+    "right": 918,
+    "bottom": 1042
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 73,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1145,
+    "top": 867,
+    "right": 1229,
+    "bottom": 1057
+   },
+   "confidence": 0.7575758099555969
+  },
+  {
+   "number": 74,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1465,
+    "top": 871,
+    "right": 1500,
+    "bottom": 1069
+   },
+   "confidence": 0.5345454812049866
+  },
+  {
+   "number": 75,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1229,
+    "top": 872,
+    "right": 1327,
+    "bottom": 1056
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 76,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 981,
+    "top": 877,
+    "right": 1070,
+    "bottom": 1056
+   },
+   "confidence": 0.7620818018913269
+  },
+  {
+   "number": 77,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1397,
+    "top": 878,
+    "right": 1484,
+    "bottom": 1077
+   },
+   "confidence": 0.7037037014961243
+  },
+  {
+   "number": 78,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1313,
+    "top": 886,
+    "right": 1407,
+    "bottom": 1087
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 79,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 136,
+    "top": 934,
+    "right": 220,
+    "bottom": 1092
+   },
+   "confidence": 0.7620818018913269
+  },
+  {
+   "number": 80,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 10,
+    "top": 938,
+    "right": 88,
+    "bottom": 1114
+   },
+   "confidence": 0.7299578189849854
+  },
+  {
+   "number": 81,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 464,
+    "top": 949,
+    "right": 528,
+    "bottom": 1094
+   },
+   "confidence": 0.5857605338096619
+  },
+  {
+   "number": 82,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 66,
+    "top": 963,
+    "right": 142,
+    "bottom": 1125
+   },
+   "confidence": 0.7928802371025085
+  },
+  {
+   "number": 83,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 284,
+    "top": 985,
+    "right": 352,
+    "bottom": 1125
+   },
+   "confidence": 0.7264957427978516
+  },
+  {
+   "number": 84,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 360,
+    "top": 986,
+    "right": 429,
+    "bottom": 1125
+   },
+   "confidence": 0.6332378387451172
+  },
+  {
+   "number": 85,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 738,
+    "top": 1000,
+    "right": 813,
+    "bottom": 1125
+   },
+   "confidence": 0.604938268661499
+  },
+  {
+   "number": 86,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 214,
+    "top": 1001,
+    "right": 287,
+    "bottom": 1125
+   },
+   "confidence": 0.6717948913574219
+  },
+  {
+   "number": 87,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 922,
+    "top": 1030,
+    "right": 993,
+    "bottom": 1125
+   },
+   "confidence": 0.597484290599823
+  },
+  {
+   "number": 88,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 846,
+    "top": 1054,
+    "right": 912,
+    "bottom": 1125
+   },
+   "confidence": 0.5586206912994385
+  },
+  {
+   "number": 89,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 997,
+    "top": 1060,
+    "right": 1064,
+    "bottom": 1125
+   },
+   "confidence": 0.6246334314346313
+  },
+  {
+   "number": 90,
+   "productName": "ladies flat sandals",
+   "phrase": "sandal",
+   "box": {
+    "left": 1077,
+    "top": 1060,
+    "right": 1144,
+    "bottom": 1125
+   },
+   "confidence": 0.6012461185455322
+  }
+ ],
+ "dropped": [
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 276,
+    "top": 434,
+    "right": 348,
+    "bottom": 605
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 205,
+    "top": 241,
+    "right": 285,
+    "bottom": 416
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 212,
+    "top": 432,
+    "right": 281,
+    "bottom": 594
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 347,
+    "top": 246,
+    "right": 424,
+    "bottom": 429
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 348,
+    "top": 629,
+    "right": 416,
+    "bottom": 789
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 346,
+    "top": 46,
+    "right": 420,
+    "bottom": 212
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 0,
+    "top": 408,
+    "right": 80,
+    "bottom": 569
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 428,
+    "top": 223,
+    "right": 509,
+    "bottom": 403
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 211,
+    "top": 620,
+    "right": 283,
+    "bottom": 786
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 135,
+    "top": 579,
+    "right": 214,
+    "bottom": 748
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 67,
+    "top": 422,
+    "right": 143,
+    "bottom": 580
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 279,
+    "top": 621,
+    "right": 348,
+    "bottom": 778
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 278,
+    "top": 235,
+    "right": 349,
+    "bottom": 400
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 123,
+    "top": 763,
+    "right": 204,
+    "bottom": 925
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 68,
+    "top": 790,
+    "right": 144,
+    "bottom": 947
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 342,
+    "top": 444,
+    "right": 434,
+    "bottom": 607
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 66,
+    "top": 963,
+    "right": 142,
+    "bottom": 1125
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 135,
+    "top": 934,
+    "right": 220,
+    "bottom": 1093
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1007,
+    "top": 38,
+    "right": 1093,
+    "bottom": 238
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 78,
+    "top": 607,
+    "right": 144,
+    "bottom": 765
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 0,
+    "top": 36,
+    "right": 72,
+    "bottom": 205
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1085,
+    "top": 223,
+    "right": 1186,
+    "bottom": 416
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 11,
+    "top": 767,
+    "right": 80,
+    "bottom": 917
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 0,
+    "top": 226,
+    "right": 65,
+    "bottom": 385
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 285,
+    "top": 808,
+    "right": 354,
+    "bottom": 974
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1171,
+    "top": 217,
+    "right": 1266,
+    "bottom": 410
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 351,
+    "top": 813,
+    "right": 427,
+    "bottom": 983
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 939,
+    "top": 15,
+    "right": 1019,
+    "bottom": 208
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1179,
+    "top": 0,
+    "right": 1273,
+    "bottom": 191
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 417,
+    "top": 784,
+    "right": 500,
+    "bottom": 948
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 934,
+    "top": 235,
+    "right": 1020,
+    "bottom": 436
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1355,
+    "top": 8,
+    "right": 1443,
+    "bottom": 209
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 987,
+    "top": 674,
+    "right": 1070,
+    "bottom": 863
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1015,
+    "top": 262,
+    "right": 1095,
+    "bottom": 447
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 15,
+    "top": 587,
+    "right": 79,
+    "bottom": 747
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1264,
+    "top": 4,
+    "right": 1360,
+    "bottom": 209
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1094,
+    "top": 0,
+    "right": 1203,
+    "bottom": 197
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 916,
+    "top": 835,
+    "right": 1002,
+    "bottom": 1018
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 980,
+    "top": 877,
+    "right": 1069,
+    "bottom": 1055
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1260,
+    "top": 227,
+    "right": 1355,
+    "bottom": 420
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 994,
+    "top": 468,
+    "right": 1089,
+    "bottom": 665
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 284,
+    "top": 985,
+    "right": 352,
+    "bottom": 1125
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1145,
+    "top": 866,
+    "right": 1229,
+    "bottom": 1057
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 904,
+    "top": 638,
+    "right": 999,
+    "bottom": 811
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1437,
+    "top": 0,
+    "right": 1500,
+    "bottom": 209
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 855,
+    "top": 446,
+    "right": 937,
+    "bottom": 637
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 121,
+    "top": 19,
+    "right": 196,
+    "bottom": 205
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1339,
+    "top": 227,
+    "right": 1452,
+    "bottom": 443
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 853,
+    "top": 25,
+    "right": 932,
+    "bottom": 226
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1063,
+    "top": 848,
+    "right": 1150,
+    "bottom": 1047
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 769,
+    "top": 798,
+    "right": 850,
+    "bottom": 965
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1060,
+    "top": 645,
+    "right": 1151,
+    "bottom": 824
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1152,
+    "top": 650,
+    "right": 1241,
+    "bottom": 852
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 773,
+    "top": 199,
+    "right": 840,
+    "bottom": 385
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1244,
+    "top": 452,
+    "right": 1330,
+    "bottom": 650
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 844,
+    "top": 856,
+    "right": 918,
+    "bottom": 1042
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 752,
+    "top": 603,
+    "right": 844,
+    "bottom": 782
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1244,
+    "top": 664,
+    "right": 1336,
+    "bottom": 848
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 10,
+    "top": 938,
+    "right": 89,
+    "bottom": 1114
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1085,
+    "top": 437,
+    "right": 1164,
+    "bottom": 618
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 157,
+    "top": 398,
+    "right": 212,
+    "bottom": 549
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 832,
+    "top": 652,
+    "right": 915,
+    "bottom": 827
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 290,
+    "top": 41,
+    "right": 345,
+    "bottom": 214
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 116,
+    "top": 212,
+    "right": 194,
+    "bottom": 381
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1328,
+    "top": 456,
+    "right": 1418,
+    "bottom": 653
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1229,
+    "top": 872,
+    "right": 1327,
+    "bottom": 1056
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 214,
+    "top": 1000,
+    "right": 287,
+    "bottom": 1125
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1323,
+    "top": 664,
+    "right": 1451,
+    "bottom": 859
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1166,
+    "top": 432,
+    "right": 1260,
+    "bottom": 628
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 360,
+    "top": 986,
+    "right": 429,
+    "bottom": 1125
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1414,
+    "top": 447,
+    "right": 1488,
+    "bottom": 645
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1313,
+    "top": 886,
+    "right": 1407,
+    "bottom": 1087
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 60,
+    "top": 238,
+    "right": 120,
+    "bottom": 408
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1397,
+    "top": 879,
+    "right": 1485,
+    "bottom": 1077
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 854,
+    "top": 235,
+    "right": 943,
+    "bottom": 418
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 738,
+    "top": 1000,
+    "right": 813,
+    "bottom": 1125
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 214,
+    "top": 806,
+    "right": 285,
+    "bottom": 971
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 1429,
+    "top": 225,
+    "right": 1500,
+    "bottom": 435
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 774,
+    "top": 408,
+    "right": 856,
+    "bottom": 574
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 463,
+    "top": 950,
+    "right": 528,
+    "bottom": 1098
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 996,
+    "top": 1060,
+    "right": 1064,
+    "bottom": 1125
+   }
+  },
+  {
+   "productName": "ladies flat sandals",
+   "phrase": "hanging sandal",
+   "reason": "duplicate",
+   "box": {
+    "left": 922,
+    "top": 1030,
+    "right": 993,
+    "bottom": 1125
+   }
+  }
+ ],
+ "fidelity": [
+  {
+   "number": 1,
+   "opaquePixels": 6445,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 2,
+   "opaquePixels": 32921,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 3,
+   "opaquePixels": 59251,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 4,
+   "opaquePixels": 53886,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 5,
+   "opaquePixels": 46343,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 6,
+   "opaquePixels": 60724,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 7,
+   "opaquePixels": 56803,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 8,
+   "opaquePixels": 45030,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 9,
+   "opaquePixels": 35819,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 10,
+   "opaquePixels": 50327,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 11,
+   "opaquePixels": 37750,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 12,
+   "opaquePixels": 38032,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 13,
+   "opaquePixels": 50751,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 14,
+   "opaquePixels": 34895,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 15,
+   "opaquePixels": 24598,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 16,
+   "opaquePixels": 36202,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 17,
+   "opaquePixels": 35543,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 18,
+   "opaquePixels": 37202,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 19,
+   "opaquePixels": 57309,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 20,
+   "opaquePixels": 41479,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 21,
+   "opaquePixels": 54028,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 22,
+   "opaquePixels": 41873,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 23,
+   "opaquePixels": 34965,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 24,
+   "opaquePixels": 53894,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 25,
+   "opaquePixels": 67244,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 26,
+   "opaquePixels": 36699,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 27,
+   "opaquePixels": 60965,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 28,
+   "opaquePixels": 51117,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 29,
+   "opaquePixels": 22405,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 30,
+   "opaquePixels": 42064,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 31,
+   "opaquePixels": 45184,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 32,
+   "opaquePixels": 46492,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 33,
+   "opaquePixels": 18810,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 34,
+   "opaquePixels": 32180,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 35,
+   "opaquePixels": 40712,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 36,
+   "opaquePixels": 32681,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 37,
+   "opaquePixels": 33176,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 38,
+   "opaquePixels": 54335,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 39,
+   "opaquePixels": 34350,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 40,
+   "opaquePixels": 45118,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 41,
+   "opaquePixels": 41404,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 42,
+   "opaquePixels": 50841,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 43,
+   "opaquePixels": 43646,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 44,
+   "opaquePixels": 52042,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 45,
+   "opaquePixels": 52357,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 46,
+   "opaquePixels": 55202,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 47,
+   "opaquePixels": 36529,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 48,
+   "opaquePixels": 33466,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 49,
+   "opaquePixels": 44179,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 50,
+   "opaquePixels": 31242,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 51,
+   "opaquePixels": 35757,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 52,
+   "opaquePixels": 32675,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 53,
+   "opaquePixels": 33921,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 54,
+   "opaquePixels": 43804,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 55,
+   "opaquePixels": 49216,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 56,
+   "opaquePixels": 55887,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 57,
+   "opaquePixels": 43715,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 58,
+   "opaquePixels": 48092,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 59,
+   "opaquePixels": 56158,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 60,
+   "opaquePixels": 42429,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 61,
+   "opaquePixels": 49937,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 62,
+   "opaquePixels": 31145,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 63,
+   "opaquePixels": 29359,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 64,
+   "opaquePixels": 36175,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 65,
+   "opaquePixels": 29877,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 66,
+   "opaquePixels": 40868,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 67,
+   "opaquePixels": 26577,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 68,
+   "opaquePixels": 31727,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 69,
+   "opaquePixels": 33348,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 70,
+   "opaquePixels": 44067,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 71,
+   "opaquePixels": 52871,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 72,
+   "opaquePixels": 44962,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 73,
+   "opaquePixels": 49931,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 74,
+   "opaquePixels": 14852,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 75,
+   "opaquePixels": 52007,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 76,
+   "opaquePixels": 47458,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 77,
+   "opaquePixels": 52917,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 78,
+   "opaquePixels": 55982,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 79,
+   "opaquePixels": 34377,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 80,
+   "opaquePixels": 36814,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 81,
+   "opaquePixels": 22219,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 82,
+   "opaquePixels": 33504,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 83,
+   "opaquePixels": 27999,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 84,
+   "opaquePixels": 25316,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 85,
+   "opaquePixels": 21515,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 86,
+   "opaquePixels": 20867,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 87,
+   "opaquePixels": 19071,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 88,
+   "opaquePixels": 14937,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 89,
+   "opaquePixels": 13767,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 90,
+   "opaquePixels": 14414,
+   "maxChannelDiff": 0
+  }
+ ],
+ "backdrop": "default"
+}

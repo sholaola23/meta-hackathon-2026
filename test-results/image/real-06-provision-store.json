@@ -1,0 +1,610 @@
+{
+ "photo": "test-material/real-photos/real-06-provision-store.jpg",
+ "status": "ok",
+ "products": [
+  {
+   "name": "seasoning sachets",
+   "plain": "sachet",
+   "specific": "seasoning sachet"
+  },
+  {
+   "name": "white rice",
+   "plain": "rice",
+   "specific": "white rice heap"
+  },
+  {
+   "name": "white beans",
+   "plain": "bean",
+   "specific": "white bean heap"
+  },
+  {
+   "name": "millet grain",
+   "plain": "grain",
+   "specific": "brown grain heap"
+  },
+  {
+   "name": "dried peppers",
+   "plain": "pepper",
+   "specific": "dried pepper bag"
+  },
+  {
+   "name": "cooking oil",
+   "plain": "bottle",
+   "specific": "oil bottle"
+  },
+  {
+   "name": "bagged grain",
+   "plain": "bag",
+   "specific": "grain sack"
+  }
+ ],
+ "phrases": [
+  {
+   "phrase": "seasoning sachet",
+   "productIndex": 0,
+   "instances": 0
+  },
+  {
+   "phrase": "sachet",
+   "productIndex": 0,
+   "instances": 0
+  },
+  {
+   "phrase": "white rice heap",
+   "productIndex": 1,
+   "instances": 0
+  },
+  {
+   "phrase": "rice",
+   "productIndex": 1,
+   "instances": 10
+  },
+  {
+   "phrase": "white bean heap",
+   "productIndex": 2,
+   "instances": 0
+  },
+  {
+   "phrase": "bean",
+   "productIndex": 2,
+   "instances": 0
+  },
+  {
+   "phrase": "brown grain heap",
+   "productIndex": 3,
+   "instances": 0
+  },
+  {
+   "phrase": "grain",
+   "productIndex": 3,
+   "instances": 13
+  },
+  {
+   "phrase": "dried pepper bag",
+   "productIndex": 4,
+   "instances": 4
+  },
+  {
+   "phrase": "pepper",
+   "productIndex": 4,
+   "instances": 0
+  },
+  {
+   "phrase": "oil bottle",
+   "productIndex": 5,
+   "instances": 0
+  },
+  {
+   "phrase": "bottle",
+   "productIndex": 5,
+   "instances": 1
+  },
+  {
+   "phrase": "grain sack",
+   "productIndex": 6,
+   "instances": 1
+  },
+  {
+   "phrase": "bag",
+   "productIndex": 6,
+   "instances": 4
+  }
+ ],
+ "people": 2,
+ "crops": [
+  {
+   "number": 1,
+   "productName": "bagged grain",
+   "phrase": "bag",
+   "box": {
+    "left": 1369,
+    "top": 0,
+    "right": 1495,
+    "bottom": 41
+   },
+   "confidence": 0.5345454812049866
+  },
+  {
+   "number": 2,
+   "productName": "bagged grain",
+   "phrase": "bag",
+   "box": {
+    "left": 1152,
+    "top": 70,
+    "right": 1331,
+    "bottom": 216
+   },
+   "confidence": 0.597484290599823
+  },
+  {
+   "number": 3,
+   "productName": "bagged grain",
+   "phrase": "bag",
+   "box": {
+    "left": 1283,
+    "top": 102,
+    "right": 1361,
+    "bottom": 376
+   },
+   "confidence": 0.5345454812049866
+  },
+  {
+   "number": 4,
+   "productName": "dried peppers",
+   "phrase": "dried pepper bag",
+   "box": {
+    "left": 102,
+    "top": 133,
+    "right": 171,
+    "bottom": 448
+   },
+   "confidence": 0.5704697966575623
+  },
+  {
+   "number": 5,
+   "productName": "dried peppers",
+   "phrase": "dried pepper bag",
+   "box": {
+    "left": 289,
+    "top": 134,
+    "right": 396,
+    "bottom": 432
+   },
+   "confidence": 0.5038759708404541
+  },
+  {
+   "number": 6,
+   "productName": "dried peppers",
+   "phrase": "dried pepper bag",
+   "box": {
+    "left": 247,
+    "top": 136,
+    "right": 297,
+    "bottom": 448
+   },
+   "confidence": 0.5114504098892212
+  },
+  {
+   "number": 7,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 156,
+    "top": 439,
+    "right": 230,
+    "bottom": 466
+   },
+   "confidence": 0.5857605338096619
+  },
+  {
+   "number": 8,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 186,
+    "top": 478,
+    "right": 296,
+    "bottom": 500
+   },
+   "confidence": 0.6246334314346313
+  },
+  {
+   "number": 9,
+   "productName": "cooking oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 119,
+    "top": 486,
+    "right": 157,
+    "bottom": 590
+   },
+   "confidence": 0.8518518805503845
+  },
+  {
+   "number": 10,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 275,
+    "top": 564,
+    "right": 390,
+    "bottom": 602
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 11,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 1096,
+    "top": 587,
+    "right": 1431,
+    "bottom": 662
+   },
+   "confidence": 0.6332378387451172
+  },
+  {
+   "number": 12,
+   "productName": "bagged grain",
+   "phrase": "grain sack",
+   "box": {
+    "left": 0,
+    "top": 590,
+    "right": 103,
+    "bottom": 794
+   },
+   "confidence": 0.7697842121124268
+  },
+  {
+   "number": 13,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 180,
+    "top": 595,
+    "right": 343,
+    "bottom": 646
+   },
+   "confidence": 0.8083832263946533
+  },
+  {
+   "number": 14,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 139,
+    "top": 603,
+    "right": 222,
+    "bottom": 646
+   },
+   "confidence": 0.7887788414955139
+  },
+  {
+   "number": 15,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 432,
+    "top": 672,
+    "right": 594,
+    "bottom": 741
+   },
+   "confidence": 0.8476190567016602
+  },
+  {
+   "number": 16,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 546,
+    "top": 682,
+    "right": 745,
+    "bottom": 731
+   },
+   "confidence": 0.8552036285400391
+  },
+  {
+   "number": 17,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 643,
+    "top": 704,
+    "right": 849,
+    "bottom": 810
+   },
+   "confidence": 0.8672199249267578
+  },
+  {
+   "number": 18,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 244,
+    "top": 775,
+    "right": 510,
+    "bottom": 865
+   },
+   "confidence": 0.8827838897705078
+  },
+  {
+   "number": 19,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 285,
+    "top": 783,
+    "right": 382,
+    "bottom": 813
+   },
+   "confidence": 0.8012422323226929
+  },
+  {
+   "number": 20,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 527,
+    "top": 799,
+    "right": 677,
+    "bottom": 846
+   },
+   "confidence": 0.8324607610702515
+  },
+  {
+   "number": 21,
+   "productName": "millet grain",
+   "phrase": "grain",
+   "box": {
+    "left": 794,
+    "top": 832,
+    "right": 942,
+    "bottom": 878
+   },
+   "confidence": 0.8518518805503845
+  }
+ ],
+ "dropped": [
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 433,
+    "top": 672,
+    "right": 595,
+    "bottom": 741
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 180,
+    "top": 595,
+    "right": 343,
+    "bottom": 646
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 244,
+    "top": 775,
+    "right": 510,
+    "bottom": 865
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 139,
+    "top": 603,
+    "right": 222,
+    "bottom": 646
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 275,
+    "top": 564,
+    "right": 389,
+    "bottom": 602
+   }
+  },
+  {
+   "productName": "bagged grain",
+   "phrase": "bag",
+   "reason": "duplicate",
+   "box": {
+    "left": 0,
+    "top": 591,
+    "right": 103,
+    "bottom": 794
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 285,
+    "top": 783,
+    "right": 382,
+    "bottom": 813
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 187,
+    "top": 478,
+    "right": 296,
+    "bottom": 500
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 527,
+    "top": 799,
+    "right": 677,
+    "bottom": 846
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 642,
+    "top": 704,
+    "right": 849,
+    "bottom": 810
+   }
+  },
+  {
+   "productName": "white rice",
+   "phrase": "rice",
+   "reason": "duplicate",
+   "box": {
+    "left": 156,
+    "top": 439,
+    "right": 230,
+    "bottom": 466
+   }
+  },
+  {
+   "productName": "dried peppers",
+   "phrase": "dried pepper bag",
+   "reason": "duplicate",
+   "box": {
+    "left": 1153,
+    "top": 70,
+    "right": 1330,
+    "bottom": 216
+   }
+  }
+ ],
+ "fidelity": [
+  {
+   "number": 1,
+   "opaquePixels": 16758,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 2,
+   "opaquePixels": 39501,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 3,
+   "opaquePixels": 25818,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 4,
+   "opaquePixels": 74935,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 5,
+   "opaquePixels": 54189,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 6,
+   "opaquePixels": 51068,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 7,
+   "opaquePixels": 4353,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 8,
+   "opaquePixels": 4452,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 9,
+   "opaquePixels": 12724,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 10,
+   "opaquePixels": 8973,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 11,
+   "opaquePixels": 71572,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 12,
+   "opaquePixels": 74177,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 13,
+   "opaquePixels": 18873,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 14,
+   "opaquePixels": 5276,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 15,
+   "opaquePixels": 21651,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 16,
+   "opaquePixels": 25466,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 17,
+   "opaquePixels": 54067,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 18,
+   "opaquePixels": 53361,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 19,
+   "opaquePixels": 5279,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 20,
+   "opaquePixels": 15270,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 21,
+   "opaquePixels": 18381,
+   "maxChannelDiff": 0
+  }
+ ],
+ "backdrop": "default"
+}

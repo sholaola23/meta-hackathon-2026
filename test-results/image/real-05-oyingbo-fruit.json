@@ -1,0 +1,2481 @@
+{
+ "photo": "test-material/real-photos/real-05-oyingbo-fruit.jpg",
+ "status": "ok",
+ "products": [
+  {
+   "name": "yellow lemon",
+   "plain": "lemon",
+   "specific": "yellow lemon heap"
+  },
+  {
+   "name": "green lime",
+   "plain": "lime",
+   "specific": "green lime heap"
+  },
+  {
+   "name": "large pomelo",
+   "plain": "melon",
+   "specific": "large green melon"
+  },
+  {
+   "name": "pineapple",
+   "plain": "pineapple",
+   "specific": "pineapple fruit"
+  },
+  {
+   "name": "ripe mango",
+   "plain": "mango",
+   "specific": "yellow mango"
+  },
+  {
+   "name": "cucumber",
+   "plain": "cucumber",
+   "specific": "cucumber pile"
+  },
+  {
+   "name": "watermelon slice",
+   "plain": "watermelon",
+   "specific": "watermelon slice"
+  },
+  {
+   "name": "sweet orange",
+   "plain": "orange",
+   "specific": "orange heap"
+  },
+  {
+   "name": "green guava",
+   "plain": "guava",
+   "specific": "green guava"
+  }
+ ],
+ "phrases": [
+  {
+   "phrase": "yellow lemon heap",
+   "productIndex": 0,
+   "instances": 8
+  },
+  {
+   "phrase": "lemon",
+   "productIndex": 0,
+   "instances": 5
+  },
+  {
+   "phrase": "green lime heap",
+   "productIndex": 1,
+   "instances": 0
+  },
+  {
+   "phrase": "lime",
+   "productIndex": 1,
+   "instances": 27
+  },
+  {
+   "phrase": "large green melon",
+   "productIndex": 2,
+   "instances": 0
+  },
+  {
+   "phrase": "melon",
+   "productIndex": 2,
+   "instances": 48
+  },
+  {
+   "phrase": "pineapple fruit",
+   "productIndex": 3,
+   "instances": 0
+  },
+  {
+   "phrase": "pineapple",
+   "productIndex": 3,
+   "instances": 5
+  },
+  {
+   "phrase": "yellow mango",
+   "productIndex": 4,
+   "instances": 15
+  },
+  {
+   "phrase": "mango",
+   "productIndex": 4,
+   "instances": 15
+  },
+  {
+   "phrase": "cucumber pile",
+   "productIndex": 5,
+   "instances": 2
+  },
+  {
+   "phrase": "cucumber",
+   "productIndex": 5,
+   "instances": 16
+  },
+  {
+   "phrase": "watermelon slice",
+   "productIndex": 6,
+   "instances": 6
+  },
+  {
+   "phrase": "watermelon",
+   "productIndex": 6,
+   "instances": 1
+  },
+  {
+   "phrase": "orange heap",
+   "productIndex": 7,
+   "instances": 0
+  },
+  {
+   "phrase": "orange",
+   "productIndex": 7,
+   "instances": 0
+  },
+  {
+   "phrase": "green guava",
+   "productIndex": 8,
+   "instances": 0
+  },
+  {
+   "phrase": "guava",
+   "productIndex": 8,
+   "instances": 0
+  }
+ ],
+ "people": 6,
+ "crops": [
+  {
+   "number": 1,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 758,
+    "top": 316,
+    "right": 790,
+    "bottom": 349
+   },
+   "confidence": 0.7500000596046448
+  },
+  {
+   "number": 2,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 726,
+    "top": 319,
+    "right": 759,
+    "bottom": 347
+   },
+   "confidence": 0.7299578189849854
+  },
+  {
+   "number": 3,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 789,
+    "top": 320,
+    "right": 822,
+    "bottom": 349
+   },
+   "confidence": 0.7344398498535156
+  },
+  {
+   "number": 4,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 706,
+    "top": 333,
+    "right": 750,
+    "bottom": 377
+   },
+   "confidence": 0.7538461089134216
+  },
+  {
+   "number": 5,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 779,
+    "top": 339,
+    "right": 810,
+    "bottom": 376
+   },
+   "confidence": 0.7387754917144775
+  },
+  {
+   "number": 6,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 750,
+    "top": 343,
+    "right": 780,
+    "bottom": 373
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 7,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 809,
+    "top": 343,
+    "right": 840,
+    "bottom": 376
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 8,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 902,
+    "top": 345,
+    "right": 942,
+    "bottom": 390
+   },
+   "confidence": 0.7500000596046448
+  },
+  {
+   "number": 9,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 676,
+    "top": 360,
+    "right": 706,
+    "bottom": 391
+   },
+   "confidence": 0.6878048777580261
+  },
+  {
+   "number": 10,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 731,
+    "top": 363,
+    "right": 770,
+    "bottom": 400
+   },
+   "confidence": 0.7264957427978516
+  },
+  {
+   "number": 11,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 831,
+    "top": 365,
+    "right": 863,
+    "bottom": 381
+   },
+   "confidence": 0.6995305418968201
+  },
+  {
+   "number": 12,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 643,
+    "top": 376,
+    "right": 679,
+    "bottom": 397
+   },
+   "confidence": 0.719298243522644
+  },
+  {
+   "number": 13,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 916,
+    "top": 378,
+    "right": 961,
+    "bottom": 415
+   },
+   "confidence": 0.6831682920455933
+  },
+  {
+   "number": 14,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 886,
+    "top": 386,
+    "right": 917,
+    "bottom": 419
+   },
+   "confidence": 0.7299578189849854
+  },
+  {
+   "number": 15,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 738,
+    "top": 391,
+    "right": 781,
+    "bottom": 428
+   },
+   "confidence": 0.6952381134033203
+  },
+  {
+   "number": 16,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 925,
+    "top": 396,
+    "right": 969,
+    "bottom": 436
+   },
+   "confidence": 0.7104072570800781
+  },
+  {
+   "number": 17,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 675,
+    "top": 398,
+    "right": 708,
+    "bottom": 422
+   },
+   "confidence": 0.6800000071525574
+  },
+  {
+   "number": 18,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 707,
+    "top": 404,
+    "right": 741,
+    "bottom": 424
+   },
+   "confidence": 0.7037037014961243
+  },
+  {
+   "number": 19,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 819,
+    "top": 411,
+    "right": 856,
+    "bottom": 457
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 20,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 894,
+    "top": 411,
+    "right": 931,
+    "bottom": 440
+   },
+   "confidence": 0.7142857313156128
+  },
+  {
+   "number": 21,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 856,
+    "top": 415,
+    "right": 895,
+    "bottom": 462
+   },
+   "confidence": 0.7460317611694336
+  },
+  {
+   "number": 22,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 412,
+    "top": 416,
+    "right": 502,
+    "bottom": 479
+   },
+   "confidence": 0.518796980381012
+  },
+  {
+   "number": 23,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 945,
+    "top": 418,
+    "right": 991,
+    "bottom": 465
+   },
+   "confidence": 0.7264957427978516
+  },
+  {
+   "number": 24,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 913,
+    "top": 431,
+    "right": 948,
+    "bottom": 466
+   },
+   "confidence": 0.7142857313156128
+  },
+  {
+   "number": 25,
+   "productName": "yellow lemon",
+   "phrase": "lemon",
+   "box": {
+    "left": 549,
+    "top": 433,
+    "right": 574,
+    "bottom": 455
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 26,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 505,
+    "top": 434,
+    "right": 581,
+    "bottom": 491
+   },
+   "confidence": 0.5311355590820312
+  },
+  {
+   "number": 27,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 793,
+    "top": 442,
+    "right": 829,
+    "bottom": 475
+   },
+   "confidence": 0.7299578189849854
+  },
+  {
+   "number": 28,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 830,
+    "top": 447,
+    "right": 874,
+    "bottom": 493
+   },
+   "confidence": 0.7299578189849854
+  },
+  {
+   "number": 29,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 874,
+    "top": 452,
+    "right": 916,
+    "bottom": 492
+   },
+   "confidence": 0.7299578189849854
+  },
+  {
+   "number": 30,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 1064,
+    "top": 454,
+    "right": 1159,
+    "bottom": 492
+   },
+   "confidence": 0.5038759708404541
+  },
+  {
+   "number": 31,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 965,
+    "top": 459,
+    "right": 1004,
+    "bottom": 497
+   },
+   "confidence": 0.6559139490127563
+  },
+  {
+   "number": 32,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 724,
+    "top": 460,
+    "right": 761,
+    "bottom": 501
+   },
+   "confidence": 0.7264957427978516
+  },
+  {
+   "number": 33,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 808,
+    "top": 476,
+    "right": 845,
+    "bottom": 512
+   },
+   "confidence": 0.7387754917144775
+  },
+  {
+   "number": 34,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 1009,
+    "top": 477,
+    "right": 1036,
+    "bottom": 509
+   },
+   "confidence": 0.6363636255264282
+  },
+  {
+   "number": 35,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 326,
+    "top": 481,
+    "right": 416,
+    "bottom": 538
+   },
+   "confidence": 0.5114504098892212
+  },
+  {
+   "number": 36,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 752,
+    "top": 483,
+    "right": 790,
+    "bottom": 522
+   },
+   "confidence": 0.719298243522644
+  },
+  {
+   "number": 37,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 15,
+    "top": 486,
+    "right": 89,
+    "bottom": 546
+   },
+   "confidence": 0.518796980381012
+  },
+  {
+   "number": 38,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 840,
+    "top": 486,
+    "right": 881,
+    "bottom": 519
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 39,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 880,
+    "top": 490,
+    "right": 912,
+    "bottom": 519
+   },
+   "confidence": 0.7104072570800781
+  },
+  {
+   "number": 40,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 1051,
+    "top": 501,
+    "right": 1088,
+    "bottom": 525
+   },
+   "confidence": 0.6012461185455322
+  },
+  {
+   "number": 41,
+   "productName": "pineapple",
+   "phrase": "pineapple",
+   "box": {
+    "left": 787,
+    "top": 505,
+    "right": 829,
+    "bottom": 551
+   },
+   "confidence": 0.6683937907218933
+  },
+  {
+   "number": 42,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 967,
+    "top": 506,
+    "right": 994,
+    "bottom": 534
+   },
+   "confidence": 0.5897435545921326
+  },
+  {
+   "number": 43,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 1003,
+    "top": 507,
+    "right": 1028,
+    "bottom": 531
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 44,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 735,
+    "top": 509,
+    "right": 769,
+    "bottom": 525
+   },
+   "confidence": 0.6483516097068787
+  },
+  {
+   "number": 45,
+   "productName": "cucumber",
+   "phrase": "cucumber pile",
+   "box": {
+    "left": 1005,
+    "top": 509,
+    "right": 1196,
+    "bottom": 650
+   },
+   "confidence": 0.7852349281311035
+  },
+  {
+   "number": 46,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 703,
+    "top": 511,
+    "right": 736,
+    "bottom": 525
+   },
+   "confidence": 0.6213017702102661
+  },
+  {
+   "number": 47,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 427,
+    "top": 512,
+    "right": 526,
+    "bottom": 564
+   },
+   "confidence": 0.5151515007019043
+  },
+  {
+   "number": 48,
+   "productName": "pineapple",
+   "phrase": "pineapple",
+   "box": {
+    "left": 849,
+    "top": 513,
+    "right": 879,
+    "bottom": 583
+   },
+   "confidence": 0.7620818018913269
+  },
+  {
+   "number": 49,
+   "productName": "pineapple",
+   "phrase": "pineapple",
+   "box": {
+    "left": 879,
+    "top": 514,
+    "right": 915,
+    "bottom": 569
+   },
+   "confidence": 0.6363636255264282
+  },
+  {
+   "number": 50,
+   "productName": "pineapple",
+   "phrase": "pineapple",
+   "box": {
+    "left": 822,
+    "top": 516,
+    "right": 854,
+    "bottom": 557
+   },
+   "confidence": 0.7064220309257507
+  },
+  {
+   "number": 51,
+   "productName": "pineapple",
+   "phrase": "pineapple",
+   "box": {
+    "left": 820,
+    "top": 550,
+    "right": 851,
+    "bottom": 579
+   },
+   "confidence": 0.6831682920455933
+  },
+  {
+   "number": 52,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 750,
+    "top": 554,
+    "right": 778,
+    "bottom": 598
+   },
+   "confidence": 0.6908212304115295
+  },
+  {
+   "number": 53,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 696,
+    "top": 583,
+    "right": 716,
+    "bottom": 608
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 54,
+   "productName": "watermelon slice",
+   "phrase": "watermelon slice",
+   "box": {
+    "left": 1378,
+    "top": 583,
+    "right": 1425,
+    "bottom": 630
+   },
+   "confidence": 0.5345454812049866
+  },
+  {
+   "number": 55,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 1423,
+    "top": 591,
+    "right": 1475,
+    "bottom": 629
+   },
+   "confidence": 0.5775577425956726
+  },
+  {
+   "number": 56,
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "box": {
+    "left": 786,
+    "top": 603,
+    "right": 817,
+    "bottom": 645
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 57,
+   "productName": "watermelon slice",
+   "phrase": "watermelon slice",
+   "box": {
+    "left": 1359,
+    "top": 607,
+    "right": 1413,
+    "bottom": 654
+   },
+   "confidence": 0.6132930517196655
+  },
+  {
+   "number": 58,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 850,
+    "top": 610,
+    "right": 866,
+    "bottom": 643
+   },
+   "confidence": 0.5345454812049866
+  },
+  {
+   "number": 59,
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "box": {
+    "left": 814,
+    "top": 617,
+    "right": 845,
+    "bottom": 654
+   },
+   "confidence": 0.507692277431488
+  },
+  {
+   "number": 60,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 1476,
+    "top": 618,
+    "right": 1500,
+    "bottom": 655
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 61,
+   "productName": "watermelon slice",
+   "phrase": "watermelon slice",
+   "box": {
+    "left": 1402,
+    "top": 624,
+    "right": 1444,
+    "bottom": 651
+   },
+   "confidence": 0.5114504098892212
+  },
+  {
+   "number": 62,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 1414,
+    "top": 629,
+    "right": 1473,
+    "bottom": 657
+   },
+   "confidence": 0.5704697966575623
+  },
+  {
+   "number": 63,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 839,
+    "top": 643,
+    "right": 864,
+    "bottom": 683
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 64,
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "box": {
+    "left": 785,
+    "top": 647,
+    "right": 815,
+    "bottom": 691
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 65,
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "box": {
+    "left": 816,
+    "top": 655,
+    "right": 841,
+    "bottom": 687
+   },
+   "confidence": 0.5661016702651978
+  },
+  {
+   "number": 66,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 428,
+    "top": 660,
+    "right": 540,
+    "bottom": 726
+   },
+   "confidence": 0.518796980381012
+  },
+  {
+   "number": 67,
+   "productName": "yellow lemon",
+   "phrase": "lemon",
+   "box": {
+    "left": 490,
+    "top": 660,
+    "right": 517,
+    "bottom": 685
+   },
+   "confidence": 0.507692277431488
+  },
+  {
+   "number": 68,
+   "productName": "yellow lemon",
+   "phrase": "yellow lemon heap",
+   "box": {
+    "left": 264,
+    "top": 670,
+    "right": 374,
+    "bottom": 740
+   },
+   "confidence": 0.507692277431488
+  },
+  {
+   "number": 69,
+   "productName": "yellow lemon",
+   "phrase": "lemon",
+   "box": {
+    "left": 320,
+    "top": 670,
+    "right": 346,
+    "bottom": 694
+   },
+   "confidence": 0.5631399154663086
+  },
+  {
+   "number": 70,
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "box": {
+    "left": 697,
+    "top": 670,
+    "right": 740,
+    "bottom": 710
+   },
+   "confidence": 0.7037037014961243
+  },
+  {
+   "number": 71,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 848,
+    "top": 687,
+    "right": 871,
+    "bottom": 731
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 72,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 822,
+    "top": 694,
+    "right": 850,
+    "bottom": 739
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 73,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 772,
+    "top": 703,
+    "right": 804,
+    "bottom": 740
+   },
+   "confidence": 0.5816993117332458
+  },
+  {
+   "number": 74,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 802,
+    "top": 705,
+    "right": 829,
+    "bottom": 747
+   },
+   "confidence": 0.5775577425956726
+  },
+  {
+   "number": 75,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 860,
+    "top": 724,
+    "right": 887,
+    "bottom": 766
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 76,
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "box": {
+    "left": 834,
+    "top": 727,
+    "right": 864,
+    "bottom": 776
+   },
+   "confidence": 0.5747508406639099
+  },
+  {
+   "number": 77,
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "box": {
+    "left": 769,
+    "top": 738,
+    "right": 799,
+    "bottom": 771
+   },
+   "confidence": 0.5508772134780884
+  },
+  {
+   "number": 78,
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "box": {
+    "left": 797,
+    "top": 742,
+    "right": 828,
+    "bottom": 778
+   },
+   "confidence": 0.5775577425956726
+  },
+  {
+   "number": 79,
+   "productName": "cucumber",
+   "phrase": "cucumber pile",
+   "box": {
+    "left": 1098,
+    "top": 794,
+    "right": 1236,
+    "bottom": 891
+   },
+   "confidence": 0.8518518805503845
+  },
+  {
+   "number": 80,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1138,
+    "top": 794,
+    "right": 1192,
+    "bottom": 817
+   },
+   "confidence": 0.604938268661499
+  },
+  {
+   "number": 81,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1161,
+    "top": 812,
+    "right": 1203,
+    "bottom": 835
+   },
+   "confidence": 0.5816993117332458
+  },
+  {
+   "number": 82,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1121,
+    "top": 814,
+    "right": 1171,
+    "bottom": 838
+   },
+   "confidence": 0.5897435545921326
+  },
+  {
+   "number": 83,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1150,
+    "top": 826,
+    "right": 1204,
+    "bottom": 855
+   },
+   "confidence": 0.597484290599823
+  },
+  {
+   "number": 84,
+   "productName": "yellow lemon",
+   "phrase": "lemon",
+   "box": {
+    "left": 259,
+    "top": 839,
+    "right": 284,
+    "bottom": 865
+   },
+   "confidence": 0.6640419960021973
+  },
+  {
+   "number": 85,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1175,
+    "top": 842,
+    "right": 1208,
+    "bottom": 863
+   },
+   "confidence": 0.6604774594306946
+  },
+  {
+   "number": 86,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1212,
+    "top": 846,
+    "right": 1237,
+    "bottom": 886
+   },
+   "confidence": 0.604938268661499
+  },
+  {
+   "number": 87,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1127,
+    "top": 847,
+    "right": 1157,
+    "bottom": 863
+   },
+   "confidence": 0.6012461185455322
+  },
+  {
+   "number": 88,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 405,
+    "top": 861,
+    "right": 429,
+    "bottom": 886
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 89,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1142,
+    "top": 863,
+    "right": 1181,
+    "bottom": 879
+   },
+   "confidence": 0.604938268661499
+  },
+  {
+   "number": 90,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1178,
+    "top": 863,
+    "right": 1223,
+    "bottom": 884
+   },
+   "confidence": 0.6521739363670349
+  },
+  {
+   "number": 91,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 445,
+    "top": 867,
+    "right": 471,
+    "bottom": 890
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 92,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 423,
+    "top": 872,
+    "right": 449,
+    "bottom": 896
+   },
+   "confidence": 0.5151515007019043
+  },
+  {
+   "number": 93,
+   "productName": "yellow lemon",
+   "phrase": "lemon",
+   "box": {
+    "left": 283,
+    "top": 873,
+    "right": 309,
+    "bottom": 894
+   },
+   "confidence": 0.5151515007019043
+  },
+  {
+   "number": 94,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 459,
+    "top": 873,
+    "right": 492,
+    "bottom": 900
+   },
+   "confidence": 0.5114504098892212
+  },
+  {
+   "number": 95,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 372,
+    "top": 875,
+    "right": 400,
+    "bottom": 902
+   },
+   "confidence": 0.5428571701049805
+  },
+  {
+   "number": 96,
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "box": {
+    "left": 1187,
+    "top": 876,
+    "right": 1234,
+    "bottom": 891
+   },
+   "confidence": 0.6717948913574219
+  },
+  {
+   "number": 97,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 411,
+    "top": 889,
+    "right": 436,
+    "bottom": 912
+   },
+   "confidence": 0.5311355590820312
+  },
+  {
+   "number": 98,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 478,
+    "top": 889,
+    "right": 506,
+    "bottom": 920
+   },
+   "confidence": 0.507692277431488
+  },
+  {
+   "number": 99,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 435,
+    "top": 890,
+    "right": 464,
+    "bottom": 920
+   },
+   "confidence": 0.5151515007019043
+  },
+  {
+   "number": 100,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 394,
+    "top": 903,
+    "right": 421,
+    "bottom": 927
+   },
+   "confidence": 0.5114504098892212
+  },
+  {
+   "number": 101,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 453,
+    "top": 906,
+    "right": 482,
+    "bottom": 928
+   },
+   "confidence": 0.5395683646202087
+  },
+  {
+   "number": 102,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 418,
+    "top": 909,
+    "right": 443,
+    "bottom": 930
+   },
+   "confidence": 0.5631399154663086
+  },
+  {
+   "number": 103,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 146,
+    "top": 911,
+    "right": 174,
+    "bottom": 941
+   },
+   "confidence": 0.5311355590820312
+  },
+  {
+   "number": 104,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 97,
+    "top": 912,
+    "right": 119,
+    "bottom": 933
+   },
+   "confidence": 0.5276752710342407
+  },
+  {
+   "number": 105,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 74,
+    "top": 922,
+    "right": 99,
+    "bottom": 945
+   },
+   "confidence": 0.5508772134780884
+  },
+  {
+   "number": 106,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 180,
+    "top": 923,
+    "right": 207,
+    "bottom": 953
+   },
+   "confidence": 0.5661016702651978
+  },
+  {
+   "number": 107,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 154,
+    "top": 926,
+    "right": 182,
+    "bottom": 952
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 108,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 91,
+    "top": 930,
+    "right": 115,
+    "bottom": 956
+   },
+   "confidence": 0.5345454812049866
+  },
+  {
+   "number": 109,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 133,
+    "top": 944,
+    "right": 160,
+    "bottom": 970
+   },
+   "confidence": 0.5704697966575623
+  },
+  {
+   "number": 110,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 292,
+    "top": 946,
+    "right": 315,
+    "bottom": 968
+   },
+   "confidence": 0.597484290599823
+  },
+  {
+   "number": 111,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 208,
+    "top": 947,
+    "right": 232,
+    "bottom": 971
+   },
+   "confidence": 0.5816993117332458
+  },
+  {
+   "number": 112,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 231,
+    "top": 947,
+    "right": 255,
+    "bottom": 968
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 113,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 261,
+    "top": 950,
+    "right": 286,
+    "bottom": 973
+   },
+   "confidence": 0.5661016702651978
+  },
+  {
+   "number": 114,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 82,
+    "top": 954,
+    "right": 108,
+    "bottom": 980
+   },
+   "confidence": 0.5747508406639099
+  },
+  {
+   "number": 115,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 107,
+    "top": 954,
+    "right": 135,
+    "bottom": 977
+   },
+   "confidence": 0.5857605338096619
+  },
+  {
+   "number": 116,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 120,
+    "top": 966,
+    "right": 151,
+    "bottom": 991
+   },
+   "confidence": 0.6012461185455322
+  },
+  {
+   "number": 117,
+   "productName": "green lime",
+   "phrase": "lime",
+   "box": {
+    "left": 95,
+    "top": 974,
+    "right": 122,
+    "bottom": 996
+   },
+   "confidence": 0.5816993117332458
+  }
+ ],
+ "dropped": [
+  {
+   "productName": "green lime",
+   "phrase": "lime",
+   "reason": "too-small",
+   "box": {
+    "left": 150,
+    "top": 966,
+    "right": 170,
+    "bottom": 983
+   }
+  },
+  {
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "reason": "too-small",
+   "box": {
+    "left": 703,
+    "top": 566,
+    "right": 734,
+    "bottom": 584
+   }
+  },
+  {
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "reason": "too-small",
+   "box": {
+    "left": 772,
+    "top": 368,
+    "right": 803,
+    "bottom": 383
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "too-small",
+   "box": {
+    "left": 772,
+    "top": 664,
+    "right": 789,
+    "bottom": 691
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "too-small",
+   "box": {
+    "left": 772,
+    "top": 664,
+    "right": 789,
+    "bottom": 691
+   }
+  },
+  {
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "reason": "too-small",
+   "box": {
+    "left": 1122,
+    "top": 862,
+    "right": 1143,
+    "bottom": 881
+   }
+  },
+  {
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "reason": "too-small",
+   "box": {
+    "left": 1135,
+    "top": 826,
+    "right": 1162,
+    "bottom": 846
+   }
+  },
+  {
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "reason": "too-small",
+   "box": {
+    "left": 1139,
+    "top": 875,
+    "right": 1162,
+    "bottom": 887
+   }
+  },
+  {
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "reason": "too-small",
+   "box": {
+    "left": 1108,
+    "top": 857,
+    "right": 1130,
+    "bottom": 872
+   }
+  },
+  {
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "reason": "too-small",
+   "box": {
+    "left": 1205,
+    "top": 832,
+    "right": 1227,
+    "bottom": 850
+   }
+  },
+  {
+   "productName": "cucumber",
+   "phrase": "cucumber",
+   "reason": "too-small",
+   "box": {
+    "left": 1161,
+    "top": 880,
+    "right": 1188,
+    "bottom": 890
+   }
+  },
+  {
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "reason": "duplicate",
+   "box": {
+    "left": 1359,
+    "top": 607,
+    "right": 1413,
+    "bottom": 654
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 860,
+    "top": 724,
+    "right": 887,
+    "bottom": 766
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 847,
+    "top": 687,
+    "right": 871,
+    "bottom": 731
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 822,
+    "top": 694,
+    "right": 850,
+    "bottom": 739
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 839,
+    "top": 643,
+    "right": 864,
+    "bottom": 683
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 797,
+    "top": 743,
+    "right": 827,
+    "bottom": 778
+   }
+  },
+  {
+   "productName": "watermelon slice",
+   "phrase": "watermelon slice",
+   "reason": "duplicate",
+   "box": {
+    "left": 1423,
+    "top": 592,
+    "right": 1475,
+    "bottom": 630
+   }
+  },
+  {
+   "productName": "watermelon slice",
+   "phrase": "watermelon slice",
+   "reason": "duplicate",
+   "box": {
+    "left": 1415,
+    "top": 630,
+    "right": 1472,
+    "bottom": 657
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 801,
+    "top": 705,
+    "right": 828,
+    "bottom": 747
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 773,
+    "top": 703,
+    "right": 804,
+    "bottom": 740
+   }
+  },
+  {
+   "productName": "watermelon slice",
+   "phrase": "watermelon slice",
+   "reason": "duplicate",
+   "box": {
+    "left": 1476,
+    "top": 618,
+    "right": 1500,
+    "bottom": 655
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 770,
+    "top": 738,
+    "right": 799,
+    "bottom": 771
+   }
+  },
+  {
+   "productName": "watermelon slice",
+   "phrase": "watermelon",
+   "reason": "duplicate",
+   "box": {
+    "left": 1359,
+    "top": 607,
+    "right": 1413,
+    "bottom": 654
+   }
+  },
+  {
+   "productName": "large pomelo",
+   "phrase": "melon",
+   "reason": "duplicate",
+   "box": {
+    "left": 1377,
+    "top": 584,
+    "right": 1426,
+    "bottom": 629
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 849,
+    "top": 610,
+    "right": 866,
+    "bottom": 644
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 787,
+    "top": 603,
+    "right": 817,
+    "bottom": 645
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 816,
+    "top": 654,
+    "right": 841,
+    "bottom": 687
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 834,
+    "top": 728,
+    "right": 864,
+    "bottom": 776
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 786,
+    "top": 647,
+    "right": 815,
+    "bottom": 691
+   }
+  },
+  {
+   "productName": "ripe mango",
+   "phrase": "yellow mango",
+   "reason": "duplicate",
+   "box": {
+    "left": 813,
+    "top": 617,
+    "right": 844,
+    "bottom": 653
+   }
+  }
+ ],
+ "fidelity": [
+  {
+   "number": 1,
+   "opaquePixels": 3042,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 2,
+   "opaquePixels": 2170,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 3,
+   "opaquePixels": 2528,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 4,
+   "opaquePixels": 5210,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 5,
+   "opaquePixels": 3254,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 6,
+   "opaquePixels": 2603,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 7,
+   "opaquePixels": 2967,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 8,
+   "opaquePixels": 5245,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 9,
+   "opaquePixels": 2050,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 10,
+   "opaquePixels": 3539,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 11,
+   "opaquePixels": 1393,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 12,
+   "opaquePixels": 2123,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 13,
+   "opaquePixels": 3461,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 14,
+   "opaquePixels": 2961,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 15,
+   "opaquePixels": 4751,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 16,
+   "opaquePixels": 4193,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 17,
+   "opaquePixels": 2071,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 18,
+   "opaquePixels": 2130,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 19,
+   "opaquePixels": 5053,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 20,
+   "opaquePixels": 2932,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 21,
+   "opaquePixels": 5704,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 22,
+   "opaquePixels": 12224,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 23,
+   "opaquePixels": 5829,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 24,
+   "opaquePixels": 3130,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 25,
+   "opaquePixels": 1672,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 26,
+   "opaquePixels": 11168,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 27,
+   "opaquePixels": 3371,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 28,
+   "opaquePixels": 5504,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 29,
+   "opaquePixels": 5017,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 30,
+   "opaquePixels": 10096,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 31,
+   "opaquePixels": 4388,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 32,
+   "opaquePixels": 4204,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 33,
+   "opaquePixels": 3979,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 34,
+   "opaquePixels": 2546,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 35,
+   "opaquePixels": 10429,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 36,
+   "opaquePixels": 4263,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 37,
+   "opaquePixels": 11295,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 38,
+   "opaquePixels": 3616,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 39,
+   "opaquePixels": 2943,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 40,
+   "opaquePixels": 1864,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 41,
+   "opaquePixels": 5164,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 42,
+   "opaquePixels": 2254,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 43,
+   "opaquePixels": 1679,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 44,
+   "opaquePixels": 1378,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 45,
+   "opaquePixels": 58893,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 46,
+   "opaquePixels": 1409,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 47,
+   "opaquePixels": 11066,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 48,
+   "opaquePixels": 6308,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 49,
+   "opaquePixels": 5808,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 50,
+   "opaquePixels": 3494,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 51,
+   "opaquePixels": 2929,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 52,
+   "opaquePixels": 3818,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 53,
+   "opaquePixels": 1324,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 54,
+   "opaquePixels": 5838,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 55,
+   "opaquePixels": 4755,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 56,
+   "opaquePixels": 3599,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 57,
+   "opaquePixels": 5190,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 58,
+   "opaquePixels": 1413,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 59,
+   "opaquePixels": 3135,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 60,
+   "opaquePixels": 2775,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 61,
+   "opaquePixels": 2153,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 62,
+   "opaquePixels": 4413,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 63,
+   "opaquePixels": 3220,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 64,
+   "opaquePixels": 3650,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 65,
+   "opaquePixels": 2542,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 66,
+   "opaquePixels": 16830,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 67,
+   "opaquePixels": 2164,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 68,
+   "opaquePixels": 15901,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 69,
+   "opaquePixels": 1956,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 70,
+   "opaquePixels": 4936,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 71,
+   "opaquePixels": 3143,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 72,
+   "opaquePixels": 3306,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 73,
+   "opaquePixels": 3254,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 74,
+   "opaquePixels": 3204,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 75,
+   "opaquePixels": 3398,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 76,
+   "opaquePixels": 4402,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 77,
+   "opaquePixels": 2954,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 78,
+   "opaquePixels": 3033,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 79,
+   "opaquePixels": 34236,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 80,
+   "opaquePixels": 3408,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 81,
+   "opaquePixels": 1946,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 82,
+   "opaquePixels": 2267,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 83,
+   "opaquePixels": 3319,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 84,
+   "opaquePixels": 1975,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 85,
+   "opaquePixels": 1696,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 86,
+   "opaquePixels": 1858,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 87,
+   "opaquePixels": 1360,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 88,
+   "opaquePixels": 1671,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 89,
+   "opaquePixels": 1863,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 90,
+   "opaquePixels": 2229,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 91,
+   "opaquePixels": 1608,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 92,
+   "opaquePixels": 1667,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 93,
+   "opaquePixels": 1503,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 94,
+   "opaquePixels": 2298,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 95,
+   "opaquePixels": 1994,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 96,
+   "opaquePixels": 1599,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 97,
+   "opaquePixels": 1543,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 98,
+   "opaquePixels": 2253,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 99,
+   "opaquePixels": 2220,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 100,
+   "opaquePixels": 1781,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 101,
+   "opaquePixels": 1732,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 102,
+   "opaquePixels": 1624,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 103,
+   "opaquePixels": 1840,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 104,
+   "opaquePixels": 1339,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 105,
+   "opaquePixels": 1621,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 106,
+   "opaquePixels": 2369,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 107,
+   "opaquePixels": 2081,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 108,
+   "opaquePixels": 1650,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 109,
+   "opaquePixels": 1945,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 110,
+   "opaquePixels": 1517,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 111,
+   "opaquePixels": 1735,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 112,
+   "opaquePixels": 1422,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 113,
+   "opaquePixels": 1612,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 114,
+   "opaquePixels": 1789,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 115,
+   "opaquePixels": 1982,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 116,
+   "opaquePixels": 2076,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 117,
+   "opaquePixels": 1776,
+   "maxChannelDiff": 0
+  }
+ ],
+ "backdrop": "default"
+}

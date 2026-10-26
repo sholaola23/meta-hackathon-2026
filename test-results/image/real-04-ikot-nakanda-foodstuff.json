@@ -1,0 +1,1441 @@
+{
+ "photo": "test-material/real-photos/real-04-ikot-nakanda-foodstuff.jpg",
+ "status": "ok",
+ "products": [
+  {
+   "name": "palm oil",
+   "plain": "bottle",
+   "specific": "palm oil bottle"
+  },
+  {
+   "name": "fresh okra",
+   "plain": "okra",
+   "specific": "okra pod"
+  },
+  {
+   "name": "scotch bonnet peppers",
+   "plain": "pepper",
+   "specific": "red pepper heap"
+  },
+  {
+   "name": "seasoning cubes",
+   "plain": "cube",
+   "specific": "stock cube"
+  },
+  {
+   "name": "smoked fish",
+   "plain": "fish",
+   "specific": "smoked fish"
+  },
+  {
+   "name": "smoked crabs",
+   "plain": "crab",
+   "specific": "crab skewer"
+  },
+  {
+   "name": "red onions",
+   "plain": "onion",
+   "specific": "red onion heap"
+  },
+  {
+   "name": "ground pepper mix",
+   "plain": "bag",
+   "specific": "spice bag"
+  },
+  {
+   "name": "dried crayfish",
+   "plain": "bag",
+   "specific": "crayfish bag"
+  },
+  {
+   "name": "white flour",
+   "plain": "bag",
+   "specific": "flour bag"
+  },
+  {
+   "name": "bitter kola nuts",
+   "plain": "nut",
+   "specific": "kola nut heap"
+  },
+  {
+   "name": "dried stockfish",
+   "plain": "fish",
+   "specific": "dried fish"
+  }
+ ],
+ "phrases": [
+  {
+   "phrase": "palm oil bottle",
+   "productIndex": 0,
+   "instances": 5
+  },
+  {
+   "phrase": "bottle",
+   "productIndex": 0,
+   "instances": 8
+  },
+  {
+   "phrase": "okra pod",
+   "productIndex": 1,
+   "instances": 0
+  },
+  {
+   "phrase": "okra",
+   "productIndex": 1,
+   "instances": 0
+  },
+  {
+   "phrase": "red pepper heap",
+   "productIndex": 2,
+   "instances": 5
+  },
+  {
+   "phrase": "pepper",
+   "productIndex": 2,
+   "instances": 41
+  },
+  {
+   "phrase": "stock cube",
+   "productIndex": 3,
+   "instances": 0
+  },
+  {
+   "phrase": "cube",
+   "productIndex": 3,
+   "instances": 0
+  },
+  {
+   "phrase": "smoked fish",
+   "productIndex": 4,
+   "instances": 0
+  },
+  {
+   "phrase": "fish",
+   "productIndex": 4,
+   "instances": 0
+  },
+  {
+   "phrase": "crab skewer",
+   "productIndex": 5,
+   "instances": 0
+  },
+  {
+   "phrase": "crab",
+   "productIndex": 5,
+   "instances": 0
+  },
+  {
+   "phrase": "red onion heap",
+   "productIndex": 6,
+   "instances": 0
+  },
+  {
+   "phrase": "onion",
+   "productIndex": 6,
+   "instances": 7
+  },
+  {
+   "phrase": "spice bag",
+   "productIndex": 7,
+   "instances": 0
+  },
+  {
+   "phrase": "bag",
+   "productIndex": 7,
+   "instances": 2
+  },
+  {
+   "phrase": "crayfish bag",
+   "productIndex": 8,
+   "instances": 0
+  },
+  {
+   "phrase": "flour bag",
+   "productIndex": 9,
+   "instances": 0
+  },
+  {
+   "phrase": "kola nut heap",
+   "productIndex": 10,
+   "instances": 0
+  },
+  {
+   "phrase": "nut",
+   "productIndex": 10,
+   "instances": 10
+  },
+  {
+   "phrase": "dried fish",
+   "productIndex": 11,
+   "instances": 0
+  }
+ ],
+ "people": 1,
+ "crops": [
+  {
+   "number": 1,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 510,
+    "top": 405,
+    "right": 533,
+    "bottom": 436
+   },
+   "confidence": 0.5276752710342407
+  },
+  {
+   "number": 2,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1461,
+    "top": 569,
+    "right": 1500,
+    "bottom": 778
+   },
+   "confidence": 0.9179486632347107
+  },
+  {
+   "number": 3,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1247,
+    "top": 607,
+    "right": 1305,
+    "bottom": 835
+   },
+   "confidence": 0.9532163739204407
+  },
+  {
+   "number": 4,
+   "productName": "ground pepper mix",
+   "phrase": "bag",
+   "box": {
+    "left": 486,
+    "top": 614,
+    "right": 558,
+    "bottom": 677
+   },
+   "confidence": 0.5704697966575623
+  },
+  {
+   "number": 5,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1429,
+    "top": 620,
+    "right": 1473,
+    "bottom": 678
+   },
+   "confidence": 0.8750000596046448
+  },
+  {
+   "number": 6,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1357,
+    "top": 626,
+    "right": 1399,
+    "bottom": 676
+   },
+   "confidence": 0.7104072570800781
+  },
+  {
+   "number": 7,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1302,
+    "top": 634,
+    "right": 1364,
+    "bottom": 848
+   },
+   "confidence": 0.921951174736023
+  },
+  {
+   "number": 8,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1406,
+    "top": 636,
+    "right": 1462,
+    "bottom": 801
+   },
+   "confidence": 0.9336099624633789
+  },
+  {
+   "number": 9,
+   "productName": "palm oil",
+   "phrase": "bottle",
+   "box": {
+    "left": 1342,
+    "top": 644,
+    "right": 1416,
+    "bottom": 864
+   },
+   "confidence": 0.921951174736023
+  },
+  {
+   "number": 10,
+   "productName": "ground pepper mix",
+   "phrase": "bag",
+   "box": {
+    "left": 345,
+    "top": 645,
+    "right": 447,
+    "bottom": 736
+   },
+   "confidence": 0.8865247964859009
+  },
+  {
+   "number": 11,
+   "productName": "red onions",
+   "phrase": "onion",
+   "box": {
+    "left": 285,
+    "top": 705,
+    "right": 335,
+    "bottom": 749
+   },
+   "confidence": 0.7770034670829773
+  },
+  {
+   "number": 12,
+   "productName": "red onions",
+   "phrase": "onion",
+   "box": {
+    "left": 233,
+    "top": 713,
+    "right": 284,
+    "bottom": 751
+   },
+   "confidence": 0.8241757750511169
+  },
+  {
+   "number": 13,
+   "productName": "red onions",
+   "phrase": "onion",
+   "box": {
+    "left": 212,
+    "top": 730,
+    "right": 242,
+    "bottom": 752
+   },
+   "confidence": 0.6483516097068787
+  },
+  {
+   "number": 14,
+   "productName": "red onions",
+   "phrase": "onion",
+   "box": {
+    "left": 327,
+    "top": 730,
+    "right": 378,
+    "bottom": 768
+   },
+   "confidence": 0.6952381134033203
+  },
+  {
+   "number": 15,
+   "productName": "red onions",
+   "phrase": "onion",
+   "box": {
+    "left": 233,
+    "top": 744,
+    "right": 262,
+    "bottom": 763
+   },
+   "confidence": 0.7064220309257507
+  },
+  {
+   "number": 16,
+   "productName": "red onions",
+   "phrase": "onion",
+   "box": {
+    "left": 261,
+    "top": 744,
+    "right": 306,
+    "bottom": 777
+   },
+   "confidence": 0.719298243522644
+  },
+  {
+   "number": 17,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 598,
+    "top": 807,
+    "right": 637,
+    "bottom": 846
+   },
+   "confidence": 0.7037037014961243
+  },
+  {
+   "number": 18,
+   "productName": "scotch bonnet peppers",
+   "phrase": "red pepper heap",
+   "box": {
+    "left": 577,
+    "top": 808,
+    "right": 691,
+    "bottom": 896
+   },
+   "confidence": 0.859649121761322
+  },
+  {
+   "number": 19,
+   "productName": "scotch bonnet peppers",
+   "phrase": "red pepper heap",
+   "box": {
+    "left": 702,
+    "top": 811,
+    "right": 806,
+    "bottom": 906
+   },
+   "confidence": 0.8632478713989258
+  },
+  {
+   "number": 20,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 733,
+    "top": 811,
+    "right": 771,
+    "bottom": 831
+   },
+   "confidence": 0.5816993117332458
+  },
+  {
+   "number": 21,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 636,
+    "top": 813,
+    "right": 673,
+    "bottom": 848
+   },
+   "confidence": 0.6483516097068787
+  },
+  {
+   "number": 22,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 704,
+    "top": 814,
+    "right": 734,
+    "bottom": 841
+   },
+   "confidence": 0.6097560524940491
+  },
+  {
+   "number": 23,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 663,
+    "top": 822,
+    "right": 692,
+    "bottom": 853
+   },
+   "confidence": 0.6683937907218933
+  },
+  {
+   "number": 24,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 733,
+    "top": 843,
+    "right": 780,
+    "bottom": 882
+   },
+   "confidence": 0.5241636037826538
+  },
+  {
+   "number": 25,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 653,
+    "top": 852,
+    "right": 682,
+    "bottom": 889
+   },
+   "confidence": 0.5747508406639099
+  },
+  {
+   "number": 26,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 702,
+    "top": 857,
+    "right": 726,
+    "bottom": 892
+   },
+   "confidence": 0.6246334314346313
+  },
+  {
+   "number": 27,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 623,
+    "top": 861,
+    "right": 656,
+    "bottom": 896
+   },
+   "confidence": 0.6604774594306946
+  },
+  {
+   "number": 28,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 724,
+    "top": 864,
+    "right": 754,
+    "bottom": 901
+   },
+   "confidence": 0.6604774594306946
+  },
+  {
+   "number": 29,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 758,
+    "top": 873,
+    "right": 799,
+    "bottom": 906
+   },
+   "confidence": 0.5661016702651978
+  },
+  {
+   "number": 30,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 597,
+    "top": 894,
+    "right": 636,
+    "bottom": 928
+   },
+   "confidence": 0.6878048777580261
+  },
+  {
+   "number": 31,
+   "productName": "scotch bonnet peppers",
+   "phrase": "red pepper heap",
+   "box": {
+    "left": 522,
+    "top": 895,
+    "right": 674,
+    "bottom": 1038
+   },
+   "confidence": 0.8324607610702515
+  },
+  {
+   "number": 32,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 749,
+    "top": 905,
+    "right": 787,
+    "bottom": 933
+   },
+   "confidence": 0.6404494643211365
+  },
+  {
+   "number": 33,
+   "productName": "scotch bonnet peppers",
+   "phrase": "red pepper heap",
+   "box": {
+    "left": 669,
+    "top": 906,
+    "right": 849,
+    "bottom": 1041
+   },
+   "confidence": 0.7697842121124268
+  },
+  {
+   "number": 34,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 894,
+    "top": 918,
+    "right": 933,
+    "bottom": 945
+   },
+   "confidence": 0.5775577425956726
+  },
+  {
+   "number": 35,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 567,
+    "top": 919,
+    "right": 604,
+    "bottom": 952
+   },
+   "confidence": 0.6559139490127563
+  },
+  {
+   "number": 36,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 630,
+    "top": 919,
+    "right": 670,
+    "bottom": 952
+   },
+   "confidence": 0.7104072570800781
+  },
+  {
+   "number": 37,
+   "productName": "scotch bonnet peppers",
+   "phrase": "red pepper heap",
+   "box": {
+    "left": 846,
+    "top": 919,
+    "right": 1015,
+    "bottom": 1061
+   },
+   "confidence": 0.8160918951034546
+  },
+  {
+   "number": 38,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 932,
+    "top": 921,
+    "right": 968,
+    "bottom": 959
+   },
+   "confidence": 0.5586206912994385
+  },
+  {
+   "number": 39,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 603,
+    "top": 924,
+    "right": 634,
+    "bottom": 955
+   },
+   "confidence": 0.604938268661499
+  },
+  {
+   "number": 40,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 669,
+    "top": 924,
+    "right": 714,
+    "bottom": 983
+   },
+   "confidence": 0.518796980381012
+  },
+  {
+   "number": 41,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 539,
+    "top": 927,
+    "right": 574,
+    "bottom": 974
+   },
+   "confidence": 0.5038759708404541
+  },
+  {
+   "number": 42,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 738,
+    "top": 928,
+    "right": 799,
+    "bottom": 982
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 43,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 706,
+    "top": 933,
+    "right": 744,
+    "bottom": 976
+   },
+   "confidence": 0.6246334314346313
+  },
+  {
+   "number": 44,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 959,
+    "top": 934,
+    "right": 995,
+    "bottom": 970
+   },
+   "confidence": 0.5936508178710938
+  },
+  {
+   "number": 45,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 889,
+    "top": 937,
+    "right": 946,
+    "bottom": 980
+   },
+   "confidence": 0.5857605338096619
+  },
+  {
+   "number": 46,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 846,
+    "top": 938,
+    "right": 900,
+    "bottom": 987
+   },
+   "confidence": 0.6521739363670349
+  },
+  {
+   "number": 47,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 558,
+    "top": 952,
+    "right": 605,
+    "bottom": 989
+   },
+   "confidence": 0.5540069937705994
+  },
+  {
+   "number": 48,
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "box": {
+    "left": 459,
+    "top": 954,
+    "right": 486,
+    "bottom": 973
+   },
+   "confidence": 0.5395683646202087
+  },
+  {
+   "number": 49,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 942,
+    "top": 958,
+    "right": 973,
+    "bottom": 991
+   },
+   "confidence": 0.5775577425956726
+  },
+  {
+   "number": 50,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 521,
+    "top": 975,
+    "right": 557,
+    "bottom": 1019
+   },
+   "confidence": 0.6521739363670349
+  },
+  {
+   "number": 51,
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "box": {
+    "left": 425,
+    "top": 976,
+    "right": 453,
+    "bottom": 994
+   },
+   "confidence": 0.5747508406639099
+  },
+  {
+   "number": 52,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 699,
+    "top": 976,
+    "right": 752,
+    "bottom": 1021
+   },
+   "confidence": 0.5428571701049805
+  },
+  {
+   "number": 53,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 621,
+    "top": 980,
+    "right": 674,
+    "bottom": 1035
+   },
+   "confidence": 0.6213017702102661
+  },
+  {
+   "number": 54,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 762,
+    "top": 980,
+    "right": 798,
+    "bottom": 1023
+   },
+   "confidence": 0.6246334314346313
+  },
+  {
+   "number": 55,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 890,
+    "top": 980,
+    "right": 939,
+    "bottom": 1017
+   },
+   "confidence": 0.6831682920455933
+  },
+  {
+   "number": 56,
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "box": {
+    "left": 453,
+    "top": 986,
+    "right": 491,
+    "bottom": 1007
+   },
+   "confidence": 0.5276752710342407
+  },
+  {
+   "number": 57,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 799,
+    "top": 987,
+    "right": 849,
+    "bottom": 1036
+   },
+   "confidence": 0.6800000071525574
+  },
+  {
+   "number": 58,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 547,
+    "top": 988,
+    "right": 589,
+    "bottom": 1039
+   },
+   "confidence": 0.6640419960021973
+  },
+  {
+   "number": 59,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 849,
+    "top": 989,
+    "right": 885,
+    "bottom": 1035
+   },
+   "confidence": 0.6521739363670349
+  },
+  {
+   "number": 60,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 961,
+    "top": 991,
+    "right": 1001,
+    "bottom": 1029
+   },
+   "confidence": 0.6717948913574219
+  },
+  {
+   "number": 61,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 675,
+    "top": 996,
+    "right": 718,
+    "bottom": 1036
+   },
+   "confidence": 0.7620818018913269
+  },
+  {
+   "number": 62,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 720,
+    "top": 1002,
+    "right": 780,
+    "bottom": 1042
+   },
+   "confidence": 0.6213017702102661
+  },
+  {
+   "number": 63,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 885,
+    "top": 1003,
+    "right": 917,
+    "bottom": 1029
+   },
+   "confidence": 0.5586206912994385
+  },
+  {
+   "number": 64,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 938,
+    "top": 1006,
+    "right": 985,
+    "bottom": 1047
+   },
+   "confidence": 0.6995305418968201
+  },
+  {
+   "number": 65,
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "box": {
+    "left": 458,
+    "top": 1014,
+    "right": 488,
+    "bottom": 1037
+   },
+   "confidence": 0.5540069937705994
+  },
+  {
+   "number": 66,
+   "productName": "scotch bonnet peppers",
+   "phrase": "pepper",
+   "box": {
+    "left": 891,
+    "top": 1020,
+    "right": 940,
+    "bottom": 1062
+   },
+   "confidence": 0.8012422323226929
+  },
+  {
+   "number": 67,
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "box": {
+    "left": 491,
+    "top": 1028,
+    "right": 523,
+    "bottom": 1043
+   },
+   "confidence": 0.5586206912994385
+  }
+ ],
+ "dropped": [
+  {
+   "productName": "red onions",
+   "phrase": "onion",
+   "reason": "too-small",
+   "box": {
+    "left": 378,
+    "top": 741,
+    "right": 408,
+    "bottom": 754
+   }
+  },
+  {
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "reason": "too-small",
+   "box": {
+    "left": 440,
+    "top": 992,
+    "right": 461,
+    "bottom": 1005
+   }
+  },
+  {
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "reason": "too-small",
+   "box": {
+    "left": 414,
+    "top": 1018,
+    "right": 436,
+    "bottom": 1039
+   }
+  },
+  {
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "reason": "too-small",
+   "box": {
+    "left": 432,
+    "top": 1015,
+    "right": 456,
+    "bottom": 1031
+   }
+  },
+  {
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "reason": "too-small",
+   "box": {
+    "left": 463,
+    "top": 1034,
+    "right": 492,
+    "bottom": 1046
+   }
+  },
+  {
+   "productName": "bitter kola nuts",
+   "phrase": "nut",
+   "reason": "too-small",
+   "box": {
+    "left": 440,
+    "top": 1037,
+    "right": 465,
+    "bottom": 1052
+   }
+  },
+  {
+   "productName": "palm oil",
+   "phrase": "palm oil bottle",
+   "reason": "duplicate",
+   "box": {
+    "left": 1247,
+    "top": 607,
+    "right": 1305,
+    "bottom": 835
+   }
+  },
+  {
+   "productName": "palm oil",
+   "phrase": "palm oil bottle",
+   "reason": "duplicate",
+   "box": {
+    "left": 1302,
+    "top": 634,
+    "right": 1364,
+    "bottom": 848
+   }
+  },
+  {
+   "productName": "palm oil",
+   "phrase": "palm oil bottle",
+   "reason": "duplicate",
+   "box": {
+    "left": 1461,
+    "top": 569,
+    "right": 1500,
+    "bottom": 777
+   }
+  },
+  {
+   "productName": "palm oil",
+   "phrase": "palm oil bottle",
+   "reason": "duplicate",
+   "box": {
+    "left": 1406,
+    "top": 636,
+    "right": 1462,
+    "bottom": 801
+   }
+  },
+  {
+   "productName": "palm oil",
+   "phrase": "palm oil bottle",
+   "reason": "duplicate",
+   "box": {
+    "left": 1342,
+    "top": 644,
+    "right": 1416,
+    "bottom": 864
+   }
+  }
+ ],
+ "fidelity": [
+  {
+   "number": 1,
+   "opaquePixels": 1885,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 2,
+   "opaquePixels": 20602,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 3,
+   "opaquePixels": 40969,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 4,
+   "opaquePixels": 12817,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 5,
+   "opaquePixels": 3900,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 6,
+   "opaquePixels": 3144,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 7,
+   "opaquePixels": 34870,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 8,
+   "opaquePixels": 27321,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 9,
+   "opaquePixels": 37360,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 10,
+   "opaquePixels": 21531,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 11,
+   "opaquePixels": 7162,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 12,
+   "opaquePixels": 5350,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 13,
+   "opaquePixels": 1708,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 14,
+   "opaquePixels": 5426,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 15,
+   "opaquePixels": 1488,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 16,
+   "opaquePixels": 3921,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 17,
+   "opaquePixels": 4568,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 18,
+   "opaquePixels": 24913,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 19,
+   "opaquePixels": 27043,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 20,
+   "opaquePixels": 2249,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 21,
+   "opaquePixels": 3328,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 22,
+   "opaquePixels": 1994,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 23,
+   "opaquePixels": 2372,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 24,
+   "opaquePixels": 4238,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 25,
+   "opaquePixels": 3186,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 26,
+   "opaquePixels": 2360,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 27,
+   "opaquePixels": 3349,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 28,
+   "opaquePixels": 3130,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 29,
+   "opaquePixels": 3799,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 30,
+   "opaquePixels": 3685,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 31,
+   "opaquePixels": 57439,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 32,
+   "opaquePixels": 3078,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 33,
+   "opaquePixels": 61905,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 34,
+   "opaquePixels": 2845,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 35,
+   "opaquePixels": 3807,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 36,
+   "opaquePixels": 3648,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 37,
+   "opaquePixels": 61419,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 38,
+   "opaquePixels": 3399,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 39,
+   "opaquePixels": 2346,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 40,
+   "opaquePixels": 7323,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 41,
+   "opaquePixels": 4066,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 42,
+   "opaquePixels": 5440,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 43,
+   "opaquePixels": 4745,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 44,
+   "opaquePixels": 3652,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 45,
+   "opaquePixels": 6283,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 46,
+   "opaquePixels": 7512,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 47,
+   "opaquePixels": 4191,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 48,
+   "opaquePixels": 1509,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 49,
+   "opaquePixels": 2977,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 50,
+   "opaquePixels": 4390,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 51,
+   "opaquePixels": 1413,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 52,
+   "opaquePixels": 4602,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 53,
+   "opaquePixels": 8575,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 54,
+   "opaquePixels": 4099,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 55,
+   "opaquePixels": 4644,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 56,
+   "opaquePixels": 1890,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 57,
+   "opaquePixels": 6575,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 58,
+   "opaquePixels": 6745,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 59,
+   "opaquePixels": 5400,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 60,
+   "opaquePixels": 3231,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 61,
+   "opaquePixels": 5445,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 62,
+   "opaquePixels": 7136,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 63,
+   "opaquePixels": 1877,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 64,
+   "opaquePixels": 5715,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 65,
+   "opaquePixels": 2020,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 66,
+   "opaquePixels": 5067,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 67,
+   "opaquePixels": 1419,
+   "maxChannelDiff": 0
+  }
+ ],
+ "backdrop": "default"
+}

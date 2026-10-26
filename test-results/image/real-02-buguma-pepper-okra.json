@@ -1,0 +1,79 @@
+{
+ "photo": "test-material/real-photos/real-02-buguma-pepper-okra.jpg",
+ "status": "ok",
+ "products": [
+  {
+   "name": "fresh okra",
+   "plain": "okra",
+   "specific": "okra heap"
+  },
+  {
+   "name": "red scotch bonnet peppers",
+   "plain": "pepper",
+   "specific": "red pepper heap"
+  }
+ ],
+ "phrases": [
+  {
+   "phrase": "okra heap",
+   "productIndex": 0,
+   "instances": 1
+  },
+  {
+   "phrase": "okra",
+   "productIndex": 0,
+   "instances": 0
+  },
+  {
+   "phrase": "red pepper heap",
+   "productIndex": 1,
+   "instances": 1
+  },
+  {
+   "phrase": "pepper",
+   "productIndex": 1,
+   "instances": 0
+  }
+ ],
+ "people": 1,
+ "crops": [
+  {
+   "number": 1,
+   "productName": "red scotch bonnet peppers",
+   "phrase": "red pepper heap",
+   "box": {
+    "left": 737,
+    "top": 579,
+    "right": 1382,
+    "bottom": 852
+   },
+   "confidence": 0.921951174736023
+  },
+  {
+   "number": 2,
+   "productName": "fresh okra",
+   "phrase": "okra heap",
+   "box": {
+    "left": 189,
+    "top": 584,
+    "right": 767,
+    "bottom": 828
+   },
+   "confidence": 0.7264957427978516
+  }
+ ],
+ "dropped": [],
+ "fidelity": [
+  {
+   "number": 1,
+   "opaquePixels": 179975,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 2,
+   "opaquePixels": 182098,
+   "maxChannelDiff": 0
+  }
+ ],
+ "backdrop": "default"
+}

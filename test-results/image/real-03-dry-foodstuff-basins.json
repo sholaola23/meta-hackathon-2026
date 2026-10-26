@@ -1,0 +1,1693 @@
+{
+ "photo": "test-material/real-photos/real-03-dry-foodstuff-basins.jpg",
+ "status": "ok",
+ "products": [
+  {
+   "name": "dried maize",
+   "plain": "corn",
+   "specific": "maize cob"
+  },
+  {
+   "name": "ground chili mix",
+   "plain": "spice",
+   "specific": "orange spice heap"
+  },
+  {
+   "name": "dried herb mix",
+   "plain": "herb",
+   "specific": "herb heap"
+  },
+  {
+   "name": "black seed mix",
+   "plain": "seed",
+   "specific": "dark seed heap"
+  },
+  {
+   "name": "brown spice mix",
+   "plain": "grain",
+   "specific": "brown grain heap"
+  },
+  {
+   "name": "millet grits",
+   "plain": "grain",
+   "specific": "light grain heap"
+  },
+  {
+   "name": "small grey seeds",
+   "plain": "seed",
+   "specific": "grey seed heap"
+  },
+  {
+   "name": "flat striped seeds",
+   "plain": "seed",
+   "specific": "striped seed"
+  },
+  {
+   "name": "dried fish packs",
+   "plain": "bag",
+   "specific": "fish bag"
+  }
+ ],
+ "phrases": [
+  {
+   "phrase": "maize cob",
+   "productIndex": 0,
+   "instances": 47
+  },
+  {
+   "phrase": "corn",
+   "productIndex": 0,
+   "instances": 47
+  },
+  {
+   "phrase": "orange spice heap",
+   "productIndex": 1,
+   "instances": 0
+  },
+  {
+   "phrase": "spice",
+   "productIndex": 1,
+   "instances": 8
+  },
+  {
+   "phrase": "herb heap",
+   "productIndex": 2,
+   "instances": 0
+  },
+  {
+   "phrase": "herb",
+   "productIndex": 2,
+   "instances": 0
+  },
+  {
+   "phrase": "dark seed heap",
+   "productIndex": 3,
+   "instances": 9
+  },
+  {
+   "phrase": "seed",
+   "productIndex": 3,
+   "instances": 0
+  },
+  {
+   "phrase": "brown grain heap",
+   "productIndex": 4,
+   "instances": 0
+  },
+  {
+   "phrase": "grain",
+   "productIndex": 4,
+   "instances": 0
+  },
+  {
+   "phrase": "light grain heap",
+   "productIndex": 5,
+   "instances": 0
+  },
+  {
+   "phrase": "grey seed heap",
+   "productIndex": 6,
+   "instances": 0
+  },
+  {
+   "phrase": "striped seed",
+   "productIndex": 7,
+   "instances": 0
+  },
+  {
+   "phrase": "fish bag",
+   "productIndex": 8,
+   "instances": 0
+  },
+  {
+   "phrase": "bag",
+   "productIndex": 8,
+   "instances": 0
+  }
+ ],
+ "people": 1,
+ "crops": [
+  {
+   "number": 1,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 622,
+    "top": 0,
+    "right": 664,
+    "bottom": 100
+   },
+   "confidence": 0.9139785170555115
+  },
+  {
+   "number": 2,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 661,
+    "top": 0,
+    "right": 759,
+    "bottom": 77
+   },
+   "confidence": 0.8947368264198303
+  },
+  {
+   "number": 3,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 739,
+    "top": 0,
+    "right": 808,
+    "bottom": 69
+   },
+   "confidence": 0.827957034111023
+  },
+  {
+   "number": 4,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 813,
+    "top": 0,
+    "right": 854,
+    "bottom": 44
+   },
+   "confidence": 0.8439024686813354
+  },
+  {
+   "number": 5,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 899,
+    "top": 0,
+    "right": 941,
+    "bottom": 54
+   },
+   "confidence": 0.7887788414955139
+  },
+  {
+   "number": 6,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 989,
+    "top": 0,
+    "right": 1018,
+    "bottom": 17
+   },
+   "confidence": 0.6289855241775513
+  },
+  {
+   "number": 7,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 1000,
+    "top": 0,
+    "right": 1051,
+    "bottom": 94
+   },
+   "confidence": 0.8709677457809448
+  },
+  {
+   "number": 8,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 1048,
+    "top": 0,
+    "right": 1082,
+    "bottom": 29
+   },
+   "confidence": 0.5460992455482483
+  },
+  {
+   "number": 9,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 891,
+    "top": 5,
+    "right": 924,
+    "bottom": 58
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 10,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 853,
+    "top": 7,
+    "right": 924,
+    "bottom": 94
+   },
+   "confidence": 0.8787879347801208
+  },
+  {
+   "number": 11,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 766,
+    "top": 22,
+    "right": 826,
+    "bottom": 113
+   },
+   "confidence": 0.8709677457809448
+  },
+  {
+   "number": 12,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 805,
+    "top": 34,
+    "right": 869,
+    "bottom": 111
+   },
+   "confidence": 0.9101123809814453
+  },
+  {
+   "number": 13,
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "box": {
+    "left": 691,
+    "top": 37,
+    "right": 744,
+    "bottom": 87
+   },
+   "confidence": 0.7229437232017517
+  },
+  {
+   "number": 14,
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "box": {
+    "left": 915,
+    "top": 47,
+    "right": 959,
+    "bottom": 89
+   },
+   "confidence": 0.6604774594306946
+  },
+  {
+   "number": 15,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 840,
+    "top": 61,
+    "right": 876,
+    "bottom": 150
+   },
+   "confidence": 0.8048780560493469
+  },
+  {
+   "number": 16,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 664,
+    "top": 72,
+    "right": 784,
+    "bottom": 144
+   },
+   "confidence": 0.8709677457809448
+  },
+  {
+   "number": 17,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 894,
+    "top": 80,
+    "right": 939,
+    "bottom": 222
+   },
+   "confidence": 0.921951174736023
+  },
+  {
+   "number": 18,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 929,
+    "top": 83,
+    "right": 970,
+    "bottom": 120
+   },
+   "confidence": 0.859649121761322
+  },
+  {
+   "number": 19,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 604,
+    "top": 85,
+    "right": 690,
+    "bottom": 161
+   },
+   "confidence": 0.8518518805503845
+  },
+  {
+   "number": 20,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 872,
+    "top": 89,
+    "right": 913,
+    "bottom": 235
+   },
+   "confidence": 0.9024390578269958
+  },
+  {
+   "number": 21,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 744,
+    "top": 112,
+    "right": 857,
+    "bottom": 161
+   },
+   "confidence": 0.9101123809814453
+  },
+  {
+   "number": 22,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 933,
+    "top": 117,
+    "right": 960,
+    "bottom": 174
+   },
+   "confidence": 0.8012422323226929
+  },
+  {
+   "number": 23,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 573,
+    "top": 132,
+    "right": 664,
+    "bottom": 254
+   },
+   "confidence": 0.9452055096626282
+  },
+  {
+   "number": 24,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 730,
+    "top": 152,
+    "right": 817,
+    "bottom": 196
+   },
+   "confidence": 0.8787879347801208
+  },
+  {
+   "number": 25,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 663,
+    "top": 153,
+    "right": 715,
+    "bottom": 212
+   },
+   "confidence": 0.9024390578269958
+  },
+  {
+   "number": 26,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 940,
+    "top": 158,
+    "right": 1001,
+    "bottom": 251
+   },
+   "confidence": 0.9101123809814453
+  },
+  {
+   "number": 27,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 815,
+    "top": 162,
+    "right": 874,
+    "bottom": 275
+   },
+   "confidence": 0.8987342119216919
+  },
+  {
+   "number": 28,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 848,
+    "top": 163,
+    "right": 879,
+    "bottom": 209
+   },
+   "confidence": 0.7064220309257507
+  },
+  {
+   "number": 29,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 711,
+    "top": 172,
+    "right": 757,
+    "bottom": 285
+   },
+   "confidence": 0.8865247964859009
+  },
+  {
+   "number": 30,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 742,
+    "top": 186,
+    "right": 788,
+    "bottom": 262
+   },
+   "confidence": 0.8083832263946533
+  },
+  {
+   "number": 31,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 777,
+    "top": 194,
+    "right": 820,
+    "bottom": 237
+   },
+   "confidence": 0.8552036285400391
+  },
+  {
+   "number": 32,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 625,
+    "top": 206,
+    "right": 710,
+    "bottom": 323
+   },
+   "confidence": 0.9298245906829834
+  },
+  {
+   "number": 33,
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "box": {
+    "left": 871,
+    "top": 213,
+    "right": 889,
+    "bottom": 266
+   },
+   "confidence": 0.5897435545921326
+  },
+  {
+   "number": 34,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 914,
+    "top": 213,
+    "right": 943,
+    "bottom": 297
+   },
+   "confidence": 0.8128654956817627
+  },
+  {
+   "number": 35,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 732,
+    "top": 230,
+    "right": 828,
+    "bottom": 319
+   },
+   "confidence": 0.8987342119216919
+  },
+  {
+   "number": 36,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 905,
+    "top": 237,
+    "right": 971,
+    "bottom": 346
+   },
+   "confidence": 0.7697842121124268
+  },
+  {
+   "number": 37,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 690,
+    "top": 239,
+    "right": 737,
+    "bottom": 348
+   },
+   "confidence": 0.9024390578269958
+  },
+  {
+   "number": 38,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 877,
+    "top": 243,
+    "right": 916,
+    "bottom": 342
+   },
+   "confidence": 0.7500000596046448
+  },
+  {
+   "number": 39,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 816,
+    "top": 246,
+    "right": 842,
+    "bottom": 281
+   },
+   "confidence": 0.6831682920455933
+  },
+  {
+   "number": 40,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 840,
+    "top": 268,
+    "right": 879,
+    "bottom": 374
+   },
+   "confidence": 0.8865247964859009
+  },
+  {
+   "number": 41,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 733,
+    "top": 271,
+    "right": 824,
+    "bottom": 347
+   },
+   "confidence": 0.8358974456787109
+  },
+  {
+   "number": 42,
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "box": {
+    "left": 669,
+    "top": 284,
+    "right": 695,
+    "bottom": 320
+   },
+   "confidence": 0.7730495929718018
+  },
+  {
+   "number": 43,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 789,
+    "top": 287,
+    "right": 841,
+    "bottom": 376
+   },
+   "confidence": 0.8865247964859009
+  },
+  {
+   "number": 44,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 649,
+    "top": 308,
+    "right": 746,
+    "bottom": 386
+   },
+   "confidence": 0.921951174736023
+  },
+  {
+   "number": 45,
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "box": {
+    "left": 747,
+    "top": 312,
+    "right": 805,
+    "bottom": 378
+   },
+   "confidence": 0.7815700173377991
+  },
+  {
+   "number": 46,
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "box": {
+    "left": 822,
+    "top": 334,
+    "right": 894,
+    "bottom": 444
+   },
+   "confidence": 0.7575758099555969
+  },
+  {
+   "number": 47,
+   "productName": "dried maize",
+   "phrase": "corn",
+   "box": {
+    "left": 806,
+    "top": 352,
+    "right": 850,
+    "bottom": 396
+   },
+   "confidence": 0.8400000333786011
+  },
+  {
+   "number": 48,
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "box": {
+    "left": 322,
+    "top": 358,
+    "right": 520,
+    "bottom": 587
+   },
+   "confidence": 0.949367105960846
+  },
+  {
+   "number": 49,
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "box": {
+    "left": 803,
+    "top": 443,
+    "right": 1102,
+    "bottom": 906
+   },
+   "confidence": 0.6132930517196655
+  },
+  {
+   "number": 50,
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "box": {
+    "left": 550,
+    "top": 475,
+    "right": 694,
+    "bottom": 649
+   },
+   "confidence": 0.921951174736023
+  },
+  {
+   "number": 51,
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "box": {
+    "left": 929,
+    "top": 582,
+    "right": 996,
+    "bottom": 656
+   },
+   "confidence": 0.5114504098892212
+  },
+  {
+   "number": 52,
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "box": {
+    "left": 278,
+    "top": 617,
+    "right": 518,
+    "bottom": 871
+   },
+   "confidence": 0.9139785170555115
+  },
+  {
+   "number": 53,
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "box": {
+    "left": 949,
+    "top": 651,
+    "right": 1031,
+    "bottom": 747
+   },
+   "confidence": 0.604938268661499
+  },
+  {
+   "number": 54,
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "box": {
+    "left": 535,
+    "top": 730,
+    "right": 626,
+    "bottom": 872
+   },
+   "confidence": 0.9179486632347107
+  },
+  {
+   "number": 55,
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "box": {
+    "left": 964,
+    "top": 751,
+    "right": 1033,
+    "bottom": 840
+   },
+   "confidence": 0.6132930517196655
+  },
+  {
+   "number": 56,
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "box": {
+    "left": 333,
+    "top": 908,
+    "right": 551,
+    "bottom": 1135
+   },
+   "confidence": 0.9101123809814453
+  }
+ ],
+ "dropped": [
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 573,
+    "top": 132,
+    "right": 664,
+    "bottom": 254
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 625,
+    "top": 205,
+    "right": 710,
+    "bottom": 323
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 894,
+    "top": 80,
+    "right": 939,
+    "bottom": 223
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 649,
+    "top": 308,
+    "right": 746,
+    "bottom": 386
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 622,
+    "top": 0,
+    "right": 664,
+    "bottom": 100
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 805,
+    "top": 34,
+    "right": 869,
+    "bottom": 111
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 940,
+    "top": 158,
+    "right": 1001,
+    "bottom": 251
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 744,
+    "top": 112,
+    "right": 857,
+    "bottom": 161
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 690,
+    "top": 239,
+    "right": 737,
+    "bottom": 348
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 663,
+    "top": 153,
+    "right": 715,
+    "bottom": 212
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 815,
+    "top": 162,
+    "right": 874,
+    "bottom": 275
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 661,
+    "top": 0,
+    "right": 759,
+    "bottom": 77
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 732,
+    "top": 230,
+    "right": 828,
+    "bottom": 319
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 872,
+    "top": 89,
+    "right": 913,
+    "bottom": 235
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 711,
+    "top": 172,
+    "right": 757,
+    "bottom": 285
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 789,
+    "top": 288,
+    "right": 841,
+    "bottom": 376
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 840,
+    "top": 268,
+    "right": 879,
+    "bottom": 374
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 853,
+    "top": 7,
+    "right": 924,
+    "bottom": 94
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 730,
+    "top": 152,
+    "right": 817,
+    "bottom": 196
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 664,
+    "top": 71,
+    "right": 784,
+    "bottom": 144
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 766,
+    "top": 22,
+    "right": 826,
+    "bottom": 113
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 1000,
+    "top": 0,
+    "right": 1051,
+    "bottom": 94
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 777,
+    "top": 194,
+    "right": 820,
+    "bottom": 237
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 929,
+    "top": 83,
+    "right": 970,
+    "bottom": 120
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 604,
+    "top": 85,
+    "right": 689,
+    "bottom": 161
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 733,
+    "top": 271,
+    "right": 824,
+    "bottom": 347
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 813,
+    "top": 0,
+    "right": 854,
+    "bottom": 44
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 806,
+    "top": 352,
+    "right": 850,
+    "bottom": 396
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 739,
+    "top": 0,
+    "right": 808,
+    "bottom": 69
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 914,
+    "top": 213,
+    "right": 942,
+    "bottom": 297
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 742,
+    "top": 185,
+    "right": 788,
+    "bottom": 262
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 840,
+    "top": 61,
+    "right": 876,
+    "bottom": 150
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 933,
+    "top": 118,
+    "right": 960,
+    "bottom": 174
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 899,
+    "top": 0,
+    "right": 941,
+    "bottom": 54
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "corn",
+   "reason": "duplicate",
+   "box": {
+    "left": 747,
+    "top": 314,
+    "right": 805,
+    "bottom": 378
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "corn",
+   "reason": "duplicate",
+   "box": {
+    "left": 669,
+    "top": 284,
+    "right": 695,
+    "bottom": 320
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 905,
+    "top": 237,
+    "right": 971,
+    "bottom": 345
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 877,
+    "top": 242,
+    "right": 916,
+    "bottom": 342
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "corn",
+   "reason": "duplicate",
+   "box": {
+    "left": 691,
+    "top": 37,
+    "right": 744,
+    "bottom": 87
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 891,
+    "top": 5,
+    "right": 924,
+    "bottom": 58
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "corn",
+   "reason": "duplicate",
+   "box": {
+    "left": 822,
+    "top": 358,
+    "right": 882,
+    "bottom": 444
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 848,
+    "top": 163,
+    "right": 879,
+    "bottom": 209
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 816,
+    "top": 246,
+    "right": 842,
+    "bottom": 281
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "corn",
+   "reason": "duplicate",
+   "box": {
+    "left": 915,
+    "top": 47,
+    "right": 959,
+    "bottom": 89
+   }
+  },
+  {
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "reason": "duplicate",
+   "box": {
+    "left": 535,
+    "top": 730,
+    "right": 626,
+    "bottom": 872
+   }
+  },
+  {
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "reason": "duplicate",
+   "box": {
+    "left": 278,
+    "top": 617,
+    "right": 518,
+    "bottom": 871
+   }
+  },
+  {
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "reason": "duplicate",
+   "box": {
+    "left": 550,
+    "top": 475,
+    "right": 694,
+    "bottom": 649
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 989,
+    "top": 0,
+    "right": 1018,
+    "bottom": 17
+   }
+  },
+  {
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "reason": "duplicate",
+   "box": {
+    "left": 963,
+    "top": 751,
+    "right": 1034,
+    "bottom": 840
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "corn",
+   "reason": "duplicate",
+   "box": {
+    "left": 871,
+    "top": 212,
+    "right": 889,
+    "bottom": 266
+   }
+  },
+  {
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "reason": "duplicate",
+   "box": {
+    "left": 949,
+    "top": 650,
+    "right": 1031,
+    "bottom": 747
+   }
+  },
+  {
+   "productName": "ground chili mix",
+   "phrase": "spice",
+   "reason": "duplicate",
+   "box": {
+    "left": 802,
+    "top": 443,
+    "right": 1102,
+    "bottom": 907
+   }
+  },
+  {
+   "productName": "dried maize",
+   "phrase": "maize cob",
+   "reason": "duplicate",
+   "box": {
+    "left": 1048,
+    "top": 0,
+    "right": 1082,
+    "bottom": 29
+   }
+  },
+  {
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "reason": "duplicate",
+   "box": {
+    "left": 322,
+    "top": 358,
+    "right": 520,
+    "bottom": 587
+   }
+  },
+  {
+   "productName": "black seed mix",
+   "phrase": "dark seed heap",
+   "reason": "duplicate",
+   "box": {
+    "left": 333,
+    "top": 908,
+    "right": 551,
+    "bottom": 1135
+   }
+  }
+ ],
+ "fidelity": [
+  {
+   "number": 1,
+   "opaquePixels": 14730,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 2,
+   "opaquePixels": 15977,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 3,
+   "opaquePixels": 11801,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 4,
+   "opaquePixels": 5332,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 5,
+   "opaquePixels": 4252,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 6,
+   "opaquePixels": 1512,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 7,
+   "opaquePixels": 10517,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 8,
+   "opaquePixels": 1940,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 9,
+   "opaquePixels": 3370,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 10,
+   "opaquePixels": 10990,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 11,
+   "opaquePixels": 10048,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 12,
+   "opaquePixels": 11827,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 13,
+   "opaquePixels": 4693,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 14,
+   "opaquePixels": 4274,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 15,
+   "opaquePixels": 6803,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 16,
+   "opaquePixels": 19529,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 17,
+   "opaquePixels": 16756,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 18,
+   "opaquePixels": 4631,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 19,
+   "opaquePixels": 11225,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 20,
+   "opaquePixels": 14879,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 21,
+   "opaquePixels": 16631,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 22,
+   "opaquePixels": 4105,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 23,
+   "opaquePixels": 18742,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 24,
+   "opaquePixels": 11401,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 25,
+   "opaquePixels": 8110,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 26,
+   "opaquePixels": 12457,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 27,
+   "opaquePixels": 16319,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 28,
+   "opaquePixels": 3758,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 29,
+   "opaquePixels": 13735,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 30,
+   "opaquePixels": 6768,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 31,
+   "opaquePixels": 5390,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 32,
+   "opaquePixels": 17354,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 33,
+   "opaquePixels": 1957,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 34,
+   "opaquePixels": 6415,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 35,
+   "opaquePixels": 15416,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 36,
+   "opaquePixels": 11258,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 37,
+   "opaquePixels": 12792,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 38,
+   "opaquePixels": 10228,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 39,
+   "opaquePixels": 1842,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 40,
+   "opaquePixels": 12955,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 41,
+   "opaquePixels": 9121,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 42,
+   "opaquePixels": 2112,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 43,
+   "opaquePixels": 11184,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 44,
+   "opaquePixels": 13446,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 45,
+   "opaquePixels": 7766,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 46,
+   "opaquePixels": 12283,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 47,
+   "opaquePixels": 4758,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 48,
+   "opaquePixels": 136394,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 49,
+   "opaquePixels": 217723,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 50,
+   "opaquePixels": 76702,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 51,
+   "opaquePixels": 15842,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 52,
+   "opaquePixels": 190292,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 53,
+   "opaquePixels": 22852,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 54,
+   "opaquePixels": 36590,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 55,
+   "opaquePixels": 19408,
+   "maxChannelDiff": 0
+  },
+  {
+   "number": 56,
+   "opaquePixels": 137558,
+   "maxChannelDiff": 0
+  }
+ ],
+ "backdrop": "default"
+}
