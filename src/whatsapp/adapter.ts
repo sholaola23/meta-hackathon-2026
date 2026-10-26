@@ -39,13 +39,19 @@ export interface AdapterConfig {
   publicDir: string;
   /** Public HTTPS address of the server, such as https://stallsnap.example. */
   publicBaseUrl: string;
+  /** Shown at the top of the page. A real trader's name goes here once they give it; never their phone number. */
+  stallName?: string;
   now?: () => Date;
   slug?: () => string;
 }
 
+/** The demo is Shola playing the trader, labelled honestly; no real stall or number is shown. */
+export const DEMO_STALL_NAME = "StallSnap Demo Stall";
+
 /** What the catalogue page reads. Nothing about the trader's phone or the confirm conversation goes in here. */
 export interface PublishedCatalogue {
   slug: string;
+  stallName?: string;
   publishedAt: string;
   /** True while the trader is correcting a list that was already published: the page shows no prices. */
   updating?: boolean;
@@ -74,7 +80,13 @@ export class StallPipeline implements Pipeline {
   private readonly now: () => Date;
   private readonly slug: () => string;
 
+  private readonly stallName: string;
+
   constructor(private readonly cfg: AdapterConfig) {
+    // Cut by character, not UTF-16 unit, so an emoji at the limit is never split into a broken symbol.
+    this.stallName = Array.from(cfg.stallName?.trim() ?? "").slice(0, 60).join("").trim() || DEMO_STALL_NAME;
+    // The page must never carry a phone number, even one typed into the name setting.
+    if (/\d(?:[\s().+-]*\d){6}/.test(this.stallName)) throw new Error("CATALOGUE_STALL_NAME looks like it holds a phone number; use a name only");
     this.now = cfg.now ?? (() => new Date());
     this.slug = cfg.slug ?? (() => randomBytes(9).toString("base64url").toLowerCase().replace(/[^a-z0-9]/g, "x").slice(0, 12));
   }
@@ -163,7 +175,7 @@ export class StallPipeline implements Pipeline {
       }
       lines.push({ name: line.name, price: line.price, unit: line.unit, image });
     }
-    const page: PublishedCatalogue = { slug, publishedAt: this.now().toISOString(), lines };
+    const page: PublishedCatalogue = { slug, stallName: this.stallName, publishedAt: this.now().toISOString(), lines };
     writeFileSync(join(next, "catalogue.json"), JSON.stringify(page, null, 1));
     swapIn(next, dir);
     // The confirm conversation stays private, next to the job, so every price can be traced to the trader's yes.

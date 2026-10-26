@@ -15,6 +15,7 @@ export function priceText(price: number | null, unit: string | null): string {
 }
 
 export function renderPage(c: PublishedCatalogue): string {
+  const stall = esc(c.stallName?.trim() || "Price list");
   const date = new Date(c.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Lagos" });
   const items = c.lines
     .map(
@@ -27,7 +28,7 @@ export function renderPage(c: PublishedCatalogue): string {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Price list</title>
+<title>${stall}: price list</title>
 <meta name="robots" content="noindex">
 <style>
 :root { color-scheme: light dark; --bg: #fbf8f3; --fg: #1d1b18; --muted: #5c564d; --card: #ffffff; --line: #e3dccf; --accent: #0b6b3a; }
@@ -35,7 +36,7 @@ export function renderPage(c: PublishedCatalogue): string {
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
 main { max-width: 640px; margin: 0 auto; padding: 16px; }
-h1 { font-size: 1.5rem; margin: 8px 0 4px; }
+h1 { font-size: 1.5rem; margin: 8px 0 4px; overflow-wrap: anywhere; }
 .sub { color: var(--muted); margin: 0 0 16px; }
 ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 li { display: flex; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
@@ -47,7 +48,7 @@ footer { color: var(--muted); font-size: 0.875rem; margin: 20px 0 8px; }
 </head>
 <body>
 <main>
-<h1>Price list</h1>
+<h1>${stall}</h1>
 ${
   c.updating
     ? `<p class="sub">The trader is updating these prices. Please check this page again soon.</p>`

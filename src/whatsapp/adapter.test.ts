@@ -455,3 +455,42 @@ describe("loop: a restart in the middle of a correction after publishing", () =>
     expect(h.outbox.bodies().join("\n")).toContain("something went wrong");
   });
 });
+
+describe("catalogue page: stall name", () => {
+  test("defaults to the honest demo name, and a configured name is shown escaped", async () => {
+    const m = new FakeModels([["Peak milk"]], { "wamid.V1": "Peak milk na 650 tin" });
+    const { pipeline, publicDir } = setup(m);
+    await start(pipeline, [media("wamid.P1")], [media("wamid.V1")]);
+    await reply(pipeline, "YES");
+    await pipeline.publish({ traderId: TRADER, jobId: JOB });
+    const html = await serveCatalogue("/c/abc000000001", publicDir)!.text();
+    expect(html).toContain("<h1>StallSnap Demo Stall</h1>");
+    expect(html).toContain("<title>StallSnap Demo Stall: price list</title>");
+    expect(html).not.toContain(TRADER);
+
+    const named = renderPage({ slug: "abc000000001", stallName: "Mama <b>Bisi</b>", publishedAt: "2026-10-28T09:30:00Z", lines: [] });
+    expect(named).toContain("<h1>Mama &lt;b&gt;Bisi&lt;/b&gt;</h1>");
+    // A page written before stall names existed still opens.
+    expect(renderPage({ slug: "abc000000001", publishedAt: "2026-10-28T09:30:00Z", lines: [] })).toContain("<h1>Price list</h1>");
+  });
+});
+
+describe("adapter: the stall name setting (QA PR #11 round 1)", () => {
+  const make = (stallName: string) => () => new StallPipeline({ models: new FakeModels([]), jobLog: new JobLog(mkdtempSync(join(tmpdir(), "stallsnap-name-"))), dataDir: "/x", publicDir: "/x", publicBaseUrl: "https://s.example", stallName });
+
+  test("a phone number in the name is refused at start-up", () => {
+    for (const n of ["Bisi 08031234567", "+234 803 123 4567", "Call (0803) 123-4567"]) expect(make(n), n).toThrow(/phone number/);
+    for (const n of ["Stall 12", "Mama Bisi Provisions", "Shop 4B, Row 12"]) expect(make(n), n).not.toThrow();
+  });
+
+  test("a long name is cut to 60 characters without splitting an emoji", async () => {
+    const m = new FakeModels([["Peak milk"]], { "wamid.V1": "Peak milk na 650 tin" });
+    const root = mkdtempSync(join(tmpdir(), "stallsnap-name-"));
+    const pipeline = new StallPipeline({ models: m, jobLog: new JobLog(join(root, "j")), dataDir: join(root, "d"), publicDir: join(root, "p"), publicBaseUrl: "https://s.example", stallName: `${"x".repeat(59)}🍅 Stall`, slug: () => "abc000000001" });
+    await start(pipeline, [media("wamid.P1")], [media("wamid.V1")]);
+    await reply(pipeline, "YES");
+    await pipeline.publish({ traderId: TRADER, jobId: JOB });
+    const c: PublishedCatalogue = JSON.parse(readFileSync(join(root, "p", "abc000000001", "catalogue.json"), "utf8"));
+    expect(c.stallName).toBe(`${"x".repeat(59)}🍅`);
+  });
+});

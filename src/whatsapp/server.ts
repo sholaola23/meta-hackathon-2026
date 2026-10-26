@@ -55,6 +55,7 @@ if (import.meta.main) {
       dataDir,
       publicDir,
       publicBaseUrl,
+      stallName: process.env.CATALOGUE_STALL_NAME?.trim() || undefined,
     });
   } else console.warn("MODEL_API_KEY or PUBLIC_BASE_URL is not set: jobs will fail with the 'something went wrong' reply");
   const allowed = new Set(need("WHATSAPP_ALLOWED_NUMBERS").split(",").map((n) => n.replace(/\D/g, "")).filter(Boolean));
