@@ -67,7 +67,7 @@ async function sheet(tiles: { png: Buffer; label: string }[], out: string) {
   await sharp(img).resize({ width: 1500, height: 1500, fit: "inside", withoutEnlargement: true }).jpeg({ quality: 80 }).toFile(out);
 }
 
-const RESTYLES = Number(process.env.STALLSNAP_RESTYLES ?? 6);
+const RESTYLES = 6;
 
 if (import.meta.main) {
   const photos = photosFor(process.argv.slice(2));

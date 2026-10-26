@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "stallsnap-pipeline",
+      "name": "stallsnap-image",
       "dependencies": {
         "@meta-sam/parser": "^0.1.0",
         "openai": "^7.43.0",
