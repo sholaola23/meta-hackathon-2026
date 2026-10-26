@@ -45,10 +45,10 @@ export function intersection(a: Mask, b: Mask): number {
   return n;
 }
 
-export function maskIou(a: Mask, b: Mask): number {
-  const inter = intersection(a, b);
-  const union = area(a) + area(b) - inter;
-  return union ? inter / union : 0;
+/** Shared pixels as a share of the smaller mask: 1 when one mask sits wholly inside the other. */
+export function overlapOfSmaller(a: Mask, b: Mask): number {
+  const smaller = Math.min(area(a), area(b));
+  return smaller ? intersection(a, b) / smaller : 0;
 }
 
 /** Fraction of m's pixels that fall inside any of the other masks. */
@@ -79,13 +79,18 @@ export const LIMITS = {
   maxAreaFraction: 0.4,
   /** Below this the crop is too small to show in a catalogue (noise, a sliver behind another item). */
   minAreaFraction: 0.0002,
-  /** Two masks this similar are the same object found by two phrasings. */
-  duplicateIou: 0.6,
+  /**
+   * Masks sharing more than this share of the smaller one are the same lot, across all phrasings; the more
+   * confident one stays. This also folds single fruits into the basket SAM found them in. Same rule as Meta's SAM 3 Agent.
+   */
+  duplicateOverlap: 0.3,
+  /** SAM's own confidence below this is a loose match (the SAM 3 Agent drops these too). */
+  minConfidence: 0.5,
   /** A product mask at least this much inside a person is the person's clothing, not stock. */
   personDropFraction: 0.5,
 };
 
-export type DropReason = "too-big" | "too-small" | "person" | "duplicate";
+export type DropReason = "low-confidence" | "too-big" | "too-small" | "person" | "duplicate";
 
 export interface Filtered {
   kept: Candidate[];
@@ -94,14 +99,19 @@ export interface Filtered {
 
 /**
  * Turns raw SAM candidates into catalogue crops:
+ * 0. drop loose matches below SAM's confidence floor;
  * 1. drop masks that are mostly a person, and clear person pixels from the rest, so no body part reaches a catalogue;
  * 2. drop scene-sized and speck-sized masks;
- * 3. merge duplicates found by more than one phrasing, keeping the most confident.
+ * 3. merge overlapping masks found by any phrasing, keeping the most confident.
  */
 export function filterCandidates(candidates: Candidate[], people: Mask[], imageArea: number): Filtered {
   const dropped: Filtered["dropped"] = [];
   const survivors: Candidate[] = [];
   for (const c of candidates) {
+    if (c.confidence !== undefined && c.confidence < LIMITS.minConfidence) {
+      dropped.push({ candidate: c, reason: "low-confidence" });
+      continue;
+    }
     if (coveredFraction(c, people) >= LIMITS.personDropFraction) {
       dropped.push({ candidate: c, reason: "person" });
       continue;
@@ -114,7 +124,7 @@ export function filterCandidates(candidates: Candidate[], people: Mask[], imageA
   }
   const kept: Candidate[] = [];
   for (const c of [...survivors].sort((a, b) => (b.confidence ?? 0) - (a.confidence ?? 0))) {
-    if (kept.some((k) => maskIou(k, c) > LIMITS.duplicateIou)) dropped.push({ candidate: c, reason: "duplicate" });
+    if (kept.some((k) => overlapOfSmaller(k, c) > LIMITS.duplicateOverlap)) dropped.push({ candidate: c, reason: "duplicate" });
     else kept.push(c);
   }
   // Reading order (top to bottom, then left to right) so crop numbers are stable and easy to point at.

@@ -2,15 +2,16 @@
 // the trader's real product, unchanged, and nothing else that could pass for stock. No API calls.
 import { describe, expect, test } from "bun:test";
 import sharp from "sharp";
-import { mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { composeCatalogueImage, cutoutLayer, defaultBackdrop, FidelityError, isPlainBackdrop, pickBackdrop, SIZE } from "../catalogue-image";
+import { composeCatalogueImage, cutoutLayer, defaultBackdrop, FidelityError, restyleCatalogueImage, SIZE } from "../catalogue-image";
 import { MAX_SIDE, PhotoError, preparePhoto } from "../photo";
 import { ellipse, rect } from "./helpers";
 
 const REAL = join(import.meta.dir, "../../test-material/real-photos/real-02-buguma-pepper-okra.jpg");
 const STALL = join(import.meta.dir, "../../test-material/real-photos/real-06-provision-store.jpg");
+const photo = readFileSync(REAL);
 const tmp = () => mkdtempSync(join(tmpdir(), "stallsnap-"));
 
 async function pixel(png: Buffer, x: number, y: number) {
@@ -70,7 +71,6 @@ describe("preparePhoto", () => {
 });
 
 describe("composeCatalogueImage", () => {
-  const photo = readFileSync(REAL);
 
   test("every solid product pixel is the trader's own pixel, unchanged", async () => {
     const mask = ellipse(300, 250, 400, 300);
@@ -118,41 +118,67 @@ describe("composeCatalogueImage", () => {
   });
 });
 
-describe("backdrop gate (Muse Image may only supply an empty backdrop)", () => {
-  test("the local studio gradient is plain", async () => {
-    expect((await isPlainBackdrop(await defaultBackdrop())).plain).toBe(true);
+describe("Muse Image restyle (the real product is pasted back; nothing new may appear around it)", () => {
+  const studio = () => sharp({ create: { width: SIZE, height: SIZE, channels: 3, background: "#d9d4cc" } });
+  const composed = async () => composeCatalogueImage(photo, ellipse(300, 250, 400, 300), await defaultBackdrop());
+
+  test("no restyle keeps the composed picture", async () => {
+    const c = await composed();
+    const out = await restyleCatalogueImage(c, null);
+    expect(out.source).toBe("local");
+    expect(out.png.equals(c.png)).toBe(true);
   });
 
-  test("a backdrop with an invented product on it is rejected", async () => {
-    const bottle = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
-<rect width="100%" height="100%" fill="#efe9df"/><rect x="430" y="300" width="160" height="420" rx="40" fill="#2a6b2a"/>
-<rect x="470" y="220" width="80" height="90" fill="#cc2222"/></svg>`);
-    expect((await isPlainBackdrop(await sharp(bottle).png().toBuffer())).plain).toBe(false);
+  test("a plain studio restyle is used, with the real product pasted back pixel for pixel", async () => {
+    const c = await composed();
+    const out = await restyleCatalogueImage(c, await studio().png().toBuffer());
+    expect(out.source).toBe("muse-image");
+    expect(out.fidelity.maxChannelDiff).toBe(0);
+    // Off the product, the picture is the restyled backdrop.
+    expect(await pixel(out.png, 10, 10)).toEqual([0xd9, 0xd4, 0xcc]);
   });
 
-  test("a backdrop with writing on it is rejected", async () => {
-    const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
-<rect width="100%" height="100%" fill="#f4f0e8"/><text x="120" y="520" font-size="120" font-family="sans-serif" fill="#333">BEST PRICE</text></svg>`);
-    expect((await isPlainBackdrop(await sharp(text).png().toBuffer())).plain).toBe(false);
+  test("a restyle that redrew or recoloured the product is corrected: the trader's own pixels go back on top", async () => {
+    const c = await composed();
+    const p = c.placement;
+    const altered = await sharp(c.png)
+      .composite([{ input: { create: { width: p.width, height: p.height, channels: 3, background: "#00ff00" } }, left: p.left, top: p.top }])
+      .png()
+      .toBuffer();
+    const out = await restyleCatalogueImage(c, altered);
+    expect(out.source).toBe("muse-image");
+    expect(out.fidelity.maxChannelDiff).toBe(0);
+    const cx = p.left + Math.round(p.width / 2), cy = p.top + Math.round(p.height / 2);
+    expect(await pixel(out.png, cx, cy)).toEqual(await pixel(c.png, cx, cy));
   });
 
-  test("a busy stall photo is rejected as a backdrop", async () => {
-    expect((await isPlainBackdrop(readFileSync(STALL))).plain).toBe(false);
+  test("a restyle that adds an invented bottle beside the product is rejected", async () => {
+    const c = await composed();
+    const bottle = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}">
+<rect x="20" y="300" width="70" height="300" rx="20" fill="#2a6b2a"/><rect x="38" y="250" width="34" height="50" fill="#cc2222"/></svg>`);
+    const out = await restyleCatalogueImage(c, await studio().composite([{ input: bottle }]).png().toBuffer());
+    expect(out.source).toBe("local");
+    expect(out.rejected).toContain("something new");
   });
 
-  test("no real stall photo in the repo passes as a backdrop", async () => {
-    for (const dir of ["real-photos", "held-out"]) {
-      const base = join(import.meta.dir, "../../test-material", dir);
-      for (const f of readdirSync(base).filter((n) => n.endsWith(".jpg")))
-        expect({ f, plain: (await isPlainBackdrop(readFileSync(join(base, f)))).plain }).toEqual({ f, plain: false });
-    }
+  test("a restyle with writing on the backdrop is rejected", async () => {
+    const c = await composed();
+    const text = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}">
+<text x="40" y="1000" font-size="70" font-family="sans-serif" fill="#333">BEST PRICE</text></svg>`);
+    const out = await restyleCatalogueImage(c, await studio().composite([{ input: text }]).png().toBuffer());
+    expect(out.source).toBe("local");
   });
 
-  test("pickBackdrop falls back to the local one when Muse Image returns clutter, garbage or nothing", async () => {
-    const clutter = readFileSync(STALL);
-    expect((await pickBackdrop(clutter)).source).toBe("default");
-    expect((await pickBackdrop(Buffer.from("not an image"))).source).toBe("default");
-    expect((await pickBackdrop(null)).source).toBe("default");
-    expect((await pickBackdrop(await defaultBackdrop())).source).toBe("muse-image");
+  test("a restyle that moved the product leaves a ghost, so it is rejected", async () => {
+    const c = await composed();
+    const moved = await sharp(c.png).extract({ left: 0, top: 0, width: SIZE - 200, height: SIZE }).extend({ left: 200, background: "#e8e1d5" }).png().toBuffer();
+    expect((await restyleCatalogueImage(c, moved)).source).toBe("local");
+  });
+
+  test("a busy stall photo, a wrong shape or garbage falls back to the composed picture", async () => {
+    const c = await composed();
+    expect((await restyleCatalogueImage(c, await sharp(readFileSync(STALL)).resize(SIZE, SIZE).png().toBuffer())).source).toBe("local");
+    expect((await restyleCatalogueImage(c, await sharp({ create: { width: 1024, height: 768, channels: 3, background: "#ddd" } }).png().toBuffer())).rejected).toContain("not square");
+    expect((await restyleCatalogueImage(c, Buffer.from("not an image"))).source).toBe("local");
   });
 });

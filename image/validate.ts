@@ -1,5 +1,6 @@
 // Live validation of the image step: runs cut-out and catalogue pictures on a set of photos and writes, per photo,
-// a summary JSON, a mask overlay and a sheet of the actual catalogue pictures for scoring by eye.
+// a summary JSON, a mask overlay and a sheet of the actual catalogue pictures for scoring by eye. Outputs stay out of
+// git (test-results/image/ is ignored). Muse Image restyles only the cover picture of each item, at most RESTYLES per run.
 // Usage (needs MODEL_API_KEY unless every response is cached):
 //   bun image/validate.ts held-out        the held-out photos (scored against test-material/held-out/lots.json)
 //   bun image/validate.ts real            the 8 real photos from the day-one test
@@ -8,9 +9,9 @@ import sharp, { type OverlayOptions } from "sharp";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { SpendGuard } from "../src/spend-guard";
-import { composeCatalogueImage, pickBackdrop } from "./catalogue-image";
+import { composeCatalogueImage, defaultBackdrop, restyleCatalogueImage } from "./catalogue-image";
 import { cutOut, type Crop } from "./cutout";
-import { liveCalls, museImageBackdrop } from "./live";
+import { liveCalls, museImageRestyle } from "./live";
 import { preparePhoto } from "./photo";
 
 const ROOT = join(import.meta.dir, "..");
@@ -66,29 +67,35 @@ async function sheet(tiles: { png: Buffer; label: string }[], out: string) {
   await sharp(img).resize({ width: 1500, height: 1500, fit: "inside", withoutEnlargement: true }).jpeg({ quality: 80 }).toFile(out);
 }
 
+const RESTYLES = Number(process.env.STALLSNAP_RESTYLES ?? 6);
+
 if (import.meta.main) {
   const photos = photosFor(process.argv.slice(2));
   if (!photos.length) throw new Error("Name a set (held-out, real) or some photos");
-  mkdirSync(OUT, { recursive: true });
+  mkdirSync(join(OUT, "restyle"), { recursive: true });
   const guard = new SpendGuard();
   const before = guard.today();
-  const backdrop = await pickBackdrop(await museImageBackdrop(guard, "validate-backdrop"));
-  console.log(`backdrop: ${backdrop.source}${backdrop.edgeShare !== undefined ? ` (edge share ${backdrop.edgeShare.toFixed(4)})` : ""}`);
-  writeFileSync(join(OUT, "backdrop.png"), backdrop.backdrop);
+  const backdrop = await defaultBackdrop();
+  let restyles = 0;
 
   for (const input of photos) {
     const stem = basename(input, ".jpg");
+    const job = `validate-${stem}`;
     const photo = await preparePhoto(input, join(OUT, "prepared"));
-    const r = await cutOut(photo.path, photo.width * photo.height, liveCalls(guard, `validate-${stem}`));
+    const r = await cutOut(photo.path, photo.width, photo.height, liveCalls(guard, job, { width: photo.width, height: photo.height }));
     const bytes = readFileSync(photo.path);
     const tiles: { png: Buffer; label: string }[] = [];
-    const fidelity: { number: number; opaquePixels: number; maxChannelDiff: number }[] = [];
-    for (const c of r.crops) {
-      const img = await composeCatalogueImage(bytes, c, backdrop.backdrop);
-      tiles.push({ png: img.png, label: `${c.number} ${c.productName}`.slice(0, 24) });
-      fidelity.push({ number: c.number, ...img.fidelity });
+    const pictures: { number: number; name: string; source: string; rejected?: string; edgeShare?: number; maxChannelDiff: number }[] = [];
+    for (const it of r.items) {
+      const composed = await composeCatalogueImage(bytes, it.cover, backdrop);
+      const raw = restyles < RESTYLES ? (restyles++, await museImageRestyle(guard, job, composed.png)) : null;
+      if (raw) writeFileSync(join(OUT, "restyle", `${stem}-${it.number}-raw.png`), raw);
+      const final = await restyleCatalogueImage(composed, raw);
+      tiles.push({ png: final.png, label: `${it.number} ${it.name}${final.source === "muse-image" ? " *" : ""}`.slice(0, 24) });
+      pictures.push({ number: it.number, name: it.name, source: final.source, rejected: final.rejected, edgeShare: final.edgeShare, maxChannelDiff: final.fidelity.maxChannelDiff });
     }
-    await overlay(photo.path, r.crops, join(OUT, `${stem}-overlay.jpg`));
+    const crops = r.items.flatMap((it) => it.crops.map((c) => ({ ...c, number: it.number })));
+    await overlay(photo.path, crops, join(OUT, `${stem}-overlay.jpg`));
     if (tiles.length) await sheet(tiles, join(OUT, `${stem}-catalogue.jpg`));
     const summary = {
       photo: input.replace(ROOT + "/", ""),
@@ -96,14 +103,19 @@ if (import.meta.main) {
       products: r.products,
       phrases: r.phrases,
       people: r.people,
-      crops: r.crops.map((c) => ({ number: c.number, productName: c.productName, phrase: c.phrase, box: c.box, confidence: c.confidence })),
+      items: r.items.map((it) => ({ number: it.number, name: it.name, source: it.source, crops: it.crops.length, cover: { box: it.cover.box, phrase: it.cover.phrase, confidence: it.cover.confidence } })),
+      rejected: r.rejected,
+      boxPrompts: r.boxPrompts,
+      reviewError: r.reviewError,
       dropped: r.dropped,
-      fidelity,
-      backdrop: backdrop.source,
+      pictures,
     };
     writeFileSync(join(OUT, `${stem}.json`), JSON.stringify(summary, null, 1));
     const byReason = r.dropped.reduce<Record<string, number>>((a, d) => ((a[d.reason] = (a[d.reason] ?? 0) + 1), a), {});
-    console.log(`${stem}: ${r.products.length} products, ${r.phrases.length} phrases, ${r.people} people, ${r.crops.length} crops, dropped ${JSON.stringify(byReason)}, worst pixel diff ${Math.max(0, ...fidelity.map((f) => f.maxChannelDiff))}`);
+    const used = pictures.filter((p) => p.source === "muse-image").length;
+    console.log(
+      `${stem}: ${r.products.length} products, ${r.phrases.length} phrases, ${r.people} people, ${r.items.length} items, ${r.rejected.length} rejected, ${r.boxPrompts} box prompts${r.reviewError ? `, REVIEW FAILED: ${r.reviewError}` : ""}, dropped ${JSON.stringify(byReason)}, restyles used ${used}/${pictures.filter((p) => p.source === "muse-image" || p.rejected).length}, worst pixel diff ${Math.max(0, ...pictures.map((p) => p.maxChannelDiff))}`,
+    );
   }
   const after = guard.today();
   console.log(`spend this run: $${(after.spentUsd - before.spentUsd).toFixed(4)} in ${after.calls - before.calls} paid calls (today $${after.spentUsd.toFixed(4)})`);

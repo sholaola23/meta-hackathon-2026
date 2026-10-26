@@ -1,7 +1,7 @@
 // Catalogue picture for one crop: the real cut-out pasted onto a clean backdrop.
-// Fidelity rule (README, CLAUDE.md): Muse Image never edits product pixels. At most it supplies an empty backdrop,
-// which must pass isPlainBackdrop; the product layer always comes from the trader's own photo, and
-// composeCatalogueImage proves after compositing that every fully opaque product pixel is unchanged.
+// Fidelity rule (README, CLAUDE.md): the product pixels always come from the trader's own photo. Muse Image may
+// restyle the backdrop of a composed picture, but restyleCatalogueImage pastes the real product back over its output,
+// rejects any output that grew something new around the product, and proves every opaque product pixel is unchanged.
 import sharp from "sharp";
 import type { Mask } from "./mask";
 
@@ -45,43 +45,29 @@ export async function defaultBackdrop(size = SIZE): Promise<Buffer> {
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
-/**
- * True when an image is an empty surface: no objects, text or products that a buyer could mistake for stock.
- * Measured as the share of strong edges on a small greyscale copy; a plain or gently lit backdrop has almost none.
- */
-export async function isPlainBackdrop(image: Buffer): Promise<{ plain: boolean; edgeShare: number }> {
-  const N = 128;
-  const { data } = await sharp(image).resize(N, N, { fit: "fill" }).greyscale().raw().toBuffer({ resolveWithObject: true });
-  let strong = 0;
-  for (let y = 1; y < N - 1; y++)
-    for (let x = 1; x < N - 1; x++) {
-      const gx = data[y * N + x + 1]! - data[y * N + x - 1]!;
-      const gy = data[(y + 1) * N + x]! - data[(y - 1) * N + x]!;
-      if (Math.hypot(gx, gy) > 24) strong++;
-    }
-  const edgeShare = strong / ((N - 2) * (N - 2));
-  return { plain: edgeShare < 0.01, edgeShare };
-}
-
-/** Use a Muse Image backdrop only when it is provably empty; otherwise the local one. Never fails. */
-export async function pickBackdrop(generated: Buffer | null): Promise<{ backdrop: Buffer; source: "muse-image" | "default"; edgeShare?: number }> {
-  if (generated) {
-    try {
-      const check = await isPlainBackdrop(generated);
-      if (check.plain) return { backdrop: generated, source: "muse-image", edgeShare: check.edgeShare };
-      return { backdrop: await defaultBackdrop(), source: "default", edgeShare: check.edgeShare };
-    } catch {
-      // unreadable image: fall through to the default
-    }
-  }
-  return { backdrop: await defaultBackdrop(), source: "default" };
-}
-
 export interface CatalogueImage {
   png: Buffer;
   /** Where the product layer sits on the canvas, and what the fidelity check found. */
   placement: { left: number; top: number; width: number; height: number; scale: number };
   fidelity: { opaquePixels: number; maxChannelDiff: number };
+  /** The scaled product layer (RGBA, placement-sized), kept so a restyle can be pasted back over. */
+  product: Buffer;
+}
+
+/** Every fully opaque product pixel must come through unchanged; throws FidelityError otherwise. */
+function checkFidelity(out: Buffer, product: Buffer, p: { left: number; top: number; width: number; height: number }) {
+  let opaque = 0, maxDiff = 0;
+  for (let y = 0; y < p.height; y++)
+    for (let x = 0; x < p.width; x++) {
+      const i = (y * p.width + x) * 4;
+      if (product[i + 3] !== 255) continue;
+      opaque++;
+      const o = ((p.top + y) * SIZE + p.left + x) * 3;
+      for (let c = 0; c < 3; c++) maxDiff = Math.max(maxDiff, Math.abs(out[o + c]! - product[i + c]!));
+    }
+  if (!opaque) throw new FidelityError("the crop has no solid product pixels");
+  if (maxDiff > FIDELITY_TOLERANCE) throw new FidelityError(`product pixels changed by up to ${maxDiff}`);
+  return { opaquePixels: opaque, maxChannelDiff: maxDiff };
 }
 
 export async function composeCatalogueImage(photo: Buffer, mask: Mask, backdrop: Buffer): Promise<CatalogueImage> {
@@ -112,19 +98,77 @@ export async function composeCatalogueImage(photo: Buffer, mask: Mask, backdrop:
     .raw()
     .toBuffer();
 
-  // Prove the product pixels came through unchanged.
-  let opaque = 0, maxDiff = 0;
-  for (let y = 0; y < height; y++)
-    for (let x = 0; x < width; x++) {
-      const p = (y * width + x) * 4;
-      if (product[p + 3] !== 255) continue;
-      opaque++;
-      const o = ((top + y) * SIZE + left + x) * 3;
-      for (let c = 0; c < 3; c++) maxDiff = Math.max(maxDiff, Math.abs(out[o + c]! - product[p + c]!));
-    }
-  if (!opaque) throw new FidelityError("the crop has no solid product pixels");
-  if (maxDiff > FIDELITY_TOLERANCE) throw new FidelityError(`product pixels changed by up to ${maxDiff}`);
-
+  const fidelity = checkFidelity(out, product, { left, top, width, height });
   const png = await sharp(out, { raw: { width: SIZE, height: SIZE, channels: 3 } }).png().toBuffer();
-  return { png, placement: { left, top, width, height, scale }, fidelity: { opaquePixels: opaque, maxChannelDiff: maxDiff } };
+  return { png, placement: { left, top, width, height, scale }, fidelity, product };
+}
+
+/** Grid for the no-new-objects check, and how far (in grid cells) around the product edges are ignored. */
+const GRID = 256, MARGIN_CELLS = 4;
+
+/**
+ * Share of strong edges outside the product (and a margin round it). The composed picture has a plain backdrop and a
+ * blurred shadow, so anything Muse Image drew there (a second bottle, text, a ghost of a moved product) shows up here.
+ */
+export async function edgeShareOutside(image: Buffer, product: Buffer, p: { left: number; top: number; width: number; height: number }) {
+  const cell = SIZE / GRID;
+  const near = new Uint8Array(GRID * GRID);
+  for (let y = 0; y < p.height; y++)
+    for (let x = 0; x < p.width; x++) {
+      if (!product[(y * p.width + x) * 4 + 3]) continue;
+      const gx = Math.floor((p.left + x) / cell), gy = Math.floor((p.top + y) / cell);
+      for (let dy = -MARGIN_CELLS; dy <= MARGIN_CELLS; dy++)
+        for (let dx = -MARGIN_CELLS; dx <= MARGIN_CELLS; dx++) {
+          const nx = gx + dx, ny = gy + dy;
+          if (nx >= 0 && ny >= 0 && nx < GRID && ny < GRID) near[ny * GRID + nx] = 1;
+        }
+    }
+  const { data } = await sharp(image).resize(GRID, GRID, { fit: "fill" }).greyscale().raw().toBuffer({ resolveWithObject: true });
+  let strong = 0, outside = 0;
+  for (let y = 1; y < GRID - 1; y++)
+    for (let x = 1; x < GRID - 1; x++) {
+      if (near[y * GRID + x]) continue;
+      outside++;
+      const gx = data[y * GRID + x + 1]! - data[y * GRID + x - 1]!;
+      const gy = data[(y + 1) * GRID + x]! - data[(y - 1) * GRID + x]!;
+      if (Math.hypot(gx, gy) > 24) strong++;
+    }
+  return outside ? strong / outside : 0;
+}
+
+export interface FinalImage {
+  png: Buffer;
+  source: "muse-image" | "local";
+  /** Why a restyle was not used, when one was offered. */
+  rejected?: string;
+  edgeShare?: number;
+  fidelity: { opaquePixels: number; maxChannelDiff: number };
+}
+
+/**
+ * Takes Muse Image's restyle of a composed picture only if it is square, adds nothing around the product, and
+ * survives having the real product pasted back pixel for pixel. Otherwise keeps the composed picture. Never fails.
+ */
+export async function restyleCatalogueImage(composed: CatalogueImage, restyled: Buffer | null): Promise<FinalImage> {
+  const local: FinalImage = { png: composed.png, source: "local", fidelity: composed.fidelity };
+  if (!restyled) return local;
+  try {
+    const meta = await sharp(restyled).metadata();
+    if (!meta.width || !meta.height || Math.abs(meta.width / meta.height - 1) > 0.02)
+      return { ...local, rejected: `not square (${meta.width}x${meta.height})` };
+    const p = composed.placement;
+    const out = await sharp(restyled)
+      .resize(SIZE, SIZE, { fit: "fill" })
+      .removeAlpha()
+      .composite([{ input: composed.product, raw: { width: p.width, height: p.height, channels: 4 }, left: p.left, top: p.top }])
+      .removeAlpha()
+      .raw()
+      .toBuffer();
+    const png = await sharp(out, { raw: { width: SIZE, height: SIZE, channels: 3 } }).png().toBuffer();
+    const edgeShare = await edgeShareOutside(png, composed.product, p);
+    if (edgeShare >= 0.01) return { ...local, rejected: "something new appeared around the product", edgeShare };
+    return { png, source: "muse-image", edgeShare, fidelity: checkFidelity(out, composed.product, p) };
+  } catch (e) {
+    return { ...local, rejected: (e as Error).message };
+  }
 }
