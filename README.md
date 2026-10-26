@@ -6,10 +6,10 @@ Personal entry, Indie Developer track. Everything in this repo was built during 
 
 | What | When |
 |------|------|
-| Kickoff livestream | Mon 26 Oct, 4pm |
-| Agents 101 / 102 sessions | Tue 27 Oct and Wed 28 Oct, 4pm |
-| Fireworks open-models session | Fri 30 Oct, 4pm |
-| Discord office hours (weekdays) | 2pm to 3pm |
+| Kickoff livestream | Mon 26 Oct, 4pm or 5pm (organisers say both "12pm EST" and "9am PT"; check Discord) |
+| Agents 101 / 102 sessions | Tue 27 Oct and Wed 28 Oct, 12pm ET (4pm UK) |
+| Fireworks open-models session | Fri 30 Oct, 12pm ET (4pm UK) |
+| Discord office hours (weekdays) | 10 to 11am ET (2 to 3pm UK until 30 Oct, 3 to 4pm from 2 Nov) |
 | Submissions due | Thu 5 Nov, 2am (Wed 4 Nov 9pm ET) |
 | Closing ceremony | Mon 9 Nov, 5pm |
 
