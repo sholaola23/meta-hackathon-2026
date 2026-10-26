@@ -9,7 +9,7 @@ The day-one test passed on 26 Oct with conditions (voice price matching 97% agai
 | Decision | Status |
 |---|---|
 | Build StallSnap | Go, with the conditions below (26 Oct) |
-| WhatsApp route | Meta WhatsApp Cloud API with a free test number, approved 26 Oct. Kapso is no longer planned |
+| WhatsApp route | Meta WhatsApp Cloud API with a free test number, approved 26 Oct. Kapso's sandbox is kept only as a fallback |
 | Fallback | Fallbacks that reuse the StallSnap pipeline, approved 26 Oct: see "Fallback" below |
 
 ## Schedule

@@ -55,7 +55,7 @@ Every paid Meta API call goes through `SpendGuard.paid()` in `src/spend-guard.ts
 | `STALLSNAP_MAX_CALLS_PER_JOB` | 60 | Calls past this number in one job (one trader's photo and voice note) |
 | `STALLSNAP_DAILY_CAP_USD` | 2 | Any call that would take today's spend (UTC day, on this machine) over the cap |
 
-A value it can't read stops start-up instead of lifting a cap. Check today's spend with `bun src/spend-guard.ts`, and run the tests with `bun test src`.
+A value it can't read, a value above the ceiling ($25 a day, 500 calls a job) or a misspelt `STALLSNAP_` setting stops start-up instead of lifting a cap. The daily total is locked and shared by every process on the machine; the per-job count is kept in the process that runs the job. Check today's spend with `bun src/spend-guard.ts`, and run the tests with `bun test src`.
 
 ## Meta Model API
 

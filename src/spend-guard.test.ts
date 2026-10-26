@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DEFAULTS, SpendCapError, SpendGuard, loadConfig, samUsd, sparkUsd, voiceUsd, type SpendConfig } from "./spend-guard";
+import { CEILINGS, DEFAULTS, SpendCapError, SpendGuard, loadConfig, samUsd, sparkUsd, voiceUsd, type SpendConfig } from "./spend-guard";
 
 const DAY1 = new Date("2026-10-27T12:00:00Z");
 
@@ -90,6 +90,25 @@ describe("daily dollar cap", () => {
     expect(f.calls.n).toBe(0);
   });
 
+  test("40 processes starting at once never run more calls than the cap allows", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "spend-"));
+    const startAt = String(Date.now() + 1500);
+    const procs = Array.from({ length: 40 }, () =>
+      Bun.spawn(["bun", join(import.meta.dir, "spend-guard.worker.ts"), dir, startAt, "0.10"], {
+        stdout: "pipe",
+        stderr: "inherit",
+      }),
+    );
+    const outs = await Promise.all(procs.map((p) => new Response(p.stdout).text()));
+    const codes = await Promise.all(procs.map((p) => p.exited));
+    expect(codes.every((c) => c === 0)).toBe(true);
+    const ran = outs.reduce((n, o) => n + Number(o.trim()), 0);
+    expect(ran).toBe(10); // $0.10 cap / $0.01 a call
+    const day = guard({ now: () => new Date() }, dir).today();
+    expect(day.calls).toBe(ran);
+    expect(day.spentUsd).toBeCloseTo(0.1, 9);
+  }, 30_000);
+
   test("a new UTC day starts from zero", async () => {
     const dir = mkdtempSync(join(tmpdir(), "spend-"));
     await guard({ dailyCapUsd: 0.05 }, dir).paid("job", "muse-image-1.0", 0.05, fakeCall().run);
@@ -103,6 +122,31 @@ describe("daily dollar cap", () => {
     const g = guard({ dailyCapUsd: 1 });
     await g.paid("job", "muse-spark-1.3", 0.05, async () => ({ input: 10_000, output: 1_000 }), sparkUsd);
     expect(g.today().spentUsd).toBeCloseTo(0.01675, 9) // 10k in x $1.25/M + 1k out x $4.25/M;
+  });
+
+  test("a NaN, negative or throwing actual cost keeps the estimate instead of wiping the day", async () => {
+    const g = guard({ dailyCapUsd: 1 });
+    await g.paid("job", "muse-spark-1.3", 0.5, async () => ({}), () => NaN);
+    await g.paid("job", "muse-spark-1.3", 0.25, async () => ({}), () => -5);
+    const out = await g.paid("job", "muse-spark-1.3", 0.2, async () => "kept", () => {
+      throw new Error("usage missing");
+    });
+    expect(out).toBe("kept");
+    expect(g.today().spentUsd).toBeCloseTo(0.95, 9);
+    expect(await capReason(g.paid("job-2", "muse-spark-1.3", 0.5, fakeCall().run))).toBe("daily-usd");
+  });
+
+  test("sparkUsd refuses a response with missing token counts", () => {
+    expect(() => sparkUsd({ input: 1000 } as never)).toThrow("sparkUsd");
+    expect(() => sparkUsd({ input: -1, output: 0 })).toThrow("sparkUsd");
+  });
+
+  test("an unreadable ledger stops paid calls instead of starting from zero", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "spend-"));
+    writeFileSync(join(dir, "2026-10-27.json"), JSON.stringify({ spentUsd: null, calls: 3 }));
+    const f = fakeCall();
+    await expect(guard({}, dir).paid("job", "sam-3.1", 0.0025, f.run)).rejects.toThrow("unreadable");
+    expect(f.calls.n).toBe(0);
   });
 
   test("a missing or negative estimate is refused, so nothing slips past the cap", async () => {
@@ -127,6 +171,20 @@ describe("config from the environment", () => {
     }
     for (const v of ["2.5", "-3", "ten", "0"]) {
       expect(() => loadConfig({ STALLSNAP_MAX_CALLS_PER_JOB: v })).toThrow("STALLSNAP_MAX_CALLS_PER_JOB");
+    }
+  });
+
+  test("hex, binary, exponent and over-ceiling values are refused", () => {
+    for (const v of ["0x10", "0b11", "1e9", "26", String(CEILINGS.dailyCapUsd + 0.01)]) {
+      expect(() => loadConfig({ STALLSNAP_DAILY_CAP_USD: v })).toThrow("STALLSNAP_DAILY_CAP_USD");
+    }
+    expect(() => loadConfig({ STALLSNAP_MAX_CALLS_PER_JOB: "501" })).toThrow("STALLSNAP_MAX_CALLS_PER_JOB");
+    expect(loadConfig({ STALLSNAP_DAILY_CAP_USD: "25" }).dailyCapUsd).toBe(25);
+  });
+
+  test("a misspelt setting stops start-up instead of being ignored", () => {
+    for (const k of ["STALLSNAP_PAID_CALL", "STALLSNAP_PAIDCALLS", "stallsnap_paid_calls", "STALLSNAP_DAILY_CAP"]) {
+      expect(() => loadConfig({ [k]: "off" })).toThrow("Unknown setting");
     }
   });
 
