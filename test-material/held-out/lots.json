@@ -1,0 +1,64 @@
+{
+  "_note": "Answer key for the held-out cut-out test, written on 26 Oct 2026 before any model call on these photos. A lot is each heap, basin, strip or product line a trader would price. A lot is a hit when at least one catalogue picture shows it on its own, cleanly enough to sell from. mustNotAppear lists things that fail the photo if any catalogue picture shows them as the main subject (a wrong user-facing outcome). Synthetic scoring material: never used in the demo.",
+  "photos": [
+    {
+      "photo": "held-01-spices-provisions-kiosk.jpg",
+      "lots": [
+        "tomato paste sachets hanging in strips (red and yellow)",
+        "other seasoning sachets hanging in strips (green, blue)",
+        "tinned tomato paste (red tins, right-hand shelf)",
+        "eggs (tray, left table)",
+        "bagged foodstuff in clear bags (front of frame)",
+        "bottle of oil (yellow bottle on the table)",
+        "onions (left edge)"
+      ],
+      "mustNotAppear": ["woman in red dress", "girl in patterned dress"]
+    },
+    {
+      "photo": "held-02-soup-ingredients-tins.jpg",
+      "lots": [
+        "dried ogbono or kernel slices in the front tin",
+        "shelled melon seeds heaped in the bag (left)",
+        "ground melon or egusi heap in the blue bag (centre)",
+        "unshelled melon seeds in red tins (right and back)"
+      ],
+      "mustNotAppear": ["nursing trader", "baby", "passers-by", "woman in striped top (right)"]
+    },
+    {
+      "photo": "held-03-melon-foodstuff-table.jpg",
+      "lots": [
+        "dried pepper in the clear tub (top centre)",
+        "ground pepper or crayfish powder in the clear tub (top left)",
+        "melon seeds on the purple tray",
+        "pale grain heaped in the metal tray (left)",
+        "Onga seasoning cartons"
+      ],
+      "mustNotAppear": ["woman in orange dress (top)"]
+    },
+    {
+      "photo": "held-04-trader-produce-baskets.jpg",
+      "lots": [
+        "ponmo (cow skin) in the big basket (front)",
+        "ponmo in the black basin",
+        "green vegetables in the bowl",
+        "white flour or heap in the bowl (left edge)"
+      ],
+      "mustNotAppear": ["trader in apron", "man with camera", "seated woman", "man at right edge"]
+    },
+    {
+      "photo": "held-05-grain-basins-young-vendor.jpg",
+      "lots": [
+        "white grain basin (far left, partly cut off)",
+        "beige grain basin (left middle, large)",
+        "orange-brown grain basin (bottom left)",
+        "light beige grain basin (back left)",
+        "beige grain basin (back centre)",
+        "brown grain basin (centre)",
+        "light grain basin (front centre, large)",
+        "orange grain in the big basin (back right)",
+        "palm oil in the clear bag (table)"
+      ],
+      "mustNotAppear": ["boy at the scale", "girl in green head-tie"]
+    }
+  ]
+}
