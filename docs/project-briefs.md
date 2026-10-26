@@ -36,7 +36,7 @@ HOW WE RUN
 - Follow Shola's project run rules: one-line updates to Shola when a thread finishes, stops or needs him; a recommendation on every question; a separate yes/no for anything public (posting on X or Discord, submitting, making things public).
 - Independent QA after every significant piece of work, in a NEW thread that didn't write the code. Evidence, not "done". Findings are split into "Blocks sign-off" and "Optional".
 - Every PR goes to Shola before merging, with the Grok status. Grok reviews only major PRs.
-- Don't guess. If a thread can't reach something (Meta API, Kapso, a Discord channel, real stall photos), it says exactly what is missing and stops that part.
+- Don't guess. If a thread can't reach something (Meta API, the WhatsApp Cloud API, a Discord channel, real stall photos), it says exactly what is missing and stops that part.
 - Shola works a day job: expect his replies in the evenings (UK) and at weekends. Line up decisions so one evening reply unblocks everything.
 - Use Shola's Mac for anything that needs his CLIs, his Chrome (Discord, Meta dashboard) or the .env key. Read only from his accounts; never post, create accounts or accept terms for him.
 

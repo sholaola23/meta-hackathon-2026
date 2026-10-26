@@ -30,6 +30,7 @@ The catalogue goes back as a web link over WhatsApp.
 | `test-material/images/` | Generated stall photos (Muse Image) for the test, with prompts |
 | `test-material/real-photos/` | Real openly licensed stall photos (Wikimedia Commons), with attribution |
 | `test-material/voice/` | Pidgin price scripts, placeholder voice notes and the price answer key |
+| `src/whatsapp/` | The WhatsApp loop on Meta's WhatsApp Cloud API; setup and design in [docs/whatsapp.md](docs/whatsapp.md) |
 
 Test material is for the spike test only. The demo will use real stalls and real voice notes.
 
