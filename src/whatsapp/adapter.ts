@@ -39,13 +39,19 @@ export interface AdapterConfig {
   publicDir: string;
   /** Public HTTPS address of the server, such as https://stallsnap.example. */
   publicBaseUrl: string;
+  /** Shown at the top of the page. A real trader's name goes here once they give it; never their phone number. */
+  stallName?: string;
   now?: () => Date;
   slug?: () => string;
 }
 
+/** The demo is Shola playing the trader, labelled honestly; no real stall or number is shown. */
+export const DEMO_STALL_NAME = "StallSnap Demo Stall";
+
 /** What the catalogue page reads. Nothing about the trader's phone or the confirm conversation goes in here. */
 export interface PublishedCatalogue {
   slug: string;
+  stallName?: string;
   publishedAt: string;
   /** True while the trader is correcting a list that was already published: the page shows no prices. */
   updating?: boolean;
@@ -163,7 +169,7 @@ export class StallPipeline implements Pipeline {
       }
       lines.push({ name: line.name, price: line.price, unit: line.unit, image });
     }
-    const page: PublishedCatalogue = { slug, publishedAt: this.now().toISOString(), lines };
+    const page: PublishedCatalogue = { slug, stallName: this.cfg.stallName?.trim() || DEMO_STALL_NAME, publishedAt: this.now().toISOString(), lines };
     writeFileSync(join(next, "catalogue.json"), JSON.stringify(page, null, 1));
     swapIn(next, dir);
     // The confirm conversation stays private, next to the job, so every price can be traced to the trader's yes.
