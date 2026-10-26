@@ -6,6 +6,7 @@ import { composeCatalogueImage, defaultBackdrop, restyleCatalogueImage, type Cat
 import { cutOut } from "../../image/cutout";
 import { liveCalls, museImageRestyle } from "../../image/live";
 import { PhotoError, preparePhoto } from "../../image/photo";
+import { webThumbnail } from "../../image/thumbnail";
 import { extractPrices } from "../pricing/extract";
 import { responder, transcribe } from "../pricing/live";
 import type { SpendGuard } from "../spend-guard";
@@ -44,6 +45,8 @@ export function liveModels(guard: SpendGuard, opts: { restyle: boolean }): Model
       }
       return found;
     },
+
+    thumbnail: (src, dest) => webThumbnail(src, dest),
 
     transcribe: (jobId, voice, itemNames) => transcribe(guard, jobId, voice.path, itemNames.map((name) => ({ name }))),
 

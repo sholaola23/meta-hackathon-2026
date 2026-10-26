@@ -9,7 +9,7 @@ import { parseWebhook } from "./events";
 import { Graph, GraphError } from "./graph";
 import { Outbox, type Clock } from "./outbox";
 import { Store } from "./store";
-import { button, msg, payload, PHONE_ID, setup, text, TRADER } from "./test-helpers";
+import { button, type FakePipeline, msg, payload, PHONE_ID, setup, text, TRADER } from "./test-helpers";
 
 const T = 1_790_000_000;
 const LINK = copy.catalogueReady("https://stallsnap.example/c/test-stall").body;
@@ -21,7 +21,7 @@ function fakeClock() {
 }
 
 /** Hold the next pipeline.reply() open until the returned function is called. */
-function gateReply(ctx: ReturnType<typeof setup>) {
+function gateReply(ctx: ReturnType<typeof setup<FakePipeline>>) {
   let open!: () => void;
   const gate = new Promise<void>((r) => (open = r));
   const real = ctx.pipeline.reply.bind(ctx.pipeline);

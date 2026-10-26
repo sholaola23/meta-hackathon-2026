@@ -32,8 +32,9 @@ WhatsApp allows one message every 6 seconds to the same person (error 131056). T
 4. **Download** (`media.ts`). Two steps, as Meta documents: the media id gives a URL that lasts 5 minutes, then the URL is fetched with the token. The type and size are checked before downloading, and the bytes are checked against WhatsApp's SHA-256. An expired URL (404) is fetched again once.
 5. **Collect, then start.** Photos and voice notes arrive as separate webhooks. The loop waits 5 seconds after the last one, then calls the pipeline once with every photo and voice note.
 6. **Confirm or correct.** Each reply to the list goes to the pricing step. A reply that arrives while a list is still being made, or after **Yes, publish** but before the answer, is applied before any list is shown or published, so a list the trader has corrected is never published. Photos and voice notes sent while the catalogue is being published are not used; the trader is asked to wait.
-7. **Publish.** When the pricing step says the trader has confirmed the latest list, the catalogue page is built and its link is sent.
-8. **Restart.** State is kept in `src/whatsapp/.data/state.json`. On start-up, a trader who had sent their photo and voice note gets their list as normal, and a trader whose list was being made is told "something went wrong" and asked to send again. A damaged state file is logged and replaced with an empty one.
+7. **Publish.** When the pricing step says the trader has confirmed the latest list, the catalogue page is built and its link is sent. A list with every line removed is never published. Pictures go on the page as 320px WebP copies, named by item and list version.
+8. **Correct after publishing.** A message with a number or a change word ("comot", "remove", "rename") after the link went out reopens the list. The page stays at the same link but shows "The trader is updating these prices" with no prices until the trader says yes again, then it is rebuilt with the new list. Any other message gets a short help reply.
+9. **Restart.** State is kept in `src/whatsapp/.data/state.json`. On start-up, a trader who had sent their photo and voice note gets their list as normal, a trader who had said yes gets their catalogue published, and a trader whose list was being made is told "something went wrong" and asked to send again. A damaged state file is logged and replaced with an empty one.
 
 ## Limits the loop sets itself
 
@@ -71,7 +72,7 @@ The adapter wraps each paid step in `JobLog.step(jobId, key, run)` from `src/wha
 2. **Voice notes.** Each note goes through Muse Voice Transcribe, using the stall's item names as keywords. Typed prices and captions are added to the text.
 3. **Prices.** Muse Spark prices the items with the pricing tool loop (`src/pricing/extract.ts`). `startConfirmation` turns the result into the trader's list.
 4. **Replies.** Every reply, typed or spoken, goes to `handleReply`, and its message goes back to the trader as it is.
-5. **Publish.** `publish()` refuses anything the trader hasn't confirmed. The confirmed lines and their pictures are written to `<WHATSAPP_DATA_DIR>/public/<slug>/`. Each picture can first get a Muse Image studio backdrop, which is used only if the real product pixels survive (`image/catalogue-image.ts`); set `STALLSNAP_RESTYLE=off` to skip that step. The same server serves the page at `/c/<slug>`. The slug is random, so the link doesn't reveal the trader's number. The audit log (`auditLog`) is saved privately next to the job, never on the page.
+5. **Publish.** `publish()` refuses anything the trader hasn't confirmed. The confirmed lines and their pictures are written to `<WHATSAPP_DATA_DIR>/public/<slug>/`. Each picture can first get a Muse Image studio backdrop, which is used only if the real product pixels survive (`image/catalogue-image.ts`); set `CATALOGUE_RESTYLE=off` to skip that step. The same server serves the page at `/c/<slug>`. The slug is random, so the link doesn't reveal the trader's number. The audit log (`auditLog`) is saved privately next to the job, never on the page.
 
 Each paid step runs once per job through the job log: the cut-out of a photo, the transcript of a note, the pricing run and the restyle of a picture. Every paid call goes through `SpendGuard`.
 
@@ -99,7 +100,7 @@ Claude cannot do these steps: they need your Meta account. Never use the E'Manue
    MODEL_API_KEY=             # already there for the Meta Model API
    PUBLIC_BASE_URL=           # the tunnel or Railway address, for catalogue links, for example https://....trycloudflare.com
    # Optional: WHATSAPP_GRAPH_VERSION (default v26.0), WHATSAPP_RECORD=on, WHATSAPP_DATA_DIR, PORT (default 3000),
-   # STALLSNAP_RESTYLE=off (skip Muse Image backdrops)
+   # CATALOGUE_RESTYLE=off (skip Muse Image backdrops)
    ```
 
 7. Install the image step's packages once (`cd image && bun install`, then the same in `spike/`; ffmpeg must be installed too). Then start the server and a public HTTPS tunnel to it:

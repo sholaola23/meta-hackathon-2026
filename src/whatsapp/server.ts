@@ -47,7 +47,7 @@ if (import.meta.main) {
     // Loaded only when live, so the server starts without the image step's packages installed.
     const { liveModels } = await import("./live-models");
     pipeline = new StallPipeline({
-      models: liveModels(new SpendGuard(), { restyle: process.env.STALLSNAP_RESTYLE !== "off" }),
+      models: liveModels(new SpendGuard(), { restyle: process.env.CATALOGUE_RESTYLE !== "off" }),
       jobLog: new JobLog(join(dataDir, "joblog")),
       dataDir,
       publicDir,

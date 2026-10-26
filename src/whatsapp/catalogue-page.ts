@@ -1,11 +1,11 @@
-// The public catalogue page a trader shares with customers: /c/<slug> and its pictures /c/<slug>/<n>.png.
+// The public catalogue page a trader shares with customers: /c/<slug> and its pictures /c/<slug>/<item>-v<version>.webp.
 // Rendered on the server from catalogue.json, with no script, so it opens fast on a cheap phone.
 // Only the confirmed lines are on it: never the trader's number or the confirm conversation.
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { PublishedCatalogue } from "./adapter";
 
-const ROUTE = /^\/c\/([a-z0-9]{12})(?:\/(\d{1,3}\.png))?\/?$/;
+const ROUTE = /^\/c\/([a-z0-9]{12})(?:\/([a-z0-9-]{1,40}\.(?:webp|png)))?\/?$/;
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
@@ -18,7 +18,7 @@ export function renderPage(c: PublishedCatalogue): string {
   const date = new Date(c.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Lagos" });
   const items = c.lines
     .map(
-      (l) => `<li>${l.image ? `<img src="/c/${c.slug}/${l.image}" alt="${esc(l.name)}" width="160" height="160" loading="lazy">` : `<div class="noimg" aria-hidden="true"></div>`}
+      (l) => `<li>${l.image ? `<img src="/c/${c.slug}/${esc(l.image)}" alt="${esc(l.name)}" width="96" height="96" loading="lazy">` : `<div class="noimg" aria-hidden="true"></div>`}
 <div><h2>${esc(l.name)}</h2><p class="price">${esc(priceText(l.price, l.unit))}</p></div></li>`,
     )
     .join("\n");
@@ -48,10 +48,14 @@ footer { color: var(--muted); font-size: 0.875rem; margin: 20px 0 8px; }
 <body>
 <main>
 <h1>Price list</h1>
-<p class="sub">Prices checked by the trader on ${esc(date)}. Message the trader on WhatsApp to buy.</p>
+${
+  c.updating
+    ? `<p class="sub">The trader is updating these prices. Please check this page again soon.</p>`
+    : `<p class="sub">Prices checked by the trader on ${esc(date)}. Message the trader on WhatsApp to buy.</p>
 <ul>
 ${items}
-</ul>
+</ul>`
+}
 <footer>Made with StallSnap catalogue builder.</footer>
 </main>
 </body>
@@ -67,12 +71,15 @@ export function serveCatalogue(pathname: string, publicDir: string): Response | 
   const dir = join(publicDir, m[1]!);
   const file = join(dir, "catalogue.json");
   if (!existsSync(file)) return notFound();
-  if (m[2]) {
-    const img = join(dir, m[2]);
-    if (!existsSync(img)) return notFound();
-    return new Response(readFileSync(img), { headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" } });
-  }
   const c = JSON.parse(readFileSync(file, "utf8")) as PublishedCatalogue;
+  if (m[2]) {
+    // Only pictures on the current list are served, never a leftover file.
+    const img = join(dir, m[2]);
+    if (!c.lines.some((l) => l.image === m[2]) || !existsSync(img)) return notFound();
+    const type = m[2].endsWith(".webp") ? "image/webp" : "image/png";
+    // Names change with every list version, so a long cache is safe.
+    return new Response(readFileSync(img), { headers: { "Content-Type": type, "Cache-Control": "public, max-age=86400" } });
+  }
   return new Response(renderPage(c), {
     headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache", "X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'" },
   });

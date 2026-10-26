@@ -3,7 +3,7 @@
 // replies -> handleReply, YES -> publish() -> a public page. The model calls are injected (live-models.ts in the
 // server, fakes in tests), and each paid step runs once per job through JobLog, so a retry never pays twice.
 import { randomBytes } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { auditLog, handleReply, publish, startConfirmation, type Session as PricingSession } from "../pricing/confirm";
 import type { Draft, Item } from "../pricing/types";
@@ -26,6 +26,8 @@ export interface Models {
   price(jobId: string, items: Item[], transcript: string, photo?: LocalMedia): Promise<Draft>;
   /** Optional studio clean-up of one picture at publish. Returns the file name to show; never invents products. */
   polish?(jobId: string, imageDir: string, image: string): Promise<string>;
+  /** Optional small web copy of a picture for the page (dest ends in .webp). Without it the PNG is copied as it is. */
+  thumbnail?(src: string, dest: string): Promise<void>;
 }
 
 export interface AdapterConfig {
@@ -45,6 +47,8 @@ export interface AdapterConfig {
 export interface PublishedCatalogue {
   slug: string;
   publishedAt: string;
+  /** True while the trader is correcting a list that was already published: the page shows no prices. */
+  updating?: boolean;
   lines: { name: string; price: number | null; unit: string | null; image: string | null }[];
 }
 
@@ -60,6 +64,7 @@ export class PhotoProblem extends Error {
   override name = "PhotoError";
 }
 
+export const NOTHING_LEFT = "Nothing is left on your list. Send a new photo of your stall and a voice note to start again.";
 export const NO_PRODUCTS = "I could not find products in that photo. Please send a clear photo of the stall in daylight, with the goods in view.";
 const SLUG = /^[a-z0-9]{12}$/;
 const JOB_ID = /^[A-Za-z0-9_-]{1,80}$/;
@@ -110,6 +115,8 @@ export class StallPipeline implements Pipeline {
     const job = this.load(input.jobId);
     const text = await this.replyText(input.jobId, job, input.reply);
     const r = handleReply(job.session, text, this.now);
+    // A change after the catalogue went out: take its prices down until the trader says yes to the new list.
+    if (r.reopened && job.slug) this.markUpdating(job.slug);
     this.save(input.jobId, { ...job, session: r.session });
     return turn(r.session, r.message);
   }
@@ -120,12 +127,16 @@ export class StallPipeline implements Pipeline {
     const catalogue = publish(job.session); // throws unless the trader confirmed the latest list
     const slug = job.slug ?? this.slug();
     if (!SLUG.test(slug)) throw new Error("bad catalogue slug");
+    if (!catalogue.lines.length) throw new PhotoProblem(NOTHING_LEFT);
+    // Built in a fresh folder and swapped in whole, so a republish leaves no picture from an older list behind.
     const dir = join(this.cfg.publicDir, slug);
-    mkdirSync(dir, { recursive: true });
+    const next = `${dir}.next`;
+    rmSync(next, { recursive: true, force: true });
+    mkdirSync(next, { recursive: true });
 
     const byId = new Map(job.items.map((i) => [i.id, i]));
     const lines: PublishedCatalogue["lines"] = [];
-    for (const [n, line] of catalogue.lines.entries()) {
+    for (const line of catalogue.lines) {
       const item = byId.get(line.itemId);
       let image: string | null = null;
       if (item?.image) {
@@ -134,18 +145,34 @@ export class StallPipeline implements Pipeline {
           : item.image;
         const src = join(this.imageDir(jobId), FILE.test(polished) && !polished.includes("..") ? polished : item.image);
         if (existsSync(src)) {
-          image = `${n + 1}.png`;
-          writeFileSync(join(dir, image), readFileSync(src));
+          // Named by item and list version: a customer's cached picture can never sit next to another product's name.
+          const name = `${item.id}-v${catalogue.confirmedVersion}`;
+          if (this.cfg.models.thumbnail) {
+            image = `${name}.webp`;
+            await this.cfg.models.thumbnail(src, join(next, image));
+          } else {
+            image = `${name}.png`;
+            writeFileSync(join(next, image), readFileSync(src));
+          }
         }
       }
       lines.push({ name: line.name, price: line.price, unit: line.unit, image });
     }
     const page: PublishedCatalogue = { slug, publishedAt: this.now().toISOString(), lines };
-    atomicWrite(join(dir, "catalogue.json"), JSON.stringify(page, null, 1));
+    writeFileSync(join(next, "catalogue.json"), JSON.stringify(page, null, 1));
+    swapIn(next, dir);
     // The confirm conversation stays private, next to the job, so every price can be traced to the trader's yes.
     atomicWrite(join(this.jobDir(jobId), "audit.json"), JSON.stringify(auditLog(job.session), null, 1));
     this.save(jobId, { ...job, slug });
     return { url: `${this.cfg.publicBaseUrl.replace(/\/+$/, "")}/c/${slug}` };
+  }
+
+  /** The page stays up but shows no prices while the trader fixes a published list. */
+  private markUpdating(slug: string) {
+    const file = join(this.cfg.publicDir, slug, "catalogue.json");
+    if (!SLUG.test(slug) || !existsSync(file)) return;
+    const page = JSON.parse(readFileSync(file, "utf8")) as PublishedCatalogue;
+    atomicWrite(file, JSON.stringify({ ...page, updating: true, lines: [] }, null, 1));
   }
 
   private async replyText(jobId: string, job: Job, reply: TraderReply): Promise<string> {
@@ -177,6 +204,14 @@ export class StallPipeline implements Pipeline {
 
 function turn(session: PricingSession, message: string): PricingTurn {
   return { version: session.version, message, confirmed: session.status === "confirmed" };
+}
+
+function swapIn(next: string, dir: string) {
+  const old = `${dir}.old`;
+  rmSync(old, { recursive: true, force: true });
+  if (existsSync(dir)) renameSync(dir, old);
+  renameSync(next, dir);
+  rmSync(old, { recursive: true, force: true });
 }
 
 function atomicWrite(file: string, data: string) {
