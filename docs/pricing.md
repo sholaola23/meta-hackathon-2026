@@ -55,6 +55,15 @@ A wrong price is worse than a missing one: a missing price makes the system ask,
 
 The headline match rate is correct prices over priced items, as in the day-one test. Then a simulated trader replies to the confirm message with corrections from the answer key and a yes, and the published catalogue must match `test-material/stalls.json` exactly: zero wrong prices published.
 
+## Model settings
+
+From Meta's docs (dev.meta.ai, read 26 Oct) and the 26 Oct research notes:
+
+- **Muse Voice Transcribe** takes mono 16-bit PCM WAV at 16 or 24 kHz, so each note is converted with `ffmpeg -ac 1 -ar 24000 -c:a pcm_s16le`. Nigerian Pidgin is not one of its 25 languages, so the request sets `languageBias: ["English"]` (the docs use language names, not codes) and `keywords` with the stall's item words plus "naira", "kobo" and "tousand". Muse Spark then reads the rough transcript. Real Pidgin recordings are the biggest open risk; until they are tested, the confirm step is the safety net.
+- Audio never goes straight to Muse Spark. If it ever does, use `muse-spark-1.2`, because Meta says audio on 1.3 is not fully supported.
+- **Muse Spark loop**: stateless replay (`store: false`, `include: ["reasoning.encrypted_content"]`, the previous output items replayed as input). The rules are in the `developer` role, the photo only in the user message, temperature and top_p are unset, and `max_output_tokens` is 16,000 because reasoning counts against it. `tool_choice` can only be `"auto"`, so a plain-text answer is a normal end. Tools are `strict`. The loop checks every argument itself and tells the model when a call is refused. It stops after 4 turns, or after 3 identical calls.
+- Every live call goes through `SpendGuard.paid()` and is cached.
+
 ## Tests
 
 - `pricing/tests/messy-inputs.json`: the messy-input suite (O for 0, "N/A", kobo, ranges, duplicates, mid-note corrections, unknown items, unclear replies). Add every new QA attack here; CI runs it on every PR.

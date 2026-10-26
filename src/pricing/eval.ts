@@ -45,10 +45,22 @@ async function cached<T>(kind: string, k: unknown, fn: () => Promise<T>): Promis
   return v;
 }
 
-async function transcribe(jobId: string, audio: string): Promise<string> {
+/**
+ * Words to bias transcription toward: the distinct words of the item names (keywords must be 30 characters
+ * or fewer) and price words. Pidgin is not one of the 25 supported languages, so English is the closest bias,
+ * and Muse Spark reads the result knowing it may be rough.
+ */
+function keywordsFor(items: { name: string }[]): string[] {
+  const STOP = new Set(["and", "the", "pack", "single", "big", "small", "medium", "measure", "bucket", "paint", "yards", "bottle", "litre"]);
+  const words = items.flatMap((i) => i.name.replace(/\(.*?\)/g, "").split(/[\s,]+/)).filter((w) => w.length > 2 && !STOP.has(w.toLowerCase()));
+  return [...new Set([...words, "naira", "kobo", "tousand"])].filter((w) => w.length <= 30);
+}
+
+async function transcribe(jobId: string, audio: string, items: { name: string }[]): Promise<string> {
   const wav = join(CACHE, `${audio.split("/").pop()}.wav`);
   if (!existsSync(wav)) execFileSync("ffmpeg", ["-loglevel", "error", "-y", "-i", audio, "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", "-map_metadata", "-1", wav]);
-  const request = { model: "muse-voice-transcribe-1.0", audioEncoding: "WAV", mode: "PUSH_TO_TALK" };
+  // dev.meta.ai/docs/speech-to-text: languageBias takes language names ("English"), not codes.
+  const request = { model: "muse-voice-transcribe-1.0", audioEncoding: "WAV", mode: "PUSH_TO_TALK", languageBias: ["English"], keywords: keywordsFor(items) };
   const r = await cached("asr", { audio: hash(readFileSync(wav).toString("base64")), request }, async () => {
     const seconds = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", wav]).toString());
     return guard.paid(jobId, request.model, voiceUsd(seconds), async () => {
@@ -64,8 +76,11 @@ async function transcribe(jobId: string, audio: string): Promise<string> {
 }
 
 function responder(jobId: string): Respond {
-  return async ({ input, previousResponseId }) => {
-    const body = { model: MODEL, input, tools: TOOLS_JSON, ...(previousResponseId ? { previous_response_id: previousResponseId } : {}) };
+  return async ({ input }) => {
+    // Stateless replay (dev.meta.ai/docs/reasoning#multi-turn): nothing stored server-side, reasoning replayed
+    // from encrypted content. Reasoning counts against max_output_tokens, so it is set generously.
+    // temperature and top_p are left unset.
+    const body = { model: MODEL, input, tools: TOOLS_JSON, store: false, include: ["reasoning.encrypted_content"], max_output_tokens: 16000 };
     const r: any = await cached("spark", body, () =>
       guard.paid(jobId, MODEL, sparkUsd({ input: 6000, output: 1500 }), async () => {
         const res = await fetch(`${BASE_URL}/responses`, {
@@ -75,12 +90,12 @@ function responder(jobId: string): Respond {
         });
         if (!res.ok) throw new Error(`responses ${res.status}: ${await res.text()}`);
         const j: any = await res.json();
-        return { id: j.id, output: j.output, usage: j.usage };
+        return { output: j.output, usage: j.usage };
       }, (j) => sparkUsd({ input: j.usage?.input_tokens ?? 0, output: j.usage?.output_tokens ?? 0, cachedInput: j.usage?.input_tokens_details?.cached_tokens ?? 0 })),
     );
     const out: any[] = r.output ?? [];
     return {
-      id: r.id,
+      output: out,
       calls: out.filter((o) => o.type === "function_call").map((o) => ({ name: o.name, arguments: o.arguments, call_id: o.call_id })),
       text: out.filter((o) => o.type === "message").flatMap((o) => o.content ?? []).map((c: any) => c.text ?? "").join(""),
     };
@@ -105,8 +120,9 @@ for (const k of loadAnswerKey()) {
   for (const audio of audios) {
     const name = audio.replace(/\.[^.]+$/, "");
     if (only && !name.includes(only)) continue;
-    const transcript = await transcribe(name, join(VOICE_DIR, audio));
-    const { calls } = await extractPrices(stall.items, transcript, responder(name), photoUrl(k.id));
+    const transcript = await transcribe(name, join(VOICE_DIR, audio), stall.items);
+    const { calls, stopped } = await extractPrices(stall.items, transcript, responder(name), photoUrl(k.id));
+    if (stopped) console.warn(`${name}: loop stopped early (${stopped})`);
     save(name, { case: k.id, stall: k.id, source: "bun src/pricing/eval.ts", audio, model: MODEL, recorded_at: today, units_recorded: true, transcript, tool_calls: calls });
   }
 }
@@ -115,7 +131,8 @@ for (const k of loadAnswerKey()) {
 for (const c of loadMessyTranscripts()) {
   if (only && !c.id.includes(only)) continue;
   const stall = stalls.find((s) => s.id === c.stall)!;
-  const { calls } = await extractPrices(stall.items, c.transcript, responder(c.id), photoUrl(c.stall));
+  const { calls, stopped } = await extractPrices(stall.items, c.transcript, responder(c.id), photoUrl(c.stall));
+  if (stopped) console.warn(`${c.id}: loop stopped early (${stopped})`);
   save(c.id, { case: c.id, stall: c.stall, source: "bun src/pricing/eval.ts (messy-transcripts.json)", audio: null, model: MODEL, recorded_at: today, units_recorded: true, transcript: c.transcript, tool_calls: calls });
 }
 

@@ -1,11 +1,13 @@
 // Muse Spark reads the transcript of the trader's voice note and prices the stall's items with tool calls.
 // The model call is passed in, so tests replay recorded tool calls and only eval.ts spends money.
 import { applyToolCalls } from "./draft";
-import { SALE_UNITS, type Draft, type Item, type ToolCall } from "./types";
+import { parsePrice } from "./price";
+import { isSaleUnit, SALE_UNITS, type Draft, type Item, type ToolCall } from "./types";
 
 export const TOOLS = [
   {
     type: "function",
+    strict: true,
     name: "set_price",
     description:
       "Record the price the trader said for one item. Call it again for the same item if the trader corrects themselves; the last call wins.",
@@ -31,6 +33,7 @@ export const TOOLS = [
   },
   {
     type: "function",
+    strict: true,
     name: "flag_missing_price",
     description: "Mark an item on the stall that the trader did not give a clear single price for.",
     parameters: {
@@ -42,6 +45,7 @@ export const TOOLS = [
   },
   {
     type: "function",
+    strict: true,
     name: "ask_trader",
     description:
       "Send the trader one short question in simple Nigerian Pidgin, for example to ask the price of an unpriced item.",
@@ -68,16 +72,37 @@ Rules:
 - Never invent a price. Never price an item the trader did not mention.
 When every item is either priced or flagged, reply with a one-line summary.`;
 
-/** One model turn: given the input so far, return the tool calls (and text) it made. */
-export type Respond = (req: {
-  round: number;
-  input: unknown[];
-  previousResponseId?: string;
-}) => Promise<{ id: string; calls: (ToolCall & { call_id: string })[]; text: string }>;
+/**
+ * One model turn. The loop is stateless (store:false): every turn gets the whole input so far, and the
+ * caller returns the response's output items so they can be replayed, reasoning included.
+ */
+export type Respond = (req: { round: number; input: unknown[] }) => Promise<{
+  calls: (ToolCall & { call_id: string })[];
+  text: string;
+  /** The response's output items, replayed as input on the next turn. */
+  output: unknown[];
+}>;
 
 export function userPrompt(items: Item[], transcript: string): string {
   return `Items on the stall:\n${items.map((i) => `${i.id}: ${i.name}`).join("\n")}\n\nTranscript of the voice note:\n"${transcript}"`;
 }
+
+/** What the loop tells the model about one of its calls. Arguments are checked here, not trusted. */
+function toolOutput(c: ToolCall, known: Set<string>): string {
+  if (c.name === "ask_trader") return "Question queued for the trader; no reply yet.";
+  let a: any;
+  try { a = JSON.parse(c.arguments); } catch { return "refused: arguments are not valid JSON"; }
+  if (!known.has(a?.item_id)) return `refused: unknown item_id ${String(a?.item_id)}`;
+  if (c.name === "set_price") {
+    const p = parsePrice(a.price_naira);
+    if (!p.ok) return `refused: price ${p.reason}; flag the item and ask the trader instead`;
+    if (!isSaleUnit(a.unit)) return "price kept, but unit is not in the list";
+  } else if (c.name !== "flag_missing_price") return `refused: unknown tool ${c.name}`;
+  return "ok";
+}
+
+/** The same (tool, arguments) this many times means the model is looping. */
+export const MAX_IDENTICAL_CALLS = 3;
 
 export async function extractPrices(
   items: Item[],
@@ -85,33 +110,37 @@ export async function extractPrices(
   respond: Respond,
   photoDataUrl?: string,
   maxRounds = 4,
-): Promise<{ draft: Draft; calls: ToolCall[]; rounds: number; summary: string }> {
+): Promise<{ draft: Draft; calls: ToolCall[]; rounds: number; summary: string; stopped?: string }> {
   const content: unknown[] = [{ type: "input_text", text: userPrompt(items, transcript) }];
   if (photoDataUrl) content.push({ type: "input_image", image_url: photoDataUrl });
-  let input: unknown[] = [
-    { type: "message", role: "system", content: SYSTEM },
+  // Rules go in the developer role; the photo goes only in the user message.
+  const input: unknown[] = [
+    { type: "message", role: "developer", content: SYSTEM },
     { type: "message", role: "user", content },
   ];
+  const known = new Set(items.map((i) => i.id));
   const all: ToolCall[] = [];
-  let previous: string | undefined;
+  const seen = new Map<string, number>();
   let summary = "";
   let rounds = 0;
+  let stopped: string | undefined;
   for (let round = 1; round <= maxRounds; round++) {
     rounds = round;
-    const r = await respond({ round, input, previousResponseId: previous });
+    const r = await respond({ round, input });
+    // tool_choice can only be "auto", so a plain-text answer with no calls is a normal end.
     if (!r.calls.length) {
       summary = r.text;
       break;
     }
     all.push(...r.calls.map(({ name, arguments: a }) => ({ name, arguments: a })));
-    const known = new Set(items.map((i) => i.id));
-    input = r.calls.map((c) => {
-      let id: unknown;
-      try { id = JSON.parse(c.arguments).item_id; } catch {}
-      const out = c.name === "ask_trader" ? "Question queued for the trader; no reply yet." : known.has(id as string) ? "ok" : `unknown item_id ${String(id)}`;
-      return { type: "function_call_output", call_id: c.call_id, output: out };
-    });
-    previous = r.id;
+    input.push(...r.output, ...r.calls.map((c) => ({ type: "function_call_output", call_id: c.call_id, output: toolOutput(c, known) })));
+    for (const c of r.calls) {
+      const k = `${c.name} ${c.arguments}`;
+      seen.set(k, (seen.get(k) ?? 0) + 1);
+      if (seen.get(k)! >= MAX_IDENTICAL_CALLS) stopped = `repeated ${c.name} ${MAX_IDENTICAL_CALLS} times`;
+    }
+    if (stopped) break;
+    if (round === maxRounds) stopped = `hit the ${maxRounds}-turn cap`;
   }
-  return { draft: applyToolCalls(items, all), calls: all, rounds, summary };
+  return { draft: applyToolCalls(items, all), calls: all, rounds, summary, ...(stopped ? { stopped } : {}) };
 }
