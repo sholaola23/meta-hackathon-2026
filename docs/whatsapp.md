@@ -61,6 +61,8 @@ The loop calls an implementation of `Pipeline` in `src/whatsapp/pipeline.ts`:
 
 `jobId` is one per catalogue. Pass it to `SpendGuard.paid()` so the per-job call cap applies.
 
+The adapter wraps each paid step in `JobLog.step(jobId, key, run)` from `src/whatsapp/joblog.ts`, with a key like `cutout:<wamid>` or `transcript:<wamid>`. A retried webhook or a restart then reuses the finished step instead of paying again. Run one server process per log folder. The job id allows only letters, digits, `_` and `-`, so the WhatsApp message id goes in the key, never in the job id. Keep the log folder out of git, because it holds transcripts.
+
 PENDING: the adapter that joins this to the image pipeline, the pricing module and the catalogue page. Until it exists, `server.ts` uses a stand-in that fails every job, and the trader is told "something went wrong". It never invents a list.
 
 ## Setup (Shola only, about 20 minutes)
