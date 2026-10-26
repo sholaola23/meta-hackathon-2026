@@ -216,9 +216,9 @@ export async function cutOut(photoPath: string, width: number, height: number, c
   if (wanted.length) {
     const masks = await calls.segmentBoxes(photoPath, wanted.map((m) => m.box));
     boxPrompts = wanted.length;
-    masks.forEach((m, i) => {
-      if (!m || !confident(m)) return;
-      m = fillHoles(m, [...otherObjects(m, accepted), ...people]);
+    masks.forEach((raw, i) => {
+      if (!raw || !confident(raw)) return;
+      const m = fillHoles(raw, () => [...otherObjects(raw, accepted), ...people]);
       const clean = people.length ? subtract(m, people) : m;
       const frac = area(clean) / imageArea;
       if (frac < LIMITS.minAreaFraction || frac > LIMITS.maxAreaFraction) return;

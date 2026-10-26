@@ -79,7 +79,9 @@ export function subtract<T extends Mask>(m: T, others: Mask[]): T {
  * its holes, or the holed copy wins the dedupe and the backdrop shows through again.
  */
 export function otherObjects(m: Mask, masks: Mask[]): Mask[] {
-  return masks.filter((o) => o !== m && overlapOfSmaller(m, o) <= LIMITS.duplicateOverlap);
+  const touches = (o: Mask) =>
+    o.box.left < m.box.left + m.rasterW && m.box.left < o.box.left + o.rasterW && o.box.top < m.box.top + m.rasterH && m.box.top < o.box.top + o.rasterH;
+  return masks.filter((o) => o !== m && touches(o) && overlapOfSmaller(m, o) <= LIMITS.duplicateOverlap);
 }
 
 /** A hole is filled only when other masks cover less than this share of it. */
@@ -92,7 +94,7 @@ const HOLE_BLOCKED = 0.1;
  * the trader standing inside a ring of hanging fabric. Gaps are 4-connected, so one joined to the edge only
  * diagonally counts as enclosed (harmless for SAM's solid masks).
  */
-export function fillHoles<T extends Mask>(m: T, blockers: Mask[] = []): T {
+export function fillHoles<T extends Mask>(m: T, blockers: Mask[] | (() => Mask[]) = []): T {
   const { rasterW: w, rasterH: h } = m;
   // 0 = not yet labelled, 1 = outside (open space), then 2.. = one label per enclosed hole.
   const label = new Int32Array(w * h);
@@ -122,7 +124,11 @@ export function fillHoles<T extends Mask>(m: T, blockers: Mask[] = []): T {
   for (let x = 0; x < w; x++) edge(x), edge((h - 1) * w + x);
   for (let y = 0; y < h; y++) edge(y * w), edge(y * w + w - 1);
 
-  const others = blockers.filter((o) => o !== m);
+  let enclosed = false;
+  for (let i = 0; i < w * h && !enclosed; i++) enclosed = !m.raster[i] && !label[i];
+  if (!enclosed) return m;
+  // Blockers are worked out only now: most masks have no hole, and finding other objects costs a pass per mask.
+  const others = (typeof blockers === "function" ? blockers() : blockers).filter((o) => o !== m);
   const raster = Uint8Array.from(m.raster);
   let id = 2;
   if (!others.length) {
@@ -187,7 +193,7 @@ export function filterCandidates(candidates: Candidate[], people: Mask[], imageA
     }
     // Fill label-picture holes, but never over a different object or a person (they would be swallowed or the
     // product dropped as "person"). People are cut out afterwards, so a hand over a product stays out.
-    const c = fillHoles(raw, [...otherObjects(raw, candidates), ...people]);
+    const c = fillHoles(raw, () => [...otherObjects(raw, candidates), ...people]);
     if (coveredFraction(c, people) >= LIMITS.personDropFraction) {
       dropped.push({ candidate: c, reason: "person" });
       continue;
