@@ -74,6 +74,32 @@ export function subtract<T extends Mask>(m: T, others: Mask[]): T {
   return { ...m, raster };
 }
 
+/**
+ * A copy of m with every enclosed gap filled. SAM can leave a hole where a label's picture looks like a separate
+ * object (the footballer on a Milo tin), and the backdrop would show through the product. A gap that reaches the
+ * edge of the mask's box is open space round the product and stays empty.
+ */
+export function fillHoles<T extends Mask>(m: T): T {
+  const { rasterW: w, rasterH: h } = m;
+  const outside = new Uint8Array(w * h);
+  const stack: number[] = [];
+  const seed = (i: number) => {
+    if (!m.raster[i] && !outside[i]) (outside[i] = 1), stack.push(i);
+  };
+  for (let x = 0; x < w; x++) seed(x), seed((h - 1) * w + x);
+  for (let y = 0; y < h; y++) seed(y * w), seed(y * w + w - 1);
+  while (stack.length) {
+    const i = stack.pop()!, x = i % w;
+    if (x > 0) seed(i - 1);
+    if (x < w - 1) seed(i + 1);
+    if (i >= w) seed(i - w);
+    if (i < w * (h - 1)) seed(i + w);
+  }
+  const raster = Uint8Array.from(m.raster);
+  for (let i = 0; i < w * h; i++) if (!outside[i]) raster[i] = 1;
+  return { ...m, raster };
+}
+
 export const LIMITS = {
   /** A mask over 40% of the photo is a scene region (a wall, the table), not a product. From the day-one spike. */
   maxAreaFraction: 0.4,
@@ -102,7 +128,7 @@ export interface Filtered {
 
 /**
  * Turns raw SAM candidates into catalogue crops:
- * 0. drop loose matches below SAM's confidence floor;
+ * 0. fill enclosed holes, and drop loose matches below SAM's confidence floor;
  * 1. drop masks that are mostly a person, and clear person pixels from the rest, so no body part reaches a catalogue;
  * 2. drop scene-sized and speck-sized masks;
  * 3. merge overlapping masks found by any phrasing, keeping the most confident.
@@ -110,7 +136,9 @@ export interface Filtered {
 export function filterCandidates(candidates: Candidate[], people: Mask[], imageArea: number): Filtered {
   const dropped: Filtered["dropped"] = [];
   const survivors: Candidate[] = [];
-  for (const c of candidates) {
+  for (const raw of candidates) {
+    // Holes are filled before people are cut out, so a hand over a product stays cut out.
+    const c = fillHoles(raw);
     if (!confident(c)) {
       dropped.push({ candidate: c, reason: "low-confidence" });
       continue;
