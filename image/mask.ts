@@ -81,7 +81,7 @@ export const LIMITS = {
   minAreaFraction: 0.0002,
   /** Two masks this similar are the same object found by two phrasings. */
   duplicateIou: 0.6,
-  /** A product mask at least this much inside a person is part of the person (the Balogun shirt). */
+  /** A product mask at least this much inside a person is the person's clothing, not stock. */
   personDropFraction: 0.5,
 };
 

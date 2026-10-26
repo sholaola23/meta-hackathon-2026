@@ -2,7 +2,7 @@
 // a summary JSON, a mask overlay and a sheet of the actual catalogue pictures for scoring by eye.
 // Usage (needs MODEL_API_KEY unless every response is cached):
 //   bun image/validate.ts held-out        the held-out photos (scored against test-material/held-out/lots.json)
-//   bun image/validate.ts real            the 8 real photos the day-one prompts were tuned on
+//   bun image/validate.ts real            the 8 real photos from the day-one test
 //   bun image/validate.ts <file.jpg>...   any photos
 import sharp, { type OverlayOptions } from "sharp";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";

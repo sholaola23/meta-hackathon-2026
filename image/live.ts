@@ -10,7 +10,7 @@ import type { Mask } from "./mask";
 const SPARK = "muse-spark-1.3";
 
 // Built on the spike's two prompts: v1's descriptive phrase and v2's plainest noun are now asked for together,
-// so one Spark call yields both phrasings (day-one test: 59% -> 76% of real-photo items with the union).
+// so one Spark call yields both phrasings and SAM segments their union.
 export const PROPOSE_PROMPT = `You are looking at a photo of a market stall. List every distinct type of product the trader is selling that is visible in the photo, including loose goods in heaps, basins, bags or baskets, and goods hanging in strips.
 For each type give:
 - "name": what a buyer would call it, 1 to 5 words.

@@ -41,7 +41,7 @@ describe("filterCandidates", () => {
     expect(filterCandidates(row, [], AREA).kept).toHaveLength(12);
   });
 
-  test("person in frame: 'fabric' matching the trader's shirt is dropped (Balogun regression)", () => {
+  test("person in frame: 'fabric' matching the trader's patterned shirt is dropped", () => {
     const trader = ellipse(0, 0, 400, 800);
     const shirt = cand(rect(80, 250, 240, 300), 0, "fabric");
     const bolt = cand(rect(600, 200, 150, 300), 0, "fabric");

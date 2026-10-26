@@ -1,6 +1,6 @@
 # Held-out stall photos: attribution
 
-Five real photos of Nigerian market stalls, picked on 26 October 2026 to check the cut-out step on photos its prompts were never tuned on. The day-one prompts were written and scored on `test-material/real-photos/`, so those numbers are optimistic. These five were chosen and their answer key (`lots.json`) was written before any model saw them.
+Five real photos of Nigerian market stalls, picked on 26 October 2026 to check the cut-out step on photos it was never developed on. These five were chosen and their answer key (`lots.json`) was written before any model saw them.
 
 All five come from Wikimedia Commons under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0). Changes made here: downloaded as the Commons 1920px thumbnail, then resized to at most 1500px on the longest side. Adaptations we publish, such as overlays and crop sheets, carry the same licence.
 

@@ -10,4 +10,4 @@ test-results/day1/*.jpg
 test-results/day1/*-sam.json
 .spend/
 !.env.example
-test-results/image/prepared/
+test-results/image/
